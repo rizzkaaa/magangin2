@@ -194,15 +194,14 @@ function profilMahasiswa()
     <div class="flex-1">
       <div class="flex flex-col px-5 py-2">
         <label class="text-white font-bold">Provinsi</label>
-        <select name="provinsi"
+        <select name="provinsi" required
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none">
           <option>Pilih Provinsi</option>
-          <option>Pilih aku</option>
         </select>
       </div>
       <div class="flex flex-col px-5 py-2">
         <label class="text-white font-bold">Kabupaten</label>
-        <select name="kabupaten"
+        <select name="kabupaten" required
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none">
           <option>Pilih Kabupaten</option>
         </select>
@@ -212,14 +211,14 @@ function profilMahasiswa()
     <div class="flex-1">
       <div class="flex flex-col px-5 py-2">
         <label class="text-white font-bold">Kecamatan</label>
-        <select name="kecamatan"
+        <select name="kecamatan" required
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none">
           <option>Pilih Kecamatan</option>
         </select>
       </div>
       <div class="flex flex-col px-5 py-2">
         <label class="text-white font-bold">Desa</label>
-        <input type="text" name="desa"
+        <input type="text" name="desa" required
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
       </div>
     </div>

@@ -48,7 +48,7 @@ $dataMahasiswa = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM mahasi
         <?= dashboardMahasiswa($connect, $dataMahasiswa['id_mhs']) ?>
       </div>
 
-      <form method="POST" action="{{ route('profil.submit') }}" id="profil" class="menu w-full  h-[572px] overflow-y-auto flex-col items-end justify-center">
+      <form method="POST" action="/api/form/handle-mahasiswa-profile.php" id="profil" class="menu w-full  h-[572px] overflow-y-auto flex-col items-end justify-center">
         <?= profilMahasiswa() ?>
 
         <div class="mx-5 my-2">
@@ -141,7 +141,6 @@ $dataMahasiswa = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM mahasi
 
       const response = await fetch(`/api/kecamatan.php?kabupaten_id=${kabupatenId}`);
       const data = await response.json();
-      console.log(data);
 
       kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
       data.forEach(kecamatan => {
