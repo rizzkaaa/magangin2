@@ -39,6 +39,10 @@
       if(isset($_GET['success'])){
       ?>
       <div class="alert">Registrasi berhasil, silakan login.</div>
+      <?php }
+      if(isset($_GET['error'])){
+      ?>
+      <div class="alert">Coba lagi.</div>
       <?php } ?>
  
       <form action="proses-daftar.php" method="POST">
