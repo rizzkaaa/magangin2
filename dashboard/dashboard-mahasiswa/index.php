@@ -132,7 +132,9 @@ $id_mhs = $dataMahasiswa['id_mhs'];
       const data = await response.json();
 
       const provinsiSelect = document.querySelector('select[name="provinsi"]');
-      provinsiSelect.innerHTML = '<option value="">Pilih Provinsi</option>';
+      if (provinsiSelect.innerHTML == '') {
+        provinsiSelect.innerHTML = '<option value="">Pilih Provinsi</option>';
+      } 
 
       data.forEach(provinsi => {
         const option = document.createElement('option');

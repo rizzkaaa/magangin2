@@ -114,15 +114,63 @@ function profilMahasiswa($connect, $id_mhs)
 {
   ob_start();
   $dataMhs = mysqli_fetch_assoc(mysqli_query($connect, "SELECT a.*, b.email FROM mahasiswa a INNER JOIN users b ON a.id_user=b.id_user WHERE id_mhs='$id_mhs'"));
+
+  if ($dataMhs["provinsi"]) {
+    $idProvinsi =  $dataMhs["provinsi"];
+    $provinsi = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM `provinsis` WHERE id = '$idProvinsi'"));
+
+    $idkabupaten =  $dataMhs["kabupaten"];
+    $kabupaten = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM `kabupatens` WHERE id = '$idkabupaten'"));
+
+    $idkecamatan =  $dataMhs["kecamatan"];
+    $kecamatan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM `kecamatans` WHERE id = '$idkecamatan'"));
+  }
 ?>
   <div class="flex w-full p-5">
     <div class="mx-5 my-2">
       <label class="text-white font-bold">Profil</label>
-      <div
-        class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none border-2 border-dashed border-gray-400 h-[250px] w-[250px] shadow-sm flex justify-center items-center overflow-hidden relative">
-        <input type="file" name="profil" class="absolute scale-[13] translate-x-[100px] opacity-0 cursor-pointer" />
-        <i class="fa-solid fa-image text-[36px] text-gray-600"></i>
+      <div id="preview-box"
+        style=" background-size: cover; background-position: center;"
+        class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none border-2 border-dashed border-gray-400 h-[250px] w-[250px] shadow-sm flex justify-center items-center overflow-hidden relative bg-cover bg-center">
+        <input type="file" name="profil" id="upload-profil" value="<?= isset($dataMhs['profil']) ? $dataMhs['profil'] : '' ?>"
+          class="absolute scale-[13] translate-x-[100px] opacity-0 cursor-pointer" />
+        <i class="fa-solid fa-image text-[36px] text-gray-600" id="icon-preview"></i>
       </div>
+
+      <script>
+        const input = document.getElementById('upload-profil');
+        const previewBox = document.getElementById('preview-box');
+        const icon = document.getElementById('icon-preview');
+
+        function loadImage(profil) {
+          previewBox.style.backgroundImage = `url('/assets/img/mahasiswa/${profil}')`;
+          icon.style.display = 'none'; // sembunyikan ikon jika ada gambar
+        }
+        <?php
+        if (isset($dataMhs['profil'])) {
+          $profil = $dataMhs["profil"];
+
+          echo "loadImage('$profil')";
+        }
+        ?>
+
+        input.addEventListener('change', function(event) {
+          const file = event.target.files[0];
+
+          if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              previewBox.style.backgroundImage = `url('${e.target.result}')`;
+              icon.style.display = 'none'; // sembunyikan ikon jika ada gambar
+            };
+            reader.readAsDataURL(file);
+          } else {
+            previewBox.style.backgroundImage = '';
+            icon.style.display = 'block';
+          }
+        });
+      </script>
+
     </div>
 
     <div class="flex-1 w-2/3">
@@ -145,6 +193,7 @@ function profilMahasiswa($connect, $id_mhs)
       </div>
 
       <div class="flex flex-col px-5 py-2">
+
         <label class="text-white font-bold">Universitas</label>
         <input type="text" name="universitas" value="<?= isset($dataMhs['universitas']) ? $dataMhs['universitas'] : '' ?>"
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
@@ -177,17 +226,17 @@ function profilMahasiswa($connect, $id_mhs)
             'Konghucu'
           ];
 
-          foreach ($agama as $a){
+          foreach ($agama as $a) {
           ?>
-          <option value="<?=$a?>" <?= (isset($dataMhs['agama'])) && $a == $dataMhs['agama'] ? 'selected' : '' ?>><?=$a?></option>
-          <?php }?>
+            <option value="<?= $a ?>" <?= (isset($dataMhs['agama'])) && $a == $dataMhs['agama'] ? 'selected' : '' ?>><?= $a ?></option>
+          <?php } ?>
         </select>
       </div>
       <div class="flex flex-col px-5 py-2">
         <label class="text-white font-bold">Jenis Kelamin</label>
         <select name="jenis_kelamin"
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none">
-          <option></option>
+          <!-- <option></option> -->
           <option value="Laki-laki" <?= (isset($dataMhs['jenis_kelamis'])) && $dataMhs['jenis_kelamis'] == 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
           <option value="Perempuan" <?= (isset($dataMhs['jenis_kelamis'])) && $dataMhs['jenis_kelamis'] == 'Perempuan' ? 'selected' : '' ?>>Perempuan</option>
         </select>
@@ -206,14 +255,26 @@ function profilMahasiswa($connect, $id_mhs)
         <label class="text-white font-bold">Provinsi</label>
         <select name="provinsi" required
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none">
-          <option>Pilih Provinsi</option>
+          <?php
+          $name = $provinsi["name"];
+          $id = $provinsi["id"];
+          if ($provinsi) {
+            echo "<option value='$id' selected>$name</option>";
+          }
+          ?>
         </select>
       </div>
       <div class="flex flex-col px-5 py-2">
         <label class="text-white font-bold">Kabupaten</label>
         <select name="kabupaten" required
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none">
-          <option>Pilih Kabupaten</option>
+          <?php
+          $name = $kabupaten["name"];
+          $id = $kabupaten["id"];
+          if ($kabupaten) {
+            echo "<option value='$id' selected>$name</option>";
+          }
+          ?>
         </select>
       </div>
     </div>
@@ -223,12 +284,18 @@ function profilMahasiswa($connect, $id_mhs)
         <label class="text-white font-bold">Kecamatan</label>
         <select name="kecamatan" required
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none">
-          <option>Pilih Kecamatan</option>
+          <?php
+          $name = $kecamatan["name"];
+          $id = $kecamatan["id"];
+          if ($kecamatan) {
+            echo "<option value='$id' selected>$name</option>";
+          }
+          ?>
         </select>
       </div>
       <div class="flex flex-col px-5 py-2">
         <label class="text-white font-bold">Desa</label>
-        <input type="text" name="desa" required
+        <input type="text" name="desa" required value="<?= isset($dataMhs['desa']) ? $dataMhs['desa'] : '' ?>"
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
       </div>
     </div>
