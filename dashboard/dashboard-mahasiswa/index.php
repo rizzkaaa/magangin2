@@ -65,7 +65,7 @@ $id_mhs = $dataMahasiswa['id_mhs'];
       </div>
 
       <div id="jadwal-bimbingan" class="menu w-full  h-[572px] overflow-y-auto flex-col items-center">
-        <?= jadwalBimbingan() ?>
+        <?= jadwalBimbingan($connect, $dataMahasiswa['id_mhs']) ?>
       </div>
 
       <div id="notifikasi" class="menu flex-1 h-[572px] overflow-y-auto flex-col">

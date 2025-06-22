@@ -152,25 +152,25 @@ function laporanMagang($connect, $id_mhs)
                             <td class="p-4"><?= $rowLaporan['hari'] ?></td>
 
                             <td class="p-4">
-                                <a href="../../assets/laporan-magang/kegiatan/<?=$rowLaporan['kegiatan']?>" class="bg-[#00b894] text-white font-bold py-2 px-4 rounded-lg">Download</a href="../../assets/laporan-magang/bukti-kegiatan/<?=$rowLaporan['bukti_kegiatan']?>">
+                                <a href="../../assets/laporan-magang/kegiatan/<?= $rowLaporan['kegiatan'] ?>" class="bg-[#00b894] text-white font-bold py-2 px-4 rounded-lg">Download</a href="../../assets/laporan-magang/bukti-kegiatan/<?= $rowLaporan['bukti_kegiatan'] ?>">
                             </td>
                             <td class="p-4">
-                                <a href="../../assets/laporan-magang/bukti-kegiatan/<?=$rowLaporan['bukti_kegiatan']?>" class="bg-[#00b894] text-white font-bold py-2 px-4 rounded-lg">Download</a href="../../assets/laporan-magang/bukti-kegiatan/<?=$rowLaporan['bukti_kegiatan']?>">
+                                <a href="../../assets/laporan-magang/bukti-kegiatan/<?= $rowLaporan['bukti_kegiatan'] ?>" class="bg-[#00b894] text-white font-bold py-2 px-4 rounded-lg">Download</a href="../../assets/laporan-magang/bukti-kegiatan/<?= $rowLaporan['bukti_kegiatan'] ?>">
                             </td>
                             <td class="py-4 px-3 flex justify-center items-center gap-3">
-                                <a href="#edit-laporan<?=$no?>" class="text-[#3498db] hover:opacity-70 text-[18px]">
+                                <a href="#edit-laporan<?= $no ?>" class="text-[#3498db] hover:opacity-70 text-[18px]">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <a href="#hapus-laporan<?=$no?>" class="text-[#e74c3c] hover:opacity-70 text-[18px]">
+                                <a href="#hapus-laporan<?= $no ?>" class="text-[#e74c3c] hover:opacity-70 text-[18px]">
                                     <i class="fa fa-trash"></i>
                                 </a>
 
-                                <div id="edit-laporan<?=$no?>" class="modal-parent absolute top-0 left-0 w-full h-full hidden flex justify-center items-center">
+                                <div id="edit-laporan<?= $no ?>" class="modal-parent absolute top-0 left-0 w-full h-full hidden flex justify-center items-center">
                                     <a href="#laporan-magang" class="overlay absolute w-full h-full bg-black/30 backdrop-blur-sm"></a>
-                                    <?= formLaporanMagang('Edit', "edit-laporan.php?id_kegiatan=".$rowLaporan['id_kegiatan'], $id_magang, $rowLaporan) ?>
+                                    <?= formLaporanMagang('Edit', "edit-laporan.php?id_kegiatan=" . $rowLaporan['id_kegiatan'], $id_magang, $rowLaporan) ?>
                                 </div>
 
-                                <div id="hapus-laporan<?=$no?>"
+                                <div id="hapus-laporan<?= $no ?>"
                                     class="modal-parent no absolute top-0 left-0 w-full h-full hidden flex justify-center items-center">
                                     <a href="#laporan-magang" class="overlay absolute w-full h-full bg-black/30 backdrop-blur-sm"></a>
                                     <?= alertHapus([
@@ -200,13 +200,40 @@ function laporanMagang($connect, $id_mhs)
     return ob_get_clean();
 }
 
-function jadwalBimbingan()
+function jadwalBimbingan($connect, $id_mhs)
 {
-    ob_start(); ?>
+    ob_start();
+
+    $magang = mysqli_query($connect, "SELECT * FROM magang WHERE id_mhs = '$id_mhs' AND status = 'Berlangsung'");
+    if (mysqli_num_rows($magang) <= 0) { ?>
+        <div class="flex flex-col items-center justify-center text-white w-full h-full">
+            <p>Anda belum mengdaftar ke lowongan manapun. </p>
+            <p>Daftar lowongan disini..</p>
+            <a href=""
+                class="px-5 py-2 rounded-md bg-[rgb(61,99,221)] text-white font-semibold  hover:bg-[rgb(27,61,173)] cursor-pointer">Daftar
+                Lowongan</a>
+        </div>
+    <?php return ob_get_clean();
+    }
+
+    $id_magang = mysqli_fetch_assoc($magang)['id_magang'];
+
+    // Ambil data bimbingan
+    $query = "SELECT bimbingan.*, dosen.nama_dosen, perusahaan.nama_perusahaan
+        FROM bimbingan
+        JOIN magang ON bimbingan.id_magang = magang.id_magang
+        JOIN dosen ON magang.id_dosen = dosen.id_dosen
+        JOIN lowongan ON magang.id_lowongan = lowongan.id_lowongan
+        JOIN perusahaan ON lowongan.id_perusahaan = perusahaan.id_perusahaan
+        WHERE bimbingan.id_magang = '$id_magang'
+        ORDER BY bimbingan.tanggal DESC";
+
+    $result = mysqli_query($connect, $query);
+    ?>
+
     <div class="w-[90%] mt-10 flex justify-between items-center mb-4 px-4">
         <!-- Kolom Pencarian -->
-        <div
-            class="flex items-center border border-white bg-white/8 gap-2 backdrop-blur-md px-4 py-2 rounded-lg w-full max-w-md shadow">
+        <div class="flex items-center border border-white bg-white/8 gap-2 backdrop-blur-md px-4 py-2 rounded-lg w-full max-w-md shadow">
             <i class="fas fa-search text-[#108bfd] text-lg"></i>
             <input type="text" placeholder="Cari tanggal..."
                 class="w-full bg-transparent text-[#108bfd] placeholder-gray-500 focus:outline-none" />
@@ -226,15 +253,26 @@ function jadwalBimbingan()
             </tr>
         </thead>
         <tbody class="text-center">
-            <tr class="border-b border-gray-300">
-                <td class="py-4 px-3">No</td>
-                <td class="py-4 px-3">Yopa Pitra Ramadhani</td>
-                <td class="py-4 px-3">PT Telekomunikasi Indonesia</td>
-                <td class="py-4 px-3">Laporan Mingguan</td>
-                <td class="py-4 px-3">19/06/2025</td>
-                <td class="py-4 px-3">14:00</td>
-                <td class="py-4 px-3">Zoom</td>
-            </tr>
+            <?php
+            if (mysqli_num_rows($result) == 0) { ?>
+                <tr>
+                    <td colspan="7" class="py-4 px-3">Tidak ada data bimbingan</td>
+                </tr>
+                <?php
+            } else {
+                $no = 1;
+                while ($row = mysqli_fetch_assoc($result)) { ?>
+                    <tr class="border-b border-gray-300">
+                        <td class="py-4 px-3"><?= $no++ ?></td>
+                        <td class="py-4 px-3"><?= $row['nama_dosen'] ?></td>
+                        <td class="py-4 px-3"><?= $row['nama_perusahaan'] ?></td>
+                        <td class="py-4 px-3"><?= $row['topik_bimbingan'] ?></td>
+                        <td class="py-4 px-3"><?= $row['tanggal'] ?></td>
+                        <td class="py-4 px-3"><?= $row['jam'] ?></td>
+                        <td class="py-4 px-3"><?= $row['tempat'] ?></td>
+                    </tr>
+            <?php }
+            } ?>
         </tbody>
     </table>
 <?php

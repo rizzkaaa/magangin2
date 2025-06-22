@@ -35,6 +35,23 @@ CREATE TABLE `detail_apply` (
   `status` enum('Menunggu','Disetujui') DEFAULT 'Menunggu'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+DROP TABLE IF EXISTS `bimbingan`;
+
+CREATE TABLE `bimbingan` (
+  `id_bimbingan` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_magang` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `topik_bimbingan` VARCHAR(250) NOT NULL,
+  `tanggal` DATE DEFAULT NULL,
+  `jam` TIME DEFAULT NULL,
+  `tempat` VARCHAR(100) DEFAULT NULL,
+  PRIMARY KEY (`id_bimbingan`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO bimbingan (id_magang, topik_bimbingan, tanggal, jam, tempat) VALUES
+('svdasd23', 'Diskusi progress', '2025-06-15', '09:00:00', 'Zoom'),
+('svdasd23', 'Persiapan laporan akhir', '2025-06-20', '13:30:00', 'Ruang B1'),
+('svdasd23', 'Review laporan', '2025-06-25', '11:00:00', 'Google Meet');
+
 -- --------------------------------------------------------
 
 --
