@@ -1,28 +1,25 @@
 <?php
+require_once '../db.php';
+
+// Set header agar hasil berupa JSON
 header('Content-Type: application/json');
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $response = [
-        "status" => "ok",
-        "method" => "GET",
-        "data" => $_GET // kiriman query string
-    ];
-} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // ambil JSON body jika dikirim sebagai JSON
-    $json = file_get_contents('php://input');
-    $body = json_decode($json, true);
-    
-    $response = [
-        "status" => "ok",
-        "method" => "POST",
-        "data" => $body
-    ];
-} else {
-    http_response_code(405);
-    $response = [
-        "status" => "error",
-        "message" => "Method not allowed"
-    ];
+// Query data provinsi
+$sql = "SELECT* FROM provinsis";
+$result = mysqli_query($connect, $sql);
+
+// Cek jika query gagal
+if (!$result) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Query failed: ' . mysqli_error($connect)]);
+    exit;
 }
 
-echo json_encode($response);
+// Format hasil ke array
+$data = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
+}
+
+// Kirim response JSON
+echo json_encode($data, JSON_PRETTY_PRINT);
