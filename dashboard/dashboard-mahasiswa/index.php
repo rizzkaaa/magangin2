@@ -64,7 +64,7 @@ $dataMahasiswa = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM mahasi
       </div>
 
       <div id="jadwal-bimbingan" class="menu w-full  h-[572px] overflow-y-auto flex-col items-center">
-        <?= jadwalBimbingan() ?>
+        <?= jadwalBimbingan($connect, $dataMahasiswa['id_mhs']) ?>
       </div>
 
       <div id="notifikasi" class="flex-1 flex flex-col">
