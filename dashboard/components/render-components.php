@@ -110,9 +110,11 @@ function cardLowongan()
   return ob_get_clean();
 }
 
-function profilMahasiswa()
+function profilMahasiswa($connect, $id_mhs)
 {
-  ob_start(); ?>
+  ob_start();
+  $dataMhs = mysqli_fetch_assoc(mysqli_query($connect, "SELECT a.*, b.email FROM mahasiswa a INNER JOIN users b ON a.id_user=b.id_user WHERE id_mhs='$id_mhs'"));
+?>
   <div class="flex w-full p-5">
     <div class="mx-5 my-2">
       <label class="text-white font-bold">Profil</label>
@@ -126,25 +128,25 @@ function profilMahasiswa()
     <div class="flex-1 w-2/3">
       <div class="flex flex-col px-5 py-2">
         <label class="text-white font-bold">Nama</label>
-        <input type="text" name="nama"
+        <input type="text" name="nama" value="<?= isset($dataMhs['nama']) ? $dataMhs['nama'] : '' ?>"
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
       </div>
 
       <div class="flex flex-col px-5 py-2">
         <label class="text-white font-bold">Email</label>
-        <input type="email" name="email_perusahaan"
+        <input type="email" name="email" value="<?= isset($dataMhs['email']) ? $dataMhs['email'] : '' ?>"
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
       </div>
 
       <div class="flex flex-col px-5 py-2">
         <label class="text-white font-bold">NPM</label>
-        <input type="text" name="npm"
+        <input type="text" name="npm" value="<?= isset($dataMhs['npm']) ? $dataMhs['npm'] : '' ?>"
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
       </div>
 
       <div class="flex flex-col px-5 py-2">
         <label class="text-white font-bold">Universitas</label>
-        <input type="text" name="universitas"
+        <input type="text" name="universitas" value="<?= isset($dataMhs['universitas']) ? $dataMhs['universitas'] : '' ?>"
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
       </div>
     </div>
@@ -152,12 +154,12 @@ function profilMahasiswa()
     <div class="flex-1 w-2/3">
       <div class="flex flex-col px-5 py-2">
         <label class="text-white font-bold">Tempat Lahir</label>
-        <input type="text" name="tempat_lahir"
+        <input type="text" name="tempat_lahir" value="<?= isset($dataMhs['tempat_lahir']) ? $dataMhs['tempat_lahir'] : '' ?>"
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
       </div>
       <div class="flex flex-col px-5 py-2">
         <label class="text-white font-bold">Tanggal Lahir</label>
-        <input type="date" name="tanggal_lahir"
+        <input type="date" name="tanggal_lahir" value="<?= isset($dataMhs['tanggal_lahir']) ? $dataMhs['tanggal_lahir'] : '' ?>"
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
       </div>
       <div class="flex flex-col px-5 py-2">
@@ -165,12 +167,20 @@ function profilMahasiswa()
         <select name="agama"
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none">
           <option></option>
-          <option value="Islam">Islam</option>
-          <option value="Kristen">Kristen</option>
-          <option value="Katolik">Katolik</option>
-          <option value="Hindu">Hindu</option>
-          <option value="Buddha">Buddha</option>
-          <option value="Konghucu">Konghucu</option>
+          <?php
+          $agama = [
+            'Islam',
+            'Kristen',
+            'Katolik',
+            'Hindu',
+            'Buddha',
+            'Konghucu'
+          ];
+
+          foreach ($agama as $a){
+          ?>
+          <option value="<?=$a?>" <?= (isset($dataMhs['agama'])) && $a == $dataMhs['agama'] ? 'selected' : '' ?>><?=$a?></option>
+          <?php }?>
         </select>
       </div>
       <div class="flex flex-col px-5 py-2">
@@ -178,8 +188,8 @@ function profilMahasiswa()
         <select name="jenis_kelamin"
           class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none">
           <option></option>
-          <option value="Laki-laki">Laki-laki</option>
-          <option value="Perempuan">Perempuan</option>
+          <option value="Laki-laki" <?= (isset($dataMhs['jenis_kelamis'])) && $dataMhs['jenis_kelamis'] == 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
+          <option value="Perempuan" <?= (isset($dataMhs['jenis_kelamis'])) && $dataMhs['jenis_kelamis'] == 'Perempuan' ? 'selected' : '' ?>>Perempuan</option>
         </select>
       </div>
     </div>
@@ -188,7 +198,7 @@ function profilMahasiswa()
     <div class="flex flex-1 flex-col px-5 py-2">
       <label class="text-white font-bold">Alamat</label>
       <textarea name="alamat" rows="4"
-        class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none"></textarea>
+        class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none"><?= isset($dataMhs['alamat']) ? $dataMhs['alamat'] : '' ?></textarea>
     </div>
 
     <div class="flex-1">
@@ -364,7 +374,7 @@ function alertHapus($datas = [], $id = "")
         function konfirmasiHapus() {
           const path = "/api/form/delete-kegiatan-magang.php?id_kegiatan=<?= $id ?>"
           console.log(path);
-          
+
           fetch(path, {
               method: 'DELETE'
             })

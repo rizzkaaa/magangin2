@@ -28,7 +28,7 @@ only(['perusahaan']);
     </header>
 
     <section class="bg-[#1d222efb] w-full flex flex-col items-center">
-        <?= profilMahasiswa() ?>
+        <?= profilMahasiswa($connect, $id_mhs) ?>
 
         <!-- Tombol -->
         <div class="mx-5 my-2 w-full flex flex-col items-center">

@@ -50,7 +50,7 @@ $id_mhs = $dataMahasiswa['id_mhs'];
       </div>
 
       <form method="POST" enctype="multipart/form-data" action="/api/form/handle-mahasiswa-profile.php" id="profil" class="menu w-full  h-[572px] overflow-y-auto flex-col items-end justify-center">
-        <?= profilMahasiswa() ?>
+        <?= profilMahasiswa($connect, $id_mhs) ?>
 
         <div class="mx-5 my-2">
           <button type="submit"
@@ -65,7 +65,7 @@ $id_mhs = $dataMahasiswa['id_mhs'];
       </div>
 
       <div id="jadwal-bimbingan" class="menu w-full  h-[572px] overflow-y-auto flex-col items-center">
-        <?= jadwalBimbingan($connect, $dataMahasiswa['id_mhs']) ?>
+        <?= jadwalBimbingan($connect, $id_mhs) ?>
       </div>
 
       <div id="notifikasi" class="menu flex-1 h-[572px] overflow-y-auto flex-col">
