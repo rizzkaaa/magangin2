@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 22, 2025 at 05:46 AM
+-- Generation Time: Jun 22, 2025 at 04:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,6 +24,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `bimbingan`
+--
+
+CREATE TABLE `bimbingan` (
+  `id_bimbingan` bigint(20) UNSIGNED NOT NULL,
+  `id_magang` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `topik_bimbingan` varchar(250) NOT NULL,
+  `tanggal` date DEFAULT NULL,
+  `jam` time DEFAULT NULL,
+  `tempat` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bimbingan`
+--
+
+INSERT INTO `bimbingan` (`id_bimbingan`, `id_magang`, `topik_bimbingan`, `tanggal`, `jam`, `tempat`) VALUES
+(1, 'svdasd23', 'Diskusi progress', '2025-06-15', '09:00:00', 'Zoom'),
+(2, 'svdasd23', 'Persiapan laporan akhir', '2025-06-20', '13:30:00', 'Ruang B1'),
+(3, 'svdasd23', 'Review laporan', '2025-06-25', '11:00:00', 'Google Meet');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `detail_apply`
 --
 
@@ -31,26 +55,17 @@ CREATE TABLE `detail_apply` (
   `id_detail` varchar(20) NOT NULL,
   `id_lowongan` varchar(20) NOT NULL,
   `id_mhs` varchar(20) NOT NULL,
-  `waktu_apply` time NOT NULL,
+  `waktu_apply` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` enum('Menunggu','Disetujui') DEFAULT 'Menunggu'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `bimbingan`;
+--
+-- Dumping data for table `detail_apply`
+--
 
-CREATE TABLE `bimbingan` (
-  `id_bimbingan` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_magang` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `topik_bimbingan` VARCHAR(250) NOT NULL,
-  `tanggal` DATE DEFAULT NULL,
-  `jam` TIME DEFAULT NULL,
-  `tempat` VARCHAR(100) DEFAULT NULL,
-  PRIMARY KEY (`id_bimbingan`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO bimbingan (id_magang, topik_bimbingan, tanggal, jam, tempat) VALUES
-('svdasd23', 'Diskusi progress', '2025-06-15', '09:00:00', 'Zoom'),
-('svdasd23', 'Persiapan laporan akhir', '2025-06-20', '13:30:00', 'Ruang B1'),
-('svdasd23', 'Review laporan', '2025-06-25', '11:00:00', 'Google Meet');
+INSERT INTO `detail_apply` (`id_detail`, `id_lowongan`, `id_mhs`, `waktu_apply`, `status`) VALUES
+('dgfwgtr3', 'LOW002', 'kjecUgAq', '2025-06-22 05:41:06', 'Menunggu'),
+('dgfwgtrd', 'LOW001', 'kjecUgAq', '2025-06-22 06:01:24', 'Menunggu');
 
 -- --------------------------------------------------------
 
@@ -7771,8 +7786,17 @@ CREATE TABLE `kegiatan_magang` (
   `tgl` date NOT NULL,
   `hari` enum('Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu') DEFAULT NULL,
   `kegiatan` text DEFAULT NULL,
-  `bukti_kegiatan` varchar(255) DEFAULT NULL
+  `bukti_kegiatan` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `kegiatan_magang`
+--
+
+INSERT INTO `kegiatan_magang` (`id_kegiatan`, `id_magang`, `tgl`, `hari`, `kegiatan`, `bukti_kegiatan`, `created_at`) VALUES
+('cuyNszcI', 'svdasd23', '2025-06-17', 'Senin', '32_Untitled 1.pdf', '11_Screenshot from 2025-03-21 19-21-55.png', '2025-06-22 12:04:50'),
+('ENN98URC', 'svdasd23', '2025-06-22', 'Minggu', '53_STRUKTUR DATA Rizka.docx', '65_Screenshot from 2025-03-17 12-02-19.png', '2025-06-22 12:02:44');
 
 -- --------------------------------------------------------
 
@@ -7799,6 +7823,15 @@ CREATE TABLE `lowongan` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `lowongan`
+--
+
+INSERT INTO `lowongan` (`id_lowongan`, `id_perusahaan`, `banner`, `judul`, `deskripsi`, `posisi`, `kuota`, `lokasi`, `gender`, `rentang_usia`, `mulai_magang`, `selesai_magang`, `deadline_apply`, `uang_saku`, `created_at`, `updated_at`) VALUES
+('LOW001', 'MS2GR7wb', 'banner1.jpg', 'Magang Frontend Developer', 'Bergabung bersama tim IT untuk membangun antarmuka pengguna.', 'Frontend Developer', '5', 'Jakarta', 'Laki-laki', '20-25', '2025-07-01', '2025-12-01', '2025-06-30', '1.500.000', '2025-06-22 05:35:46', '2025-06-22 05:35:46'),
+('LOW002', 'MS2GR7wb', 'banner2.jpg', 'Magang Digital Marketing', 'Belajar strategi pemasaran digital bersama tim profesional.', 'Digital Marketer', '3', 'Bandung', 'Perempuan', '19-24', '2025-08-15', '2026-02-15', '2025-07-31', '1.200.000', '2025-06-22 05:35:46', '2025-06-22 05:35:46'),
+('LOW003', 'MS2GR7wb', 'banner3.jpg', 'Magang UI/UX Designer', 'Ikut dalam proyek desain aplikasi mobile dan website.', 'UI/UX Designer', '4', 'Surabaya', 'Perempuan', '21-26', '2025-07-20', '2025-11-20', '2025-07-10', '1.800.000', '2025-06-22 05:35:46', '2025-06-22 05:35:46');
+
 -- --------------------------------------------------------
 
 --
@@ -7815,6 +7848,13 @@ CREATE TABLE `magang` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `magang`
+--
+
+INSERT INTO `magang` (`id_magang`, `id_mhs`, `id_lowongan`, `id_dosen`, `nilai`, `status`, `created_at`, `updated_at`) VALUES
+('svdasd23', 'kjecUgAq', 'LOW001', 'R8xc3GQ1', NULL, 'Berlangsung', '2025-06-22 05:37:52', '2025-06-22 05:37:52');
 
 -- --------------------------------------------------------
 
@@ -7837,6 +7877,7 @@ CREATE TABLE `mahasiswa` (
   `kecamatan` varchar(255) DEFAULT NULL,
   `desa` varchar(255) DEFAULT NULL,
   `alamat` text DEFAULT NULL,
+  `universitas` text DEFAULT NULL,
   `status` enum('Sedang Magang','Tidak Magang') DEFAULT 'Tidak Magang',
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp()
@@ -7858,12 +7899,20 @@ INSERT INTO `mahasiswa` (`id_mhs`, `id_user`, `profil`, `nama`, `npm`, `jenis_ke
 
 CREATE TABLE `notifikasi` (
   `id_notifikasi` int(11) NOT NULL,
-  `id_dosen` varchar(20) NOT NULL,
-  `id_peserta` varchar(20) NOT NULL,
+  `id_dosen` varchar(20) DEFAULT NULL,
+  `id_mhs` varchar(20) NOT NULL,
+  `judul` varchar(255) NOT NULL,
   `pesan` text NOT NULL,
   `status` enum('Belum Dibaca','Dibaca') DEFAULT 'Belum Dibaca',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `notifikasi`
+--
+
+INSERT INTO `notifikasi` (`id_notifikasi`, `id_dosen`, `id_mhs`, `judul`, `pesan`, `status`, `created_at`) VALUES
+(1, NULL, 'kjecUgAq', 'Selamat Datang di Dashboard', 'Selamat datang di dashboard mahasiswa! Gunakan menu di sebelah kiri untuk navigasi.', 'Belum Dibaca', '2025-06-22 13:49:38');
 
 -- --------------------------------------------------------
 
@@ -7978,6 +8027,12 @@ INSERT INTO `users` (`id_user`, `email`, `password`, `role`, `created_at`, `upda
 --
 
 --
+-- Indexes for table `bimbingan`
+--
+ALTER TABLE `bimbingan`
+  ADD PRIMARY KEY (`id_bimbingan`);
+
+--
 -- Indexes for table `detail_apply`
 --
 ALTER TABLE `detail_apply`
@@ -8056,7 +8111,9 @@ ALTER TABLE `mahasiswa`
 -- Indexes for table `notifikasi`
 --
 ALTER TABLE `notifikasi`
-  ADD PRIMARY KEY (`id_notifikasi`);
+  ADD PRIMARY KEY (`id_notifikasi`),
+  ADD KEY `fk_dosen3` (`id_dosen`),
+  ADD KEY `fk_mhs3` (`id_mhs`);
 
 --
 -- Indexes for table `perusahaan`
@@ -8085,10 +8142,16 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `bimbingan`
+--
+ALTER TABLE `bimbingan`
+  MODIFY `id_bimbingan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `notifikasi`
 --
 ALTER TABLE `notifikasi`
-  MODIFY `id_notifikasi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_notifikasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `provinsis`
@@ -8163,6 +8226,13 @@ ALTER TABLE `magang`
 --
 ALTER TABLE `mahasiswa`
   ADD CONSTRAINT `fk_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `notifikasi`
+--
+ALTER TABLE `notifikasi`
+  ADD CONSTRAINT `fk_dosen3` FOREIGN KEY (`id_dosen`) REFERENCES `dosen` (`id_dosen`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_mhs3` FOREIGN KEY (`id_mhs`) REFERENCES `mahasiswa` (`id_mhs`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `perusahaan`

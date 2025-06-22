@@ -29,7 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         $file_tmp  = $_FILES['profil']['tmp_name'];
-        $file_name = uniqid() . '_' . basename($_FILES['profil']['name']);
+
+        // Hapus spasi dari nama file
+        $original_name = basename($_FILES['profil']['name']);
+        $clean_name = str_replace(' ', '_', $original_name); // Ganti spasi dengan underscore
+        $file_name = uniqid() . '_' . $clean_name;
+
         $file_path = $upload_dir . $file_name;
 
         if (move_uploaded_file($file_tmp, $file_path)) {
@@ -40,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit;
         }
     }
+
 
     // Field yang bisa diupdate
     $fields = [
@@ -54,7 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'kecamatan',
         'desa',
         'alamat',
-        'status'
+        'status',
+        "universitas"
     ];
 
     // Siapkan query update
