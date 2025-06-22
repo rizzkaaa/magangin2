@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Upload foto jika dikirim
     $foto_nama = null;
     if (isset($_FILES['profil']) && $_FILES['profil']['error'] === UPLOAD_ERR_OK) {
-        $upload_dir = __DIR__ . '/assets/img/mahasiswa/';
+        $upload_dir = realpath(__DIR__ . '/../../') . '/assets/img/mahasiswa/';
         if (!is_dir($upload_dir)) {
             mkdir($upload_dir, 0755, true);
         }
