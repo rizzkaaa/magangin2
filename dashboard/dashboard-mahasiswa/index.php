@@ -86,7 +86,7 @@ $dataMahasiswa = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM mahasi
   <script>
     // 🔽 Muat data provinsi
     async function loadProvinsis() {
-      const response = await fetch('/api/provinsis');
+      const response = await fetch('/api/provinsi.php');
       const data = await response.json();
 
       const provinsiSelect = document.querySelector('select[name="provinsi"]');
@@ -111,7 +111,7 @@ $dataMahasiswa = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM mahasi
         return;
       }
 
-      const response = await fetch(`/api/kabupatens?provinsi_id=${provinsiId}`);
+      const response = await fetch(`/api/kabupaten.php?provinsi_id=${provinsiId}`);
       const data = await response.json();
 
       kabupatenSelect.innerHTML = '<option value="">Pilih Kabupaten</option>';
@@ -133,8 +133,9 @@ $dataMahasiswa = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM mahasi
         return;
       }
 
-      const response = await fetch(`/api/kecamatans?kabupaten_id=${kabupatenId}`);
+      const response = await fetch(`/api/kecamatan.php?kabupaten_id=${kabupatenId}`);
       const data = await response.json();
+console.log(data);
 
       kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
       data.forEach(kecamatan => {
