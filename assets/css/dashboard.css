@@ -1,0 +1,17 @@
+.w-350px{
+  width: 270px;
+}
+
+.menu{
+  display: none;
+}
+.menu:target{
+  display: flex;
+}
+
+.modal-parent{
+  display: none;
+}
+.modal-parent:target{
+  display: flex;
+}
