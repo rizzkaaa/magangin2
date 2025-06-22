@@ -95,15 +95,15 @@ include '../../components/render-components.php';
     </section>
 
     <script>
-        function batalHapus() {
-            alert("Penghapusan dibatalkan.");
-            window.location.href = "#";
-        }
+        // function batalHapus() {
+        //     alert("Penghapusan dibatalkan.");
+        //     window.location.href = "#";
+        // }
 
-        function konfirmasiHapus() {
-            alert("Data berhasil dihapus!");
-            window.location.href = "#";
-        }
+        // function konfirmasiHapus() {
+        //     alert("Data berhasil dihapus!");
+        //     window.location.href = "#";
+        // }
     </script>
 </body>
 

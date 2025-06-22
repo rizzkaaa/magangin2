@@ -178,7 +178,7 @@ function laporanMagang($connect, $id_mhs)
                                         ['label' => 'Perusahaan', 'isi' => $rowLaporan['nama_perusahaan']],
                                         ['label' => 'Tanggal', 'isi' => $rowLaporan['tgl']],
                                         ['label' => 'Hari', 'isi' => $rowLaporan['hari']]
-                                    ]) ?>
+                                    ],  $rowLaporan['id_kegiatan']) ?>
                                 </div>
                             </td>
                         </tr>
