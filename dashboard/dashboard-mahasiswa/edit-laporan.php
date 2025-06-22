@@ -7,10 +7,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['tgl'], $_POST['hari'], $_POST['id_magang'])) {
         $tgl = mysqli_real_escape_string($connect, $_POST['tgl']);
         $hari = mysqli_real_escape_string($connect, $_POST['hari']);
-        $id_magang = mysqli_real_escape_string($connect, $_POST['id_magang']);
-        $id_kegiatan = generateID();
+        $id_kegiatan = $_GET['id_kegiatan'];
 
-        $insertKegiatan = mysqli_query($connect, "INSERT INTO kegiatan_magang (id_kegiatan, id_magang, tgl, hari) VALUES ('$id_kegiatan', '$id_magang', '$tgl', '$hari')");
+        $insertKegiatan = mysqli_query($connect, "UPDATE kegiatan_magang SET tgl='$tgl', hari='$hari' WHERE id_kegiatan='$id_kegiatan'");
 
         if (isset($_FILES['kegiatan']) && $_FILES['kegiatan']['error'] === UPLOAD_ERR_OK) {
             $kegiatan = $_FILES['kegiatan'];

@@ -152,10 +152,10 @@ function laporanMagang($connect, $id_mhs)
                             <td class="p-4"><?= $rowLaporan['hari'] ?></td>
 
                             <td class="p-4">
-                                <button class="bg-[#00b894] text-white font-bold py-2 px-4 rounded-lg">Download</button>
+                                <a href="../../assets/laporan-magang/kegiatan/<?=$rowLaporan['kegiatan']?>" class="bg-[#00b894] text-white font-bold py-2 px-4 rounded-lg">Download</a href="../../assets/laporan-magang/bukti-kegiatan/<?=$rowLaporan['bukti_kegiatan']?>">
                             </td>
                             <td class="p-4">
-                                <button class="bg-[#00b894] text-white font-bold py-2 px-4 rounded-lg">Download</button>
+                                <a href="../../assets/laporan-magang/bukti-kegiatan/<?=$rowLaporan['bukti_kegiatan']?>" class="bg-[#00b894] text-white font-bold py-2 px-4 rounded-lg">Download</a href="../../assets/laporan-magang/bukti-kegiatan/<?=$rowLaporan['bukti_kegiatan']?>">
                             </td>
                             <td class="py-4 px-3 flex justify-center items-center gap-3">
                                 <a href="#edit-laporan<?=$no?>" class="text-[#3498db] hover:opacity-70 text-[18px]">
@@ -167,7 +167,7 @@ function laporanMagang($connect, $id_mhs)
 
                                 <div id="edit-laporan<?=$no?>" class="modal-parent absolute top-0 left-0 w-full h-full hidden flex justify-center items-center">
                                     <a href="#laporan-magang" class="overlay absolute w-full h-full bg-black/30 backdrop-blur-sm"></a>
-                                    <?= formLaporanMagang('Edit', $rowLaporan) ?>
+                                    <?= formLaporanMagang('Edit', "edit-laporan.php?id_kegiatan=".$rowLaporan['id_kegiatan'], $id_magang, $rowLaporan) ?>
                                 </div>
 
                                 <div id="hapus-laporan<?=$no?>"
@@ -193,7 +193,7 @@ function laporanMagang($connect, $id_mhs)
         <div id="tambah-laporan"
             class="modal-parent absolute top-0 left-0 w-full h-full hidden flex justify-center items-center">
             <a href="#laporan-magang" class="overlay absolute w-full h-full bg-black/30 backdrop-blur-sm"></a>
-            <?= formLaporanMagang('Tambah', []) ?>
+            <?= formLaporanMagang('Tambah', 'tambah-laporan.php', $id_magang, []) ?>
         </div>
     <?php
     }
