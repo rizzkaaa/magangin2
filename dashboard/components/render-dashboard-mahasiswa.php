@@ -167,18 +167,18 @@ function laporanMagang($connect, $id_mhs)
 
                                 <div id="edit-laporan<?= $no ?>" class="modal-parent absolute top-0 left-0 w-full h-full hidden flex justify-center items-center">
                                     <a href="#laporan-magang" class="overlay absolute w-full h-full bg-black/30 backdrop-blur-sm"></a>
-                                    <?= formLaporanMagang('Edit', "edit-laporan.php?id_kegiatan=".$rowLaporan['id_kegiatan'], $id_magang, $rowLaporan) ?>
+                                    <?= formLaporanMagang('Edit', "edit-laporan.php?id_kegiatan=" . $rowLaporan['id_kegiatan'], $id_magang, $rowLaporan) ?>
                                 </div>
 
                                 <div id="hapus-laporan<?= $no ?>"
                                     class="modal-parent no absolute top-0 left-0 w-full h-full hidden flex justify-center items-center">
                                     <a href="#laporan-magang" class="overlay absolute w-full h-full bg-black/30 backdrop-blur-sm"></a>
-                                    <?= alertHapus('hapus-laporan.php?id_kegiatan='.$rowLaporan['id_kegiatan'],[
+                                    <?= alertHapus('hapus-laporan.php?id_kegiatan=' . $rowLaporan['id_kegiatan'], [
                                         ['label' => 'Dosen Pembimbing', 'isi' => $rowLaporan['nama_dosen']],
                                         ['label' => 'Perusahaan', 'isi' => $rowLaporan['nama_perusahaan']],
                                         ['label' => 'Tanggal', 'isi' => $rowLaporan['tgl']],
                                         ['label' => 'Hari', 'isi' => $rowLaporan['hari']]
-                                    ])?>
+                                    ]) ?>
                                 </div>
                             </td>
                         </tr>
@@ -217,27 +217,37 @@ function jadwalBimbingan($connect, $id_mhs)
     }
 
     $id_magang = mysqli_fetch_assoc($magang)['id_magang'];
+    ?>
 
-    // Ambil data bimbingan
-    $query = "SELECT bimbingan.*, dosen.nama_dosen, perusahaan.nama_perusahaan
+    <div class="w-[90%] mt-10 flex justify-between items-center mb-4 px-4">
+        <!-- Kolom Pencarian -->
+        <form method="GET" class="flex items-center border border-white bg-white/8 gap-2 backdrop-blur-md px-4 py-2 rounded-lg w-full max-w-md shadow">
+            <i class="fas fa-search text-[#108bfd] text-lg"></i>
+            <input type="search" name="cariBimbingan" value="<?= isset($_GET['cariBimbingan']) ? $_GET['cariBimbingan'] : '' ?>" placeholder="Cari tanggal..."
+                class="w-full bg-transparent text-[#108bfd] placeholder-gray-500 focus:outline-none" />
+        </form>
+        <?php
+        // Ambil data bimbingan
+
+        $query = "SELECT bimbingan.*, dosen.nama_dosen, perusahaan.nama_perusahaan
         FROM bimbingan
         JOIN magang ON bimbingan.id_magang = magang.id_magang
         JOIN dosen ON magang.id_dosen = dosen.id_dosen
         JOIN lowongan ON magang.id_lowongan = lowongan.id_lowongan
         JOIN perusahaan ON lowongan.id_perusahaan = perusahaan.id_perusahaan
-        WHERE bimbingan.id_magang = '$id_magang'
-        ORDER BY bimbingan.tanggal DESC";
+        WHERE bimbingan.id_magang = '$id_magang'";
 
-    $result = mysqli_query($connect, $query);
-    ?>
+        $cariBimbingan = isset($_GET['cariBimbingan']) ? mysqli_real_escape_string($connect, $_GET['cariBimbingan']) : '';
 
-    <div class="w-[90%] mt-10 flex justify-between items-center mb-4 px-4">
-        <!-- Kolom Pencarian -->
-        <div class="flex items-center border border-white bg-white/8 gap-2 backdrop-blur-md px-4 py-2 rounded-lg w-full max-w-md shadow">
-            <i class="fas fa-search text-[#108bfd] text-lg"></i>
-            <input type="text" placeholder="Cari tanggal..."
-                class="w-full bg-transparent text-[#108bfd] placeholder-gray-500 focus:outline-none" />
-        </div>
+        if (!empty($cariBimbingan)) {
+            $query .= " AND (dosen.nama_dosen LIKE '%$cariBimbingan%' 
+                        OR perusahaan.nama_perusahaan LIKE '%$cariBimbingan%' 
+                        OR bimbingan.topik_bimbingan LIKE '%$cariBimbingan%' 
+                        OR bimbingan.tanggal LIKE '%$cariBimbingan%')";
+        }
+
+        $result = mysqli_query($connect, $query);
+        ?>
     </div>
 
     <table class="w-[90%] m-5 border-collapse bg-[#c3cbe2] rounded-[12px] shadow-md overflow-hidden">

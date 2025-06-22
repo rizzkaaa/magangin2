@@ -2652,3 +2652,77 @@ p + p{
     color: rgb(255 255 255 / var(--tw-text-opacity));
   }
 }
+
+footer{
+    background-image: url(./asset/bg-footer.png);
+    background-size: 50%;
+}
+footer .side:first-child{
+    text-align: center;
+    background-color: rgba(58, 53, 53, 0.842);
+}
+footer .side:first-child i{
+    font-size: 50px;
+    margin: 10px 90px;
+    color: rgb(253, 208, 9);
+    cursor: pointer;
+}
+[data-aos="animation-icon"].aos-animate {
+    transform: rotateY(360deg);
+
+}
+footer .side:first-child i:hover{
+    transform: rotateY(360deg);
+    transition: all 1s;
+}
+
+
+footer .side:nth-child(2), footer .side:last-child{
+    background-color: rgb(21, 21, 41);
+    padding-inline: 100px;
+    color: white;
+}
+footer h4{
+    margin-block: 20px;
+    font-size: 18px;
+}
+footer .side:nth-child(2){
+    display: flex;
+}
+footer .side:nth-child(2) div{
+    flex: 1;
+    margin: 20px;
+    
+}
+footer .side:nth-child(2) div:first-child{
+    flex: 2;
+    margin-right: 80px;
+}
+footer .side:nth-child(2) ul li{
+    list-style: none;
+    position: relative;
+    padding-left: 30px;
+    padding-top: 10px;
+    cursor: pointer;
+}
+footer .side:nth-child(2) ul li::before {
+    content: "➔";
+    position: absolute;
+    left: 0;
+    font-size: 1.2em;
+}
+footer .side:nth-child(2) ul li a{
+    color: white;
+    text-decoration: none;
+}
+footer .side:nth-child(2) ul li:hover a{
+    color: rgb(255, 235, 59);
+}
+
+footer .side:last-child{
+    border-top: 1px solid rgb(134, 146, 172);
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    color: white;
+}
