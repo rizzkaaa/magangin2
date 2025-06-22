@@ -167,18 +167,18 @@ function laporanMagang($connect, $id_mhs)
 
                                 <div id="edit-laporan<?= $no ?>" class="modal-parent absolute top-0 left-0 w-full h-full hidden flex justify-center items-center">
                                     <a href="#laporan-magang" class="overlay absolute w-full h-full bg-black/30 backdrop-blur-sm"></a>
-                                    <?= formLaporanMagang('Edit', "edit-laporan.php?id_kegiatan=" . $rowLaporan['id_kegiatan'], $id_magang, $rowLaporan) ?>
+                                    <?= formLaporanMagang('Edit', "edit-laporan.php?id_kegiatan=".$rowLaporan['id_kegiatan'], $id_magang, $rowLaporan) ?>
                                 </div>
 
                                 <div id="hapus-laporan<?= $no ?>"
                                     class="modal-parent no absolute top-0 left-0 w-full h-full hidden flex justify-center items-center">
                                     <a href="#laporan-magang" class="overlay absolute w-full h-full bg-black/30 backdrop-blur-sm"></a>
-                                    <?= alertHapus([
+                                    <?= alertHapus('hapus-laporan.php?id_kegiatan='.$rowLaporan['id_kegiatan'],[
                                         ['label' => 'Dosen Pembimbing', 'isi' => $rowLaporan['nama_dosen']],
                                         ['label' => 'Perusahaan', 'isi' => $rowLaporan['nama_perusahaan']],
                                         ['label' => 'Tanggal', 'isi' => $rowLaporan['tgl']],
                                         ['label' => 'Hari', 'isi' => $rowLaporan['hari']]
-                                    ],  $rowLaporan['id_kegiatan']) ?>
+                                    ])?>
                                 </div>
                             </td>
                         </tr>

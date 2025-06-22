@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
             if (!in_array($ext, $extention)) {
-                header('Location: ./?alert=gagal_ekstention');
+                header('Location: ./#laporan-magang');
             } else {
                 if ($ukuran < 1044070) {
                     $savekegiatan = $angka . "_" . $filename;
@@ -29,11 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $updateBuktiKegiatan = mysqli_query($connect, "UPDATE kegiatan_magang SET kegiatan='$savekegiatan' WHERE id_kegiatan='$id_kegiatan'");
 
                     if (!$updateBuktiKegiatan) {
-                        header("Location: ./?error");
+                        header("Location: ./#laporan-magang");
                         exit;
                     }
                 } else {
-                    header('Location: ./?alert=gagal_ukuran');
+                    header('Location: ./#laporan-magang');
                 }
             }
         }
@@ -56,21 +56,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $updateBuktiKegiatan = mysqli_query($connect, "UPDATE kegiatan_magang SET bukti_kegiatan='$savebukti_kegiatan' WHERE id_kegiatan='$id_kegiatan'");
 
                     if (!$updateBuktiKegiatan) {
-                        header("Location: ./?error");
+                        header("Location: ./#laporan-magang");
                         exit;
                     }
                 } else {
-                    header('Location: ./?alert=gagal_ukuran');
+                    header('Location: ./#laporan-magang');
                 }
             }
         }
 
 
         if ($insertKegiatan) {
-            header("Location: ./?success");
+            header("Location: ./#laporan-magang");
             exit;
         } else {
-            header("Location: ./?error");
+            header("Location: ./#laporan-magang");
             exit;
         }
     }
