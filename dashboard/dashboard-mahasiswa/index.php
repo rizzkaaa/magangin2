@@ -60,7 +60,7 @@ $dataMahasiswa = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM mahasi
       </form>
 
       <div id="laporan-magang" class="menu w-full  h-[572px] overflow-y-auto flex-col items-center">
-        <?= laporanMagang() ?>
+        <?= laporanMagang($connect, $dataMahasiswa['id_mhs']) ?>
       </div>
 
       <div id="jadwal-bimbingan" class="menu w-full  h-[572px] overflow-y-auto flex-col items-center">
@@ -74,10 +74,16 @@ $dataMahasiswa = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM mahasi
 
   <script>
     window.addEventListener("hashchange", () => {
-      if (window.location.hash == "#edit-laporan" || window.location.hash == "#tambah-laporan" || window.location.hash == "#hapus-laporan" || window.location.hash == "#laporan-magang") {
-        document.getElementById("laporan-magang").style.display = "flex"
+      const no = document.querySelectorAll('.no');
+      const isMatch = Array.from(no).some((n, i) => {
+        return window.location.hash === `#edit-laporan${i + 1}` ||
+          window.location.hash === `#hapus-laporan${i + 1}`;
+      });
+
+      if (isMatch || window.location.hash === "#laporan-magang" || window.location.hash === "#tambah-laporan") {
+        document.getElementById("laporan-magang").style.display = "flex";
       } else {
-        document.getElementById("laporan-magang").style.display = "none"
+        document.getElementById("laporan-magang").style.display = "none";
       }
     });
   </script>
@@ -135,7 +141,7 @@ $dataMahasiswa = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM mahasi
 
       const response = await fetch(`/api/kecamatan.php?kabupaten_id=${kabupatenId}`);
       const data = await response.json();
-console.log(data);
+      console.log(data);
 
       kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
       data.forEach(kecamatan => {
