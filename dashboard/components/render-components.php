@@ -335,7 +335,7 @@ function formJadwalBimbingan($action)
   return ob_get_clean();
 }
 
-function alertHapus($datas = [])
+function alertHapus($datas = [], $id = "")
 {
   ob_start(); ?>
   <div class="z-[1] bg-white max-w-md mx-auto p-6 rounded-2xl shadow-lg mt-10 text-center">
@@ -356,6 +356,33 @@ function alertHapus($datas = [])
       <button onclick="konfirmasiHapus()" class="bg-red-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition">
         Hapus
       </button>
+      <script>
+        function batalHapus() {
+          window.location.href = "#laporan-magang";
+        }
+
+        function konfirmasiHapus() {
+          const path = "/api/form/delete-kegiatan-magang.php?id_kegiatan=<?= $id ?>"
+          console.log(path);
+          
+          fetch(path, {
+              method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.status === 'success') {
+                alert("Data berhasil dihapus!");
+                window.location.href = "#laporan-magang";
+              } else {
+                alert("Gagal menghapus: " + (data.message || data.error));
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert("Terjadi kesalahan saat menghapus data.");
+            });
+        }
+      </script>
     </div>
   </div>
 <?php
@@ -365,14 +392,14 @@ function alertHapus($datas = [])
 function formLaporanMagang($quote, $action, $id_magang, $rowLaporan = [])
 {
   ob_start();
-$hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+  $hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
 ?>
   <div class="z-[1] bg-white p-6 rounded-[20px] shadow-md max-w-xl w-full">
     <h2 class="text-xl font-bold mb-6 text-[#003c9e]">Form <?= $quote ?> Laporan Magang</h2>
-    <form action="<?= $action?>" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4">
+    <form action="<?= $action ?>" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4">
 
       <div class="flex">
-        <input type="hidden" name="id_magang" value="<?=$id_magang?>">
+        <input type="hidden" name="id_magang" value="<?= $id_magang ?>">
 
         <div class="relative mx-1 flex-1">
           <label for="tanggal" class="font-semibold text-[#000] mb-1 block">Tanggal</label>
@@ -387,8 +414,8 @@ $hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
           <select id="hari" name="hari" required
             class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none w-full p-3 pr-10 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#003c9e]">
             <option value="">-- Pilih Hari --</option>
-            <?php foreach($hari as $h){ ?>
-              <option value="<?=$h?>" <?= (isset($rowLaporan['hari']) && $h == $rowLaporan['hari']) ? 'selected' : '' ?> ><?=$h?></option>
+            <?php foreach ($hari as $h) { ?>
+              <option value="<?= $h ?>" <?= (isset($rowLaporan['hari']) && $h == $rowLaporan['hari']) ? 'selected' : '' ?>><?= $h ?></option>
             <?php } ?>
           </select>
           <i
