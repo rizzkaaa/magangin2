@@ -13,15 +13,47 @@ $email = $_SESSION['email'];
 
 $dataPerusahaan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM perusahaan WHERE id_user = '$idUser'"));
 
-if ($dataPerusahaan["provinsi"]) {
-  $idProvinsi =  $dataPerusahaan["provinsi"];
-  $provinsi = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM `provinsis` WHERE id = '$idProvinsi'"));
-  $idkabupaten =  $dataPerusahaan["kabupaten"];
-  $kabupaten = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM `kabupatens` WHERE id = '$idkabupaten'"));
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $nama = $_POST['nama_perusahaan'];
+  $email = $_POST['email_perusahaan'];
+  $alamat = $_POST['alamat'];
+  $provinsi = $_POST['provinsi'];
+  $kabupaten = $_POST['kabupaten'];
+  $kecamatan = $_POST['kecamatan'];
+  $desa = $_POST['desa'];
 
-  $idkecamatan =  $dataPerusahaan["kecamatan"];
-  $kecamatan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM `kecamatans` WHERE id = '$idkecamatan'"));
+  $logo = $dataPerusahaan['logo_perusahaan']; // default
+
+  // Proses upload jika ada file baru
+  if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
+    $tmpName = $_FILES['logo']['tmp_name'];
+    $fileName = time() . '_' . basename($_FILES['logo']['name']);
+    $uploadDir = '../../uploads/logo/';
+    if (!is_dir($uploadDir)) {
+      mkdir($uploadDir, 0777, true);
+    }
+    move_uploaded_file($tmpName, $uploadDir . $fileName);
+    $logo = $fileName;
+  }
+
+  // Simpan ke DB
+  $query = "UPDATE perusahaan SET 
+        nama_perusahaan='$nama',
+        email_perusahaan='$email',
+        alamat='$alamat',
+        provinsi='$provinsi',
+        kabupaten='$kabupaten',
+        kecamatan='$kecamatan',
+        desa='$desa',
+        logo_perusahaan='$logo',
+        updated_at=NOW()
+        WHERE id_user = '$idUser'";
+
+  mysqli_query($connect, $query);
+  header("Location: " . $_SERVER['REQUEST_URI']); // refresh halaman
+  exit;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -34,10 +66,10 @@ if ($dataPerusahaan["provinsi"]) {
   <title>Magangin | Dashboard Perusahaan</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
-  <link rel="stylesheet" href="../../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/dashboard.css" />
 </head>
 
-<body class="h-screen flex flex-col overflow-hidden ">
+<body class="h-screen flex flex-col overflow-hidden">
   <?php
   $nama = $dataPerusahaan['nama_perusahaan'];
   echo renderHeader($nama, $email, 'Temukan');
@@ -46,59 +78,48 @@ if ($dataPerusahaan["provinsi"]) {
   <div class="flex flex-1 relative">
     <?= renderSidebar([
       ['icon' => 'home', 'label' => 'Dashboard', 'url' => '#dashboard'],
-      ['icon' => 'user', 'label' => 'Profil', 'url' => '#formProfil'],
+      ['icon' => 'user', 'label' => 'Profil', 'url' => '#profil'],
       ['icon' => 'file-contract', 'label' => 'Input Lowongan', 'url' => '#input-lowongan'],
       ['icon' => 'envelope', 'label' => 'Lihat Pelamar', 'url' => '#lihat-pelamar'],
-
-    ]);
-    ?>
+    ]); ?>
 
     <section class="bg-[#1d222efb] w-full flex flex-col items-center">
-      <div id="dashboard" class="menu w-full  h-[572px] overflow-y-auto flex-col items-center justify-center">
-        <!-- Jika lowongan kosong -->
-        <!-- <div class="flex flex-col items-center justify-center text-white w-full h-full">
-          <p>Anda belum mengupload lowongan apapun. </p>
-          <p>Upload lowongan anda disini..</p>
-          <a href="#input-lowongan"
-            class="px-5 py-2 rounded-md bg-[rgb(61,99,221)] text-white font-semibold  hover:bg-[rgb(27,61,173)] cursor-pointer">Input
-            Lowongan</a>
-        </div> -->
+      <div id="dashboard" class="menu w-full h-[572px] overflow-y-auto flex-col items-center justify-center">
+        <?php
+        $idPerusahaan = $dataPerusahaan['id_perusahaan'];
+        $lowongans = mysqli_query($connect, "SELECT * FROM lowongan WHERE id_perusahaan = '$idPerusahaan'");
+        ?>
 
-        <div class="flex flex-wrap w-full h-full" style="justify-content: space-evenly;">
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
+        <div class="w-full h-full flex flex-wrap justify-evenly items-start">
+          <?php if (mysqli_num_rows($lowongans) === 0) : ?>
+            <div class="flex flex-col items-center justify-center text-white w-full h-full">
+              <p>Anda belum mengupload lowongan apapun.</p>
+              <p>Upload lowongan anda disini..</p>
+              <a href="#input-lowongan"
+                class="px-5 py-2 rounded-md bg-[rgb(61,99,221)] text-white font-semibold hover:bg-[rgb(27,61,173)] cursor-pointer">
+                Input Lowongan
+              </a>
+            </div>
+          <?php else : ?>
+            <?php while ($l = mysqli_fetch_assoc($lowongans)) : ?>
+              <?= cardLowongan($connect, $l) ?>
+            <?php endwhile; ?>
+          <?php endif; ?>
         </div>
       </div>
 
-      <form action="/api/form/handle-perusahaan-profile.php" method="POST" class="menu w-full flex-col items-end max-h-[572px] overflow-y-auto" id="formProfil" enctype="multipart/form-data">
+      <form class="menu w-full flex-col items-end max-h-[572px] overflow-y-auto" id="profil" method="POST" enctype="multipart/form-data">
         <div class="flex w-full p-5">
           <!-- Form kiri -->
           <div class="flex-2 w-2/3">
             <div class="flex flex-col px-5 py-2">
               <label class="text-white font-bold">Nama Perusahaan</label>
-              <input type="text" name="nama_perusahaan"
-                value="<?= isset($dataPerusahaan['nama_perusahaan']) ? $dataPerusahaan['nama_perusahaan'] : '' ?>"
-                class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
+              <input type="text" name="nama_perusahaan" value="<?= $dataPerusahaan['nama_perusahaan'] ?>" class="bg-[#e8f0fe] rounded-[10px] shadow-sm focus:outline-none" />
             </div>
 
             <div class="flex flex-col px-5 py-2">
               <label class="text-white font-bold">Email</label>
-              <input
-                value="<?= $email ?>"
-                disabled
-                type="email"
-                name="email_perusahaan"
-                class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
+              <input type="email" name="email_perusahaan" value="<?= $dataPerusahaan['email_perusahaan'] ?>" class="bg-[#e8f0fe] rounded-[10px] shadow-sm focus:outline-none" />
             </div>
 
             <div class="flex flex-col px-5 py-2">
@@ -112,31 +133,26 @@ if ($dataPerusahaan["provinsi"]) {
               <div class="flex-1">
                 <div class="flex flex-col px-5 py-2">
                   <label class="text-white font-bold">Provinsi</label>
-                  <select name="provinsi" class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none">
-                    <?php
-                    $name = $provinsi["name"];
-                    $id = $provinsi["id"];
-                    if ($provinsi) {
-                      echo "<option value='$id' selected>$name $id</option>";
-                    } else {
-                      echo "<option>Pilih Provinsi</option>";
-                    }
-                    ?>
+                  <select name="provinsi" class="bg-[#e8f0fe] rounded-[10px] shadow-sm focus:outline-none">
+                    <option disabled <?= $dataPerusahaan['provinsi'] == '' ? 'selected' : '' ?>>Pilih Provinsi</option>
+                    <option <?= $dataPerusahaan['provinsi'] == 'Bangka Belitung' ? 'selected' : '' ?>>Bangka Belitung</option>
+                    <option <?= $dataPerusahaan['provinsi'] == 'DKI Jakarta' ? 'selected' : '' ?>>DKI Jakarta</option>
+                    <option <?= $dataPerusahaan['provinsi'] == 'Jawa Barat' ? 'selected' : '' ?>>Jawa Barat</option>
+                    <option <?= $dataPerusahaan['provinsi'] == 'Jawa Tengah' ? 'selected' : '' ?>>Jawa Tengah</option>
+                    <option <?= $dataPerusahaan['provinsi'] == 'Jawa Timur' ? 'selected' : '' ?>>Jawa Timur</option>
                   </select>
                 </div>
+
                 <div class="flex flex-col px-5 py-2">
                   <label class="text-white font-bold">Kabupaten</label>
-                  <select name="kabupaten" class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none">
-                    <option>Pilih Kabupaten</option>
-                    <?php
-                    $name = $kabupaten["name"];
-                    $id = $kabupaten["id"];
-                    if ($kabupaten) {
-                      echo "<option value='$id' selected>$name</option>";
-                    } else {
-                      echo "<option>Pilih Kabupaten</option>";
-                    }
-                    ?>
+                  <select name="kabupaten" class="bg-[#e8f0fe] rounded-[10px] shadow-sm focus:outline-none">
+                    <option disabled <?= $dataPerusahaan['kabupaten'] == '' ? 'selected' : '' ?>>Pilih Kabupaten</option>
+                    <option <?= $dataPerusahaan['kabupaten'] == 'Pangkal Pinang' ? 'selected' : '' ?>>Pangkal Pinang</option>
+                    <option <?= $dataPerusahaan['kabupaten'] == 'Bangka' ? 'selected' : '' ?>>Bangka</option>
+                    <option <?= $dataPerusahaan['kabupaten'] == 'Belitung' ? 'selected' : '' ?>>Belitung</option>
+                    <option <?= $dataPerusahaan['kabupaten'] == 'Bandung' ? 'selected' : '' ?>>Bandung</option>
+                    <option <?= $dataPerusahaan['kabupaten'] == 'Semarang' ? 'selected' : '' ?>>Semarang</option>
+                    <option <?= $dataPerusahaan['kabupaten'] == 'Surabaya' ? 'selected' : '' ?>>Surabaya</option>
                   </select>
                 </div>
               </div>
@@ -144,39 +160,35 @@ if ($dataPerusahaan["provinsi"]) {
               <div class="flex-1">
                 <div class="flex flex-col px-5 py-2">
                   <label class="text-white font-bold">Kecamatan</label>
-                  <select name="kecamatan" class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none">
-                    <?php
-                    $name = $kecamatan["name"];
-                    $id = $kecamatan["id"];
-                    if ($kecamatan) {
-                      echo "<option value='$id' selected>$name</option>";
-                    } else {
-                      echo "<option>Pilih Kecamatan</option>";
-                    }
-                    ?>
+                  <select name="kecamatan" class="bg-[#e8f0fe] rounded-[10px] shadow-sm focus:outline-none">
+                    <option disabled <?= $dataPerusahaan['kecamatan'] == '' ? 'selected' : '' ?>>Pilih Kecamatan</option>
+                    <option <?= $dataPerusahaan['kecamatan'] == 'Gerunggang' ? 'selected' : '' ?>>Gerunggang</option>
+                    <option <?= $dataPerusahaan['kecamatan'] == 'Taman Sari' ? 'selected' : '' ?>>Taman Sari</option>
+                    <option <?= $dataPerusahaan['kecamatan'] == 'Bukit Intan' ? 'selected' : '' ?>>Bukit Intan</option>
+                    <option <?= $dataPerusahaan['kecamatan'] == 'Cibiru' ? 'selected' : '' ?>>Cibiru</option>
+                    <option <?= $dataPerusahaan['kecamatan'] == 'Tegalsari' ? 'selected' : '' ?>>Tegalsari</option>
                   </select>
                 </div>
+
                 <div class="flex flex-col px-5 py-2">
                   <label class="text-white font-bold">Desa</label>
-                  <input type="text" name="desa"
-                    value="<?= isset($dataPerusahaan['desa']) ? $dataPerusahaan['desa'] : '' ?>"
-                    class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
+                  <input type="text" name="desa" value="<?= $dataPerusahaan['desa'] ?>" class="bg-[#e8f0fe] rounded-[10px] shadow-sm focus:outline-none" />
                 </div>
               </div>
             </div>
           </div>
 
+
           <!-- Form kanan -->
           <div class="flex-1 mx-5 my-2">
             <label class="text-white font-bold">Logo Perusahaan</label>
-            <div id="preview-box"
-              class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none border-2 border-dashed border-gray-400 h-[400px] shadow-sm flex justify-center items-center overflow-hidden relative">
-              <input
-                type="file"
-                id="upload-profil"
-                name="logo"
-                class="absolute scale-[13] translate-x-[100px] opacity-0 cursor-pointer" />
-              <i class="fa-solid fa-image text-[36px] text-gray-600" id="icon-preview"></i>
+            <div class="bg-[#e8f0fe] rounded-[20px] border-2 border-dashed border-gray-400 h-[400px] shadow-sm flex justify-center items-center overflow-hidden relative">
+              <input type="file" name="logo" class="absolute scale-[13] translate-x-[100px] opacity-0 cursor-pointer" />
+              <?php if (!empty($dataPerusahaan['logo_perusahaan'])): ?>
+                <img src="../../uploads/logo/<?= $dataPerusahaan['logo_perusahaan'] ?>" alt="Logo" class="object-contain h-full" />
+              <?php else: ?>
+                <i class="fa-solid fa-image text-[36px] text-gray-600"></i>
+              <?php endif; ?>
             </div>
           </div>
 
@@ -344,7 +356,9 @@ if ($dataPerusahaan["provinsi"]) {
 
       </form>
 
-      <form action="tambah-lowongan.php" method="POST" id="input-lowongan" enctype="multipart/form-data" class="menu w-full max-h-[572px] overflow-y-auto flex-col items-end">
+
+      <form action="input_lowongan.php" method="POST" enctype="multipart/form-data" id="input-lowongan" class="menu w-full max-h-[572px] overflow-y-auto flex-col items-end">
+
         <div class="flex flex-col w-full p-5">
           <input type="hidden" name="id_perusahaan" value="<?= $dataPerusahaan['id_perusahaan'] ?>">
 
@@ -434,7 +448,7 @@ if ($dataPerusahaan["provinsi"]) {
               Tambah Dokumen Persyaratan
             </h2>
 
-            <table class="w-full">
+            <table id="dokumen-table" class="w-full">
               <thead>
                 <tr>
                   <th></th>
@@ -442,12 +456,11 @@ if ($dataPerusahaan["provinsi"]) {
                   <th class="text-start px-[15px] py-[10px]">Jenis File</th>
                 </tr>
               </thead>
-
-              <tbody id="document-container">
-                <tr class="row-document">
+              <tbody>
+                <tr class="dokumen-row">
                   <td class="w-[35px]">
-                    <button type="button" class="button-document border w-[30px] h-[30px] rounded-full flex items-center justify-center">
-                      <i class="fa-solid fa-minus"></i>
+                    <button type="button" class="btn-toggle border w-[30px] h-[30px] rounded-full flex items-center justify-center bg-white text-black">
+                      <i class="fa-solid fa-plus"></i>
                     </button>
                   </td>
                   <td class="px-[15px] py-[10px]">
@@ -478,6 +491,7 @@ if ($dataPerusahaan["provinsi"]) {
             Upload Lowongan
           </button>
         </div>
+
       </form>
 
       <div id="lihat-pelamar" class="menu w-full max-h-[572px] overflow-y-auto flex-col p-5">
@@ -487,50 +501,44 @@ if ($dataPerusahaan["provinsi"]) {
           <thead class="bg-[#d3cfcf]">
             <tr class="text-center">
               <th class="p-[10px]">ID Lowongan</th>
-              <th class="p-[10px]">ID Peserta</th>
+              <th class="p-[10px]">ID Pelamar</th>
               <th class="p-[10px]">Tanggal</th>
               <th class="p-[10px]">Jam</th>
               <th class="p-[10px]">Status</th>
+              <th class="p-[10px]">detail pelamar</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="text-center border-y border-gray-400">
-              <td class="p-[10px]">1</td>
-              <td class="p-[10px]">1</td>
-              <td class="p-[10px]">12/06/2025</td>
-              <td class="p-[10px]">09.24</td>
-              <td class="p-[10px]">
-                <a href="./data-pelamar/"
-                  class="px-[14px] py-[6px] text-white text-[13px] font-bold rounded-[20px] bg-red-400 inline-block">
-                  Menunggu
-                </a>
-              </td>
-            </tr>
-            <tr class="text-center border-y border-gray-400">
-              <td class="p-[10px]">2</td>
-              <td class="p-[10px]">2</td>
-              <td class="p-[10px]">23/01/2024</td>
-              <td class="p-[10px]">21.09</td>
-              <td class="p-[10px]">
-                <span
-                  class="px-[14px] py-[6px] text-white text-[13px] font-bold rounded-[20px] bg-emerald-400 inline-block">
-                  Disetujui
-                </span>
-              </td>
-            </tr>
-            <tr class="text-center border-y border-gray-400">
-              <td class="p-[10px]">1</td>
-              <td class="p-[10px]">3</td>
-              <td class="p-[10px]">02/11/2024</td>
-              <td class="p-[10px]">13.10</td>
-              <td class="p-[10px]">
-                <span
-                  class="px-[14px] py-[6px] text-white text-[13px] font-bold rounded-[20px] bg-emerald-400 inline-block">
-                  Disetujui
-                </span>
-              </td>
-            </tr>
+            <?php
+            $query = "SELECT * FROM lamaran ORDER BY tanggal DESC";
+            $result = mysqli_query($connect, $query);
+
+            while ($row = mysqli_fetch_assoc($result)) :
+            ?>
+              <tr class="text-center border-y border-gray-400">
+                <td class="p-[10px]"><?= $row['id_lowongan'] ?></td>
+                <td class="p-[10px]"><?= $row['id_peserta'] ?></td>
+                <td class="p-[10px]"><?= date('d/m/Y', strtotime($row['tanggal'])) ?></td>
+                <td class="p-[10px]"><?= date('H.i', strtotime($row['jam'])) ?></td>
+                <td class="p-[10px]">
+                  <form method="POST" action="function/get_lamaran.php">
+                    <input type="hidden" name="id_lamaran" value="<?= $row['id_lamaran'] ?>">
+                    <select name="status" onchange="this.form.submit()">
+                      <option value="Menunggu" <?= $row['status'] == 'Menunggu' ? 'selected' : '' ?>>Menunggu</option>
+                      <option value="Disetujui" <?= $row['status'] == 'Disetujui' ? 'selected' : '' ?>>Disetujui</option>
+                      <option value="Ditolak" <?= $row['status'] == 'Ditolak' ? 'selected' : '' ?>>Ditolak</option>
+                    </select>
+                  </form>
+
+                <td class="p-[10px]"><a href="data-pelamar/index.php?id_lamaran=<?= $row['id_lamaran'] ?>">detail</a></td>
+
+
+                </td>
+              </tr>
+            <?php endwhile; ?>
           </tbody>
+
+
         </table>
       </div>
 
@@ -538,7 +546,7 @@ if ($dataPerusahaan["provinsi"]) {
     </section>
 
   </div>
-
+  <script src="../../assets/js/dashboard.js"></script>
   <script>
     function updateEventListeners() {
       const rowDocument = document.querySelectorAll('.row-document');
@@ -594,7 +602,8 @@ if ($dataPerusahaan["provinsi"]) {
       document.getElementById('rows').value = document.querySelectorAll('.row-document').length;
     });
   </script>
-  <script src="../../assets/js/dashboard.js"></script>
+
+
 </body>
 
 </html>

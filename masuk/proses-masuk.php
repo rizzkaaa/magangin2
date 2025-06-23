@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'id_user' => $dataUser['id_user'],
                 'email' => $dataUser['email'],
                 'role' => $dataUser['role'],
+                'profil' => $dataUser['profil'],
             ];
 
             switch ($dataUser['role']) {

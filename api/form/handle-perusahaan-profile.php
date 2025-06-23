@@ -35,6 +35,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (move_uploaded_file($file_tmp, $file_path)) {
             $logo_nama = $file_name;
+
+            $path = "/assets/img/perusahaan/$file_name";
+            $sql = "UPDATE users SET profil = '$path', updated_at = CURRENT_TIMESTAMP WHERE id_user = '$idUser'";
+
+            // Eksekusi query
+            if (mysqli_query($connect, $sql)) {
+                $_SESSION['profil'] = $path;
+            } else {
+                echo "Gagal update profil: " . mysqli_error($connect);
+            }
         } else {
             http_response_code(500);
             echo json_encode(['error' => 'Gagal upload logo']);

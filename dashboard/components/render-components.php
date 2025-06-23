@@ -26,7 +26,9 @@ function renderHeader($nama, $email, $quote)
         <h4 class="font-semibold text-[18px]"><?php echo $nama ?></h4>
         <p class="text-sm"><?php echo $email ?></p>
       </div>
-      <img src="../../assets/img/default.jpeg" alt="Foto Profil" class="w-[50px] h-[50px] rounded-full object-cover">
+      <img 
+      src=<?= isset($_SESSION['profil']) ? $_SESSION['profil'] : "/assets/img/default.jpeg" ?>
+      alt="Foto Profil" class="w-[50px] h-[50px] rounded-full object-cover">
     </div>
   </header>
 <?php
