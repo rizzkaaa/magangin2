@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     <?php else : ?>
                         <?php while ($l = mysqli_fetch_assoc($lowongans)) : ?>
-                            <?= cardLowongan($l) ?>
+                            <?= cardLowongan($l) ?> 
                         <?php endwhile; ?>
                     <?php endif; ?>
                 </div>
