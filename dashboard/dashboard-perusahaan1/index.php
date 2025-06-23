@@ -237,43 +237,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <script>
-          // document.getElementById('formProfil').addEventListener('submit', async function(e) {
-          //   e.preventDefault();
+          document.getElementById('formProfil').addEventListener('submit', async function(e) {
+            e.preventDefault();
 
-          //   const form = e.target;
-          //   const formData = new FormData(form);
+            const form = e.target;
+            const formData = new FormData(form);
 
-          //   try {
-          //     console.log("helooo");
+            try {
+              console.log("helooo");
 
-          //     const response = await fetch('/api/form/handle-perusahaan-profile.php', {
-          //       method: 'POST',
-          //       body: formData,
-          //     });
+              const response = await fetch('/api/form/handle-perusahaan-profile.php', {
+                method: 'POST',
+                body: formData,
+              });
 
 
-          //     if (response.redirected) {
-          //       window.location.href = response.url; // Handle redirect jika sukses/error
-          //       return;
-          //     }
+              if (response.redirected) {
+                window.location.href = response.url; // Handle redirect jika sukses/error
+                return;
+              }
 
-          //     console.log(response);
-          //     const result = await response.json();
-          //     console.log(result);
+              console.log(response);
+              const result = await response.json();
+              console.log(result);
 
-          //     if (result.status === 'no_changes') {
-          //       alert(result.message);
-          //     } else if (result.error) {
-          //       alert('Error: ' + result.error);
-          //     } else {
-          //       alert('Profil berhasil diperbarui.');
-          //     }
+              if (result.status === 'no_changes') {
+                alert(result.message);
+              } else if (result.error) {
+                alert('Error: ' + result.error);
+              } else {
+                alert('Profil berhasil diperbarui.');
+              }
 
-          //   } catch (error) {
-          //     console.error('Gagal mengirim data:', error);
-          //     alert('Terjadi kesalahan saat mengirim data.');
-          //   }
-          // });
+            } catch (error) {
+              console.error('Gagal mengirim data:', error);
+              alert('Terjadi kesalahan saat mengirim data.');
+            }
+          });
 
           // 🔽 Muat data provinsi
           async function loadProvinsis(provinsiId) {
