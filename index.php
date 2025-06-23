@@ -1443,40 +1443,38 @@
     <div class="side">
       <div>
         <div class="logo">
-          <a href="#"><img src="./asset/iq-bimbel.png" alt="IQ-Bimbel"></a>
-          <div class="judul">Insight & Quality</div>
+          <a href="#"><img src="./assets/img/logo.png" alt="Magangin Aja"></a>
+          <div class="judul">Magangin Aja</div>
         </div>
-        <p>Bersama IQ Bimbel, belajar jadi lebih mudah, nyaman, dan menyenangkan!
-          Dengan pengajar berpengalaman, fasilitas modern, dan metode belajar interaktif, kami siap
-          membantu siswa SD, SMP, dan SMA mencapai prestasi terbaiknya.</p>
+        <p>Magangin adalah platform digital yang menghubungkan mahasiswa dengan perusahaan untuk menemukan tempat magang impian mereka secara mudah, cepat, dan terpercaya.</p>
 
-        <h4>Alamat:</h4>
+        <h4  class="text-white">Alamat:</h4>
         <p>Jl. Jalan Raya, Kec. Sungailiat, Kabupaten Bangka, Kepulauan Bangka Belitung 11233</p>
       </div>
       <div>
-        <h4>Tautan Cepat</h4>
+        <h4 class="text-white">Tautan Cepat</h4>
         <ul>
           <li><a href="#">Beranda</a></li>
-          <li><a href="./#tentang-kami">Tentang Kami</a></li>
-          <li><a href="./#testimonie">Apa Kata Mereka?</a></li>
+          <li><a href="./#tentang">Tentang Kami</a></li>
+          <li><a href="./#lowongan">Lowongan</a></li>
+          <li><a href="./#perusahaan">Perusahaan</a></li>
+          <li><a href="./#kontak">Hubungi Kamu</a></li>
           <li><a href="./#faq">FAQ</a></li>
-          <li><a href="./daftar/">Register</a></li>
-          <li><a href="./masuk/">Login</a></li>
         </ul>
       </div>
       <div>
-        <h4>Paket Belajar</h4>
+        <h4 class="text-white">Masuk Ke Magangin</h4>
         <ul>
-          <li><a href="./#paket-a">Paket A</a></li>
-          <li><a href="./#paket-b">Paket B</a></li>
-          <li><a href="./#paket-c">Paket C</a></li>
+          <li><a href="/masuk/">Masuk Sebagai Mahasiswa</a></li>
+          <li><a href="/masuk/">Masuk Sebagai Dosen</a></li>
+          <li><a href="/masuk/">Masuk Sebagai Perusahaan</a></li>
         </ul>
       </div>
       <div>
-        <h4>Hubungi Kami</h4>
+        <h4 class="text-white">Hubungi Kami</h4>
         <ul>
           <li>+628 1234-5678</li>
-          <li>insghtnqualitybimbel@gmail.com</li>
+          <li>info@magangin.com</li>
           <li>Kru Kami</li>
         </ul>
       </div>
