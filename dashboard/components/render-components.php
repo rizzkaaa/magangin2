@@ -273,6 +273,8 @@ function profilMahasiswa($connect, $id_mhs)
           $id = $kabupaten["id"];
           if ($kabupaten) {
             echo "<option value='$id' selected>$name</option>";
+          } else {
+            echo "<option>Pilih Kabupaten</option>";
           }
           ?>
         </select>
@@ -289,6 +291,8 @@ function profilMahasiswa($connect, $id_mhs)
           $id = $kecamatan["id"];
           if ($kecamatan) {
             echo "<option value='$id' selected>$name</option>";
+          }else {
+            echo "<option>Pilih Kecamatan</option>";
           }
           ?>
         </select>
