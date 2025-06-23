@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Jun 23, 2025 at 11:25 AM
+-- Generation Time: Jun 23, 2025 at 12:54 PM
 -- Server version: 8.0.42
 -- PHP Version: 8.2.27
 
@@ -7816,7 +7816,7 @@ CREATE TABLE `lowongan` (
   `posisi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `kuota` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `lokasi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gender` enum('Perempuan','Laki-laki') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `jenis_kelamin` enum('Perempuan','Laki-laki') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `rentang_usia` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `mulai_magang` date DEFAULT NULL,
   `selesai_magang` date DEFAULT NULL,
@@ -7830,10 +7830,15 @@ CREATE TABLE `lowongan` (
 -- Dumping data for table `lowongan`
 --
 
-INSERT INTO `lowongan` (`id_lowongan`, `id_perusahaan`, `banner`, `judul`, `deskripsi`, `posisi`, `kuota`, `lokasi`, `gender`, `rentang_usia`, `mulai_magang`, `selesai_magang`, `deadline_apply`, `uang_saku`, `created_at`, `updated_at`) VALUES
+INSERT INTO `lowongan` (`id_lowongan`, `id_perusahaan`, `banner`, `judul`, `deskripsi`, `posisi`, `kuota`, `lokasi`, `jenis_kelamin`, `rentang_usia`, `mulai_magang`, `selesai_magang`, `deadline_apply`, `uang_saku`, `created_at`, `updated_at`) VALUES
+('2FiDFt4E', 'ZzzYtVrq', NULL, 'yuyu', 'yu', 'yuyy', 'yuyu', 'yu', 'Laki-laki', 'uyiy', '4455-04-01', '2025-06-18', '2025-06-25', 'uyi', '2025-06-23 12:23:07', '2025-06-23 12:23:07'),
+('GV5Ynw9n', 'ZzzYtVrq', '54_Screenshot from 2025-03-14 20-04-34.png', 'yuyu', 'yu', 'yu', 'yu', 'yu', 'Laki-laki', 'yu', '2025-06-27', '2025-07-05', '2025-07-08', 'yu', '2025-06-23 12:34:13', '2025-06-23 12:34:13'),
+('jhSL1zBS', 'ZzzYtVrq', '44_Screenshot from 2025-03-14 20-04-34.png', 'yuyu', 'yu', 'yu', 'yu', 'yu', 'Laki-laki', 'yu', '2025-06-27', '2025-07-05', '2025-07-08', 'yu', '2025-06-23 12:34:02', '2025-06-23 12:34:02'),
 ('LOW001', 'MS2GR7wb', 'banner1.jpg', 'Magang Frontend Developer', 'Bergabung bersama tim IT untuk membangun antarmuka pengguna.', 'Frontend Developer', '5', 'Jakarta', 'Laki-laki', '20-25', '2025-07-01', '2025-12-01', '2025-06-30', '1.500.000', '2025-06-22 05:35:46', '2025-06-22 05:35:46'),
 ('LOW002', 'MS2GR7wb', 'banner2.jpg', 'Magang Digital Marketing', 'Belajar strategi pemasaran digital bersama tim profesional.', 'Digital Marketer', '3', 'Bandung', 'Perempuan', '19-24', '2025-08-15', '2026-02-15', '2025-07-31', '1.200.000', '2025-06-22 05:35:46', '2025-06-22 05:35:46'),
-('LOW003', 'MS2GR7wb', 'banner3.jpg', 'Magang UI/UX Designer', 'Ikut dalam proyek desain aplikasi mobile dan website.', 'UI/UX Designer', '4', 'Surabaya', 'Perempuan', '21-26', '2025-07-20', '2025-11-20', '2025-07-10', '1.800.000', '2025-06-22 05:35:46', '2025-06-22 05:35:46');
+('LOW003', 'MS2GR7wb', 'banner3.jpg', 'Magang UI/UX Designer', 'Ikut dalam proyek desain aplikasi mobile dan website.', 'UI/UX Designer', '4', 'Surabaya', 'Perempuan', '21-26', '2025-07-20', '2025-11-20', '2025-07-10', '1.800.000', '2025-06-22 05:35:46', '2025-06-22 05:35:46'),
+('luaf8Fjt', 'ZzzYtVrq', NULL, 'yuyu', 'ty', 'ty', 'ty', 'ty', 'Laki-laki', 'ty', '2025-07-03', '2025-07-03', '2025-06-24', 'ty', '2025-06-23 12:25:52', '2025-06-23 12:25:52'),
+('SzP00MAB', 'ZzzYtVrq', '29_Screenshot from 2025-03-14 20-04-34.png', 'yuyu', 'yu', 'yu', 'yu', 'yu', 'Laki-laki', 'yu', '2025-06-27', '2025-07-05', '2025-07-08', 'yu', '2025-06-23 12:33:40', '2025-06-23 12:33:40');
 
 -- --------------------------------------------------------
 
@@ -7944,7 +7949,8 @@ CREATE TABLE `perusahaan` (
 --
 
 INSERT INTO `perusahaan` (`id_perusahaan`, `id_user`, `logo`, `nama_perusahaan`, `alamat`, `email_perusahaan`, `provinsi`, `kabupaten`, `kecamatan`, `desa`, `created_at`, `updated_at`) VALUES
-('MS2GR7wb', 'YgVUeIHi', NULL, 'Sella', NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-21 06:34:27', '2025-06-21 06:34:27');
+('MS2GR7wb', 'YgVUeIHi', NULL, 'Sella', NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-21 06:34:27', '2025-06-21 06:34:27'),
+('ZzzYtVrq', 'YCCabcwa', NULL, 'PT ABC', NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-23 11:28:51', '2025-06-23 11:28:51');
 
 -- --------------------------------------------------------
 
@@ -8025,6 +8031,7 @@ INSERT INTO `users` (`id_user`, `email`, `password`, `role`, `created_at`, `upda
 ('9KvCiiTv', '122@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'dosen', '2025-06-23 11:24:56', '2025-06-23 11:24:56'),
 ('CS9FBvg1', 'mingvltn144@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'mahasiswa', '2025-06-21 05:24:40', '2025-06-21 05:24:40'),
 ('NfYTGOGW', 'ming@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'dosen', '2025-06-21 06:19:59', '2025-06-21 06:19:59'),
+('YCCabcwa', 'abc@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'perusahaan', '2025-06-23 11:28:51', '2025-06-23 11:28:51'),
 ('YgVUeIHi', 'sella@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'perusahaan', '2025-06-21 06:34:27', '2025-06-21 06:34:27');
 
 --
