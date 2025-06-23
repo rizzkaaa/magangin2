@@ -53,7 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['rows'])) {
         $jumlah = $_POST['rows'];
 
-        var_dump($_POST);
         for ($i = 0; $i < $jumlah; $i++) {
             $nama_dokumen = $_POST["dokumen" . $i];
             $type = $_POST["type" . $i];
@@ -63,8 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             mysqli_query($connect, $query) or die(mysqli_error($connect));
         }
     }
-
-
 
     if ($insertLowongan) {
         header("Location: ./#input-lowongan");

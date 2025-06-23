@@ -22,6 +22,8 @@ if ($dataPerusahaan["provinsi"]) {
   $idkecamatan =  $dataPerusahaan["kecamatan"];
   $kecamatan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM `kecamatans` WHERE id = '$idkecamatan'"));
 }
+
+$id_perusahaan = $dataPerusahaan['id_perusahaan'];
 ?>
 
 <!DOCTYPE html>
@@ -346,7 +348,7 @@ if ($dataPerusahaan["provinsi"]) {
 
       <form action="tambah-lowongan.php" method="POST" id="input-lowongan" enctype="multipart/form-data" class="menu w-full max-h-[572px] overflow-y-auto flex-col items-end">
         <div class="flex flex-col w-full p-5">
-          <input type="hidden" name="id_perusahaan" value="<?= $dataPerusahaan['id_perusahaan'] ?>">
+          <input type="hidden" name="id_perusahaan" value="<?= $id_perusahaan ?>">
 
           <div class="flex w-full">
             <div class="flex-1 px-5 py-2">
@@ -485,50 +487,43 @@ if ($dataPerusahaan["provinsi"]) {
         <table class="bg-white my-5 rounded-[20px] w-full shadow-sm overflow-hidden">
           <thead class="bg-[#d3cfcf]">
             <tr class="text-center">
-              <th class="p-[10px]">ID Lowongan</th>
-              <th class="p-[10px]">ID Peserta</th>
-              <th class="p-[10px]">Tanggal</th>
-              <th class="p-[10px]">Jam</th>
+              <th class="p-[10px]">Lowongan</th>
+              <th class="p-[10px]">Mahasiswa</th>
+              <th class="p-[10px]">Waktu Apply</th>
               <th class="p-[10px]">Status</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="text-center border-y border-gray-400">
-              <td class="p-[10px]">1</td>
-              <td class="p-[10px]">1</td>
-              <td class="p-[10px]">12/06/2025</td>
-              <td class="p-[10px]">09.24</td>
-              <td class="p-[10px]">
-                <a href="./data-pelamar/"
-                  class="px-[14px] py-[6px] text-white text-[13px] font-bold rounded-[20px] bg-red-400 inline-block">
-                  Menunggu
-                </a>
-              </td>
-            </tr>
-            <tr class="text-center border-y border-gray-400">
-              <td class="p-[10px]">2</td>
-              <td class="p-[10px]">2</td>
-              <td class="p-[10px]">23/01/2024</td>
-              <td class="p-[10px]">21.09</td>
-              <td class="p-[10px]">
-                <span
-                  class="px-[14px] py-[6px] text-white text-[13px] font-bold rounded-[20px] bg-emerald-400 inline-block">
-                  Disetujui
-                </span>
-              </td>
-            </tr>
-            <tr class="text-center border-y border-gray-400">
-              <td class="p-[10px]">1</td>
-              <td class="p-[10px]">3</td>
-              <td class="p-[10px]">02/11/2024</td>
-              <td class="p-[10px]">13.10</td>
-              <td class="p-[10px]">
-                <span
-                  class="px-[14px] py-[6px] text-white text-[13px] font-bold rounded-[20px] bg-emerald-400 inline-block">
-                  Disetujui
-                </span>
-              </td>
-            </tr>
+            <?php
+            $dataPelamar = mysqli_query($connect, "SELECT a.*, b.nama, c.judul FROM `detail_apply` a INNER JOIN mahasiswa b ON a.id_mhs=b.id_mhs INNER JOIN lowongan c ON a.id_lowongan=c.id_lowongan WHERE c.id_perusahaan='$id_perusahaan';");
+            if (mysqli_num_rows($dataPelamar) > 0) {
+              while ($rowPelamar = mysqli_fetch_assoc($dataPelamar)) {
+            ?>
+                <tr class="text-center border-y border-gray-400">
+                  <td class="p-[10px]"><?= $rowPelamar['judul'] ?></td>
+                  <td class="p-[10px]"><?= $rowPelamar['nama'] ?></td>
+                  <td class="p-[10px]"><?= $rowPelamar['waktu_apply'] ?></td>
+                  <td class="p-[10px]">
+                    <?php
+                    if ($rowPelamar['status']  == 'Menunggu') {
+                    ?>
+                      <a href="./data-pelamar/?id_mhs=<?=$rowPelamar['id_mhs']?>&&?id_lowongan=<?=$rowPelamar['id_lowongan']?>"
+                        class="px-[14px] py-[6px] text-white text-[13px] font-bold rounded-[20px] bg-red-400 inline-block">
+                        Menunggu
+                      </a>
+                    <?php } else { ?>
+                      <span class="px-[14px] py-[6px] text-white text-[13px] font-bold rounded-[20px] bg-emerald-400 inline-block">
+                        Disetujui
+                      </span>
+                    <?php } ?>
+                  </td>
+                </tr>
+              <?php }
+            } else { ?>
+              <tr class="text-center border-y border-gray-400">
+                <td colspan="5" class="p-[10px]">Tidak ada data</td>
+              </tr>
+            <?php } ?>
           </tbody>
         </table>
       </div>
