@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,10 +37,12 @@
             }
         }
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
 </head>
+
 <body class="bg-gray-50 min-h-screen">
     <div class="container mx-auto px-4 py-8">
+        
         <!-- Header -->
         <header class="mb-8 text-center">
             <h1 class="text-3xl font-bold text-indigo-700 mb-2">Daftar Lamaran Kerja</h1>
@@ -52,27 +55,17 @@
                 <div class="flex-1 min-w-[200px]">
                     <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Cari Posisi</label>
                     <div class="relative">
-                        <input type="text" id="search" placeholder="Nama posisi atau perusahaan" 
+                        <input type="text" id="search" placeholder="Nama posisi atau perusahaan"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                         <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
                     </div>
                 </div>
+
                 
-                <div class="flex-1 min-w-[200px]">
-                    <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status Lamaran</label>
-                    <select id="status" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                        <option value="all">Semua Status</option>
-                        <option value="pending">Pending</option>
-                        <option value="review">Dalam Review</option>
-                        <option value="interview">Wawancara</option>
-                        <option value="test">Technical Test</option>
-                        <option value="accepted">Diterima</option>
-                        <option value="rejected">Ditolak</option>
-                    </select>
-                </div>
-                
+
                 <div class="mt-6">
-                    <button id="reset-btn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+                    <button id="reset-btn"
+                        class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
                         Reset Filter
                     </button>
                 </div>
@@ -93,121 +86,44 @@
                 Cari Lowongan
             </button>
         </div>
+        
     </div>
 
     <script>
         // Sample application data with more realistic entries
-        const applications = [
-            {
-                id: 1,
-                position: "Frontend Developer",
-                company: "PT Tech Solusi Indonesia",
-                date: "15 Juni 2023",
-                status: "pending",
-                logo: "https://logo.clearbit.com/pttechsolusi.com",
-                notes: "Menunggu konfirmasi wawancara"
-            },
-            {
-                id: 2,
-                position: "UI/UX Designer",
-                company: "Digital Kreatif Studio",
-                date: "10 Juni 2023",
-                status: "review",
-                logo: "https://logo.clearbit.com/digitalkreatif.com",
-                notes: "Sedang dalam tahap review portofolio"
-            },
-            {
-                id: 3,
-                position: "Backend Engineer (Node.js)",
-                company: "Cloud Sys Solutions",
-                date: "5 Juni 2023",
-                status: "accepted",
-                logo: "https://logo.clearbit.com/cloudsys.com",
-                notes: "Diterima, mulai bekerja 1 Juli"
-            },
-            {
-                id: 4,
-                position: "Data Analyst",
-                company: "Big Data Analytics",
-                date: "20 Mei 2023",
-                status: "rejected",
-                logo: "https://logo.clearbit.com/bigdataanalytics.co.id",
-                notes: "Tidak memenuhi kualifikasi teknis"
-            },
-            {
-                id: 5,
-                position: "Product Manager",
-                company: "Inovasi Digital Nusantara",
-                date: "12 Juni 2023",
-                status: "interview",
-                logo: "https://logo.clearbit.com/inovasidigital.id",
-                notes: "Tahap wawancara kedua minggu depan"
-            },
-            {
-                id: 6,
-                position: "Mobile Developer (Flutter)",
-                company: "App Genius",
-                date: "8 Juni 2023",
-                status: "test",
-                logo: "https://logo.clearbit.com/appgenius.co",
-                notes: "Technical test akan dikirim via email"
-            },
-            {
-                id: 7,
-                position: "DevOps Engineer",
-                company: "Infra Cloud Indonesia",
-                date: "3 Juni 2023",
-                status: "review",
-                logo: "https://logo.clearbit.com/infracloud.id",
-                notes: "Lamaran sedang diproses oleh HRD"
-            },
-            {
-                id: 8,
-                position: "Digital Marketing Specialist",
-                company: "Growth Marketing Agency",
-                date: "28 Mei 2023",
-                status: "interview",
-                logo: "https://logo.clearbit.com/growthmarketing.com",
-                notes: "Wawancara via Zoom hari Jumat"
-            },
-            {
-                id: 9,
-                position: "Fullstack Developer",
-                company: "CodeCraft Studio",
-                date: "25 Mei 2023",
-                status: "accepted",
-                logo: "https://logo.clearbit.com/codecraftstudio.com",
-                notes: "Diterima dengan masa percobaan 3 bulan"
-            },
-            {
-                id: 10,
-                position: "System Analyst",
-                company: "Enterprise Solutions",
-                date: "18 Mei 2023",
-                status: "rejected",
-                logo: "https://logo.clearbit.com/enterprisesolutions.co.id",
-                notes: "Posisi sudah terisi oleh kandidat internal"
-            },
-            {
-                id: 11,
-                position: "QA Engineer",
-                company: "Software Quality Labs",
-                date: "15 Mei 2023",
-                status: "pending",
-                logo: "https://logo.clearbit.com/softwarequalitylabs.com",
-                notes: "Menunggu jadwal technical interview"
-            },
-            {
-                id: 12,
-                position: "Data Scientist",
-                company: "AI Research Center",
-                date: "10 Mei 2023",
-                status: "test",
-                logo: "https://logo.clearbit.com/airesearchcenter.org",
-                notes: "Menyelesaikan coding challenge"
-            }
-        ];
+        let applications = [];
 
+        function getLowongan(path) {
+            fetch(path)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Gagal mengambil data");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+
+                    applications = data.map(item => ({
+                        ...item,
+                        status: item.status?.toLowerCase() || 'pending'  // default jika status kosong
+                    }));
+                    console.log(applications);
+                    renderApplications(); // render setelah data diambil
+
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    console.log(error);
+
+                    emptyState.classList.remove('hidden');
+                    applicationsContainer.classList.add('hidden');
+                    emptyState.innerHTML = `<p class="text-red-500">Gagal mengambil data lowongan.</p>`;
+                });
+
+
+        }
+
+        getLowongan('/api/get_lowongan.php')
         // DOM Elements
         const applicationsContainer = document.getElementById('applications-container');
         const searchInput = document.getElementById('search');
@@ -218,7 +134,7 @@
         // Render applications
         function renderApplications(filteredApps = applications) {
             applicationsContainer.innerHTML = '';
-            
+
             if (filteredApps.length === 0) {
                 emptyState.classList.remove('hidden');
                 applicationsContainer.classList.add('hidden');
@@ -229,9 +145,11 @@
             applicationsContainer.classList.remove('hidden');
 
             filteredApps.forEach(app => {
+                console.log(app.status);
+
                 const statusColor = {
-                    'pending': { text: 'text-pending', bg: 'bg-pending-bg' },
-                    'review': { text: 'text-review', bg: 'bg-review-bg' },
+                    'open': { text: 'text-pending', bg: 'bg-pending-bg' },
+                    'Open': { text: 'text-review', bg: 'bg-review-bg' },
                     'interview': { text: 'text-interview', bg: 'bg-interview-bg' },
                     'test': { text: 'text-test', bg: 'bg-test-bg' },
                     'accepted': { text: 'text-accepted', bg: 'bg-accepted-bg' },
@@ -244,12 +162,12 @@
                 card.className = 'bg-white rounded-lg shadow-md p-6 transition-all hover:-translate-y-1 hover:shadow-lg';
                 card.innerHTML = `
                     <div class="flex items-start mb-4">
-                        <img src="${app.logo || 'https://via.placeholder.com/40'}" alt="${app.company}" class="w-10 h-10 rounded-full mr-3 object-cover">
+                        <img src="/assets/img/banner_lowongan/${app.logo}" alt="${app.company}" class="w-10 h-10 rounded-full mr-3 object-cover">
                         <div>
                             <h3 class="font-semibold text-lg text-gray-800">${app.position}</h3>
                             <p class="text-gray-600">${app.company}</p>
                         </div>
-                        <span class="ml-auto text-xs px-3 py-1 rounded-full ${statusColor.bg} ${statusColor.text} font-medium">${statusText}</span>
+                        <span class="ml-auto text-xs px-3 py-1 rounded-full ${statusColor?.bg} ${statusColor?.text} font-medium">${statusText}</span>
                     </div>
                     <div class="text-sm text-gray-500 mb-4">
                         <p><i class="far fa-calendar-alt mr-2"></i>Dikirim: ${app.date}</p>
@@ -266,13 +184,13 @@
                         </button>
                     </div>
                 `;
-                
+
                 // Add fallback for logo if it fails to load
                 const img = card.querySelector('img');
-                img.onerror = function() {
-                    this.src = 'https://via.placeholder.com/40';
+                img.onerror = function () {
+                    // this.src = 'https://via.placeholder.com/40';
                 };
-                
+
                 applicationsContainer.appendChild(card);
             });
         }
@@ -296,14 +214,14 @@
             const statusValue = statusSelect.value;
 
             const filtered = applications.filter(app => {
-                const matchesSearch = 
-                    app.position.toLowerCase().includes(searchTerm) || 
+                const matchesSearch =
+                    app.position.toLowerCase().includes(searchTerm) ||
                     app.company.toLowerCase().includes(searchTerm);
-                
-                const matchesStatus = 
-                    statusValue === 'all' || 
+
+                const matchesStatus =
+                    statusValue === 'all' ||
                     app.status === statusValue;
-                
+
                 return matchesSearch && matchesStatus;
             });
 
@@ -326,4 +244,5 @@
         renderApplications();
     </script>
 </body>
+
 </html>

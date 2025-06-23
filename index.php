@@ -154,7 +154,7 @@
                 </li>
 
                 <li>
-                  <a href="javascript:boid(0)"
+                  <a href="/lowongan/"
                     class="flex items-center gap-4 rounded-md bg-primary-color/[0.15] px-5 py-3 text-base font-medium text-primary-color hover:bg-primary-color hover:text-primary md:px-7 md:py-[14px]"
                     role="button"><i class="lni lni-search text-lg/none"></i> Cari Lowongan</a>
                 </li>
@@ -325,7 +325,7 @@
           </button>
         </nav>
 
-        <div class="scroll-revealed portfolio-grid row">
+        <div class="scroll-revealed portfolio-grid row" id="lowongan-container">
           <div class="portfolio col-12 sm:col-6 lg:col-4">
             <article class="group" data-filter="branding">
               <div class="relative overflow-hidden w-full aspect-[4/3] rounded-xl">
@@ -361,181 +361,75 @@
             </article>
           </div>
 
-          <div class="portfolio col-12 sm:col-6 lg:col-4">
-            <article class="group" data-filter="research">
-              <div class="relative overflow-hidden w-full aspect-[4/3] rounded-xl">
-                <img src="./assets/img/portfolio/portfolio-2.jpg" alt="Web Development"
-                  class="w-full h-full object-cover" />
-                <div
-                  class="absolute top-0 left-0 w-full aspect-[4/3] flex items-center justify-center bg-body-light-1/75 scale-[0.15] rounded-xl opacity-0 invisible group-hover:scale-95 group-hover:opacity-100 group-hover:visible">
-                  <div class="flex flex-wrap gap-2 p-4">
-                    <div class="inline-block relative">
-                      <a href="./assets/img/portfolio/portfolio-2.jpg"
-                        class="portfolio-box text-[1.75rem] text-primary-color bg-primary z-10 w-[60px] aspect-square rounded-lg text-center inline-flex items-center justify-center hover:bg-primary-light-10 hover:text-primary-color dark:hover:bg-primary-dark-10 dark:hover:text-primary-color focus:bg-primary-light-10 focus:text-primary-color dark:focus:bg-primary-dark-10 dark:focus:text-primary-color">
-                        <i class="lni lni-zoom-in"></i>
-                      </a>
-                    </div>
-                    <div class="portfolio-icon">
-                      <a href="javascript:void(0)"
-                        class="text-[1.75rem] text-primary-color bg-primary z-10 w-[60px] aspect-square rounded-lg text-center inline-flex items-center justify-center hover:bg-primary-light-10 hover:text-primary-color dark:hover:bg-primary-dark-10 dark:hover:text-primary-color focus:bg-primary-light-10 focus:text-primary-color dark:focus:bg-primary-dark-10 dark:focus:text-primary-color">
-                        <i class="lni lni-link"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="pt-4">
-                <h4 class="mb-2">
-                  <a href="javascript:void(0)" class="text-[1.5rem] leading-tight text-inherit">Web Development</a>
-                </h4>
-                <p>
-                  Short description for the ones who look for something new.
-                  Awesome!
-                </p>
-              </div>
-            </article>
-          </div>
 
-          <div class="portfolio col-12 sm:col-6 lg:col-4">
-            <article class="group" data-filter="marketing">
-              <div class="relative overflow-hidden w-full aspect-[4/3] rounded-xl">
-                <img src="./assets/img/portfolio/portfolio-3.jpg" alt="App Development"
-                  class="w-full h-full object-cover" />
-                <div
-                  class="absolute top-0 left-0 w-full aspect-[4/3] flex items-center justify-center bg-body-light-1/75 scale-[0.15] rounded-xl opacity-0 invisible group-hover:scale-95 group-hover:opacity-100 group-hover:visible">
-                  <div class="flex flex-wrap gap-2 p-4">
-                    <div class="inline-block relative">
-                      <a href="./assets/img/portfolio/portfolio-3.jpg"
-                        class="portfolio-box text-[1.75rem] text-primary-color bg-primary z-10 w-[60px] aspect-square rounded-lg text-center inline-flex items-center justify-center hover:bg-primary-light-10 hover:text-primary-color dark:hover:bg-primary-dark-10 dark:hover:text-primary-color focus:bg-primary-light-10 focus:text-primary-color dark:focus:bg-primary-dark-10 dark:focus:text-primary-color">
-                        <i class="lni lni-zoom-in"></i>
-                      </a>
-                    </div>
-                    <div class="portfolio-icon">
-                      <a href="javascript:void(0)"
-                        class="text-[1.75rem] text-primary-color bg-primary z-10 w-[60px] aspect-square rounded-lg text-center inline-flex items-center justify-center hover:bg-primary-light-10 hover:text-primary-color dark:hover:bg-primary-dark-10 dark:hover:text-primary-color focus:bg-primary-light-10 focus:text-primary-color dark:focus:bg-primary-dark-10 dark:focus:text-primary-color">
-                        <i class="lni lni-link"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="pt-4">
-                <h4 class="mb-2">
-                  <a href="javascript:void(0)" class="text-[1.5rem] leading-tight text-inherit">App Development</a>
-                </h4>
-                <p>
-                  Short description for the ones who look for something new.
-                  Awesome!
-                </p>
-              </div>
-            </article>
-          </div>
-
-          <div class="portfolio col-12 sm:col-6 lg:col-4">
-            <article class="group" data-filter="planning">
-              <div class="relative overflow-hidden w-full aspect-[4/3] rounded-xl">
-                <img src="./assets/img/portfolio/portfolio-4.jpg" alt="Digital Marketing"
-                  class="w-full h-full object-cover" />
-                <div
-                  class="absolute top-0 left-0 w-full aspect-[4/3] flex items-center justify-center bg-body-light-1/75 scale-[0.15] rounded-xl opacity-0 invisible group-hover:scale-95 group-hover:opacity-100 group-hover:visible">
-                  <div class="flex flex-wrap gap-2 p-4">
-                    <div class="inline-block relative">
-                      <a href="./assets/img/portfolio/portfolio-4.jpg"
-                        class="portfolio-box text-[1.75rem] text-primary-color bg-primary z-10 w-[60px] aspect-square rounded-lg text-center inline-flex items-center justify-center hover:bg-primary-light-10 hover:text-primary-color dark:hover:bg-primary-dark-10 dark:hover:text-primary-color focus:bg-primary-light-10 focus:text-primary-color dark:focus:bg-primary-dark-10 dark:focus:text-primary-color">
-                        <i class="lni lni-zoom-in"></i>
-                      </a>
-                    </div>
-                    <div class="portfolio-icon">
-                      <a href="javascript:void(0)"
-                        class="text-[1.75rem] text-primary-color bg-primary z-10 w-[60px] aspect-square rounded-lg text-center inline-flex items-center justify-center hover:bg-primary-light-10 hover:text-primary-color dark:hover:bg-primary-dark-10 dark:hover:text-primary-color focus:bg-primary-light-10 focus:text-primary-color dark:focus:bg-primary-dark-10 dark:focus:text-primary-color">
-                        <i class="lni lni-link"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="pt-4">
-                <h4 class="mb-2">
-                  <a href="javascript:void(0)" class="text-[1.5rem] leading-tight text-inherit">Digital Marketing</a>
-                </h4>
-                <p>
-                  Short description for the ones who look for something new.
-                  Awesome!
-                </p>
-              </div>
-            </article>
-          </div>
-
-          <div class="portfolio col-12 sm:col-6 lg:col-4">
-            <article class="group" data-filter="branding">
-              <div class="relative overflow-hidden w-full aspect-[4/3] rounded-xl">
-                <img src="./assets/img/portfolio/portfolio-5.jpg" alt="SEO Services"
-                  class="w-full h-full object-cover" />
-                <div
-                  class="absolute top-0 left-0 w-full aspect-[4/3] flex items-center justify-center bg-body-light-1/75 scale-[0.15] rounded-xl opacity-0 invisible group-hover:scale-95 group-hover:opacity-100 group-hover:visible">
-                  <div class="flex flex-wrap gap-2 p-4">
-                    <div class="inline-block relative">
-                      <a href="./assets/img/portfolio/portfolio-5.jpg"
-                        class="portfolio-box text-[1.75rem] text-primary-color bg-primary z-10 w-[60px] aspect-square rounded-lg text-center inline-flex items-center justify-center hover:bg-primary-light-10 hover:text-primary-color dark:hover:bg-primary-dark-10 dark:hover:text-primary-color focus:bg-primary-light-10 focus:text-primary-color dark:focus:bg-primary-dark-10 dark:focus:text-primary-color">
-                        <i class="lni lni-zoom-in"></i>
-                      </a>
-                    </div>
-                    <div class="portfolio-icon">
-                      <a href="javascript:void(0)"
-                        class="text-[1.75rem] text-primary-color bg-primary z-10 w-[60px] aspect-square rounded-lg text-center inline-flex items-center justify-center hover:bg-primary-light-10 hover:text-primary-color dark:hover:bg-primary-dark-10 dark:hover:text-primary-color focus:bg-primary-light-10 focus:text-primary-color dark:focus:bg-primary-dark-10 dark:focus:text-primary-color">
-                        <i class="lni lni-link"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="pt-4">
-                <h4 class="mb-2">
-                  <a href="javascript:void(0)" class="text-[1.5rem] leading-tight text-inherit">SEO Services</a>
-                </h4>
-                <p>
-                  Short description for the ones who look for something new.
-                  Awesome!
-                </p>
-              </div>
-            </article>
-          </div>
-
-          <div class="portfolio col-12 sm:col-6 lg:col-4">
-            <article class="group" data-filter="marketing">
-              <div class="relative overflow-hidden w-full aspect-[4/3] rounded-xl">
-                <img src="./assets/img/portfolio/portfolio-6.jpg" alt="Product Design"
-                  class="w-full h-full object-cover" />
-                <div
-                  class="absolute top-0 left-0 w-full aspect-[4/3] flex items-center justify-center bg-body-light-1/75 scale-[0.15] rounded-xl opacity-0 invisible group-hover:scale-95 group-hover:opacity-100 group-hover:visible">
-                  <div class="flex flex-wrap gap-2 p-4">
-                    <div class="inline-block relative">
-                      <a href="./assets/img/portfolio/portfolio-6.jpg"
-                        class="portfolio-box text-[1.75rem] text-primary-color bg-primary z-10 w-[60px] aspect-square rounded-lg text-center inline-flex items-center justify-center hover:bg-primary-light-10 hover:text-primary-color dark:hover:bg-primary-dark-10 dark:hover:text-primary-color focus:bg-primary-light-10 focus:text-primary-color dark:focus:bg-primary-dark-10 dark:focus:text-primary-color">
-                        <i class="lni lni-zoom-in"></i>
-                      </a>
-                    </div>
-                    <div class="portfolio-icon">
-                      <a href="javascript:void(0)"
-                        class="text-[1.75rem] text-primary-color bg-primary z-10 w-[60px] aspect-square rounded-lg text-center inline-flex items-center justify-center hover:bg-primary-light-10 hover:text-primary-color dark:hover:bg-primary-dark-10 dark:hover:text-primary-color focus:bg-primary-light-10 focus:text-primary-color dark:focus:bg-primary-dark-10 dark:focus:text-primary-color">
-                        <i class="lni lni-link"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="pt-4">
-                <h4 class="mb-2">
-                  <a href="javascript:void(0)" class="text-[1.5rem] leading-tight text-inherit">Product Design</a>
-                </h4>
-                <p>
-                  Short description for the ones who look for something new.
-                  Awesome!
-                </p>
-              </div>
-            </article>
-          </div>
         </div>
+
+        <script>
+          const container = document.getElementById('lowongan-container');
+
+          function fetchLowongan() {
+            fetch('/api/get_lowongan.php')
+              .then(response => {
+                if (!response.ok) throw new Error('Gagal mengambil data');
+                return response.json();
+              })
+              .then(data => {
+                renderLowongan(data.slice(0, 6));
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                container.innerHTML = `<p class="text-red-500">Gagal memuat data lowongan.</p>`;
+              });
+          }
+
+          function renderLowongan(items) {
+            container.innerHTML = ''; // Kosongkan dulu
+
+            items.forEach(item => {
+              const imageUrl = item.logo ?
+                `/assets/img/banner_lowongan/${item.logo}` // Ubah path ini sesuai folder gambar kamu
+                :
+                '/assets/img/about-img.png';
+
+              const html = `
+        <div class="portfolio col-12 sm:col-6 lg:col-4">
+          <article class="group" data-filter="branding">
+            <div class="relative overflow-hidden w-full aspect-[4/3] rounded-xl">
+              <img src="${imageUrl}" alt="${item.position}" class="w-full h-full object-cover" />
+              <div class="absolute top-0 left-0 w-full aspect-[4/3] flex items-center justify-center bg-body-light-1/75 scale-[0.15] rounded-xl opacity-0 invisible group-hover:scale-95 group-hover:opacity-100 group-hover:visible">
+                <div class="flex flex-wrap gap-2 p-4">
+                  <div class="inline-block relative">
+                    <a href="${imageUrl}" class="portfolio-box text-[1.75rem] text-primary-color bg-primary z-10 w-[60px] aspect-square rounded-lg text-center inline-flex items-center justify-center hover:bg-primary-light-10">
+                      <i class="lni lni-zoom-in"></i>
+                    </a>
+                  </div>
+                  <div class="portfolio-icon">
+                    <a href="javascript:void(0)" class="text-[1.75rem] text-primary-color bg-primary z-10 w-[60px] aspect-square rounded-lg text-center inline-flex items-center justify-center hover:bg-primary-light-10">
+                      <i class="lni lni-link"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pt-4">
+              <h4 class="mb-2">
+                <a href="javascript:void(0)" class="text-[1.5rem] leading-tight text-inherit">${item.position}</a>
+              </h4>
+              <p>${item.company} - ${item.status}</p>
+              <p class="text-sm text-gray-500">Deadline: ${item.date}</p>
+            </div>
+          </article>
+        </div>
+      `;
+
+              container.insertAdjacentHTML('beforeend', html);
+            });
+          }
+
+          // Panggil saat halaman load
+          fetchLowongan();
+        </script>
+
       </div>
     </section>
 
@@ -1448,7 +1342,7 @@
         </div>
         <p>Magangin adalah platform digital yang menghubungkan mahasiswa dengan perusahaan untuk menemukan tempat magang impian mereka secara mudah, cepat, dan terpercaya.</p>
 
-        <h4  class="text-white">Alamat:</h4>
+        <h4 class="text-white">Alamat:</h4>
         <p>Jl. Jalan Raya, Kec. Sungailiat, Kabupaten Bangka, Kepulauan Bangka Belitung 11233</p>
       </div>
       <div>
