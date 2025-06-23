@@ -140,13 +140,12 @@ $dataPerusahaan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM perus
         </div>
       </form>
 
-      <form action="" id="input-lowongan" class="menu w-full max-h-[572px] overflow-y-auto flex-col items-end">
+      <form action="tambah-lowongan.php" method="POST" id="input-lowongan" enctype="multipart/form-data" class="menu w-full max-h-[572px] overflow-y-auto flex-col items-end">
         <div class="flex flex-col w-full p-5">
-          <input type="hidden" name="perusahaan_id" value="">
-
+          <input type="hidden" name="id_perusahaan" value="<?= $dataPerusahaan['id_perusahaan']?>">
 
           <div class="flex w-full">
-            <div class="flex-1 px-5 py-2" style="">
+            <div class="flex-1 px-5 py-2" >
               <label class="text-white font-bold">Upload Banner</label>
               <div
                 class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none border-2 border-dashed border-gray-400 h-[200px] shadow-sm flex justify-center items-center overflow-hidden relative">
@@ -240,10 +239,10 @@ $dataPerusahaan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM perus
                 </tr>
               </thead>
 
-              <tbody>
-                <tr>
+              <tbody id="document-container">
+                <tr class="row-document">
                   <td class="w-[35px]">
-                    <button class="border w-[30px] h-[30px] rounded-full flex items-center justify-center">
+                    <button type="button" class="button-document border w-[30px] h-[30px] rounded-full flex items-center justify-center">
                       <i class="fa-solid fa-minus"></i>
                     </button>
                   </td>
@@ -261,10 +260,10 @@ $dataPerusahaan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM perus
                   </td>
                 </tr>
 
-                <tr>
+                <tr class="row-document">
                   <td class="w-[35px]">
-                    <button class="border w-[30px] h-[30px] rounded-full flex items-center justify-center">
-                      <i class="fa-solid fa-plus"></i>
+                    <button type="button" class="button-document border w-[30px] h-[30px] rounded-full flex items-center justify-center">
+                      <i class="fa-solid fa-minus"></i>
                     </button>
                   </td>
                   <td class="px-[15px] py-[10px]">
@@ -355,6 +354,21 @@ $dataPerusahaan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM perus
 
   </div>
 
+  <script>
+    const rowDocument = document.querySelectorAll('.row-document');
+    rowDocument.forEach((row, i) => {
+      if(i == rowDocument.length-1){
+        row.querySelector('.button-document').innerHTML = `<i class="fa-solid fa-plus"></i>`;
+      }
+    })
+
+    const button = document.querySelectorAll('.button-document');
+    button.forEach((btn, i) => {
+      if(i == button.length-1){
+        
+      }
+    })    
+  </script>
   <script src="../../assets/js/dashboard.js"></script>
 </body>
 
