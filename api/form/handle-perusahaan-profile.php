@@ -88,10 +88,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "UPDATE perusahaan SET " . implode(', ', $updates) . " WHERE id_user = '" . mysqli_real_escape_string($connect, $idUser) . "'";
 
     if (mysqli_query($connect, $sql)) {
-        header("Location: /dashboard/dashboard-perusahaan1?success");
+        header("Location: /dashboard/dashboard-perusahaan?success");
         exit;
     } else {
-        header("Location: /dashboard/dashboard-perusahaan1?error");
+        header("Location: /dashboard/dashboard-perusahaan?error");
         exit;
     }
 }

@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     header("Location: ../dashboard/dashboard-dosen/");
                     break;
                 case 'perusahaan':
-                    header("Location: ../dashboard/dashboard-perusahaan1/");
+                    header("Location: ../dashboard/dashboard-perusahaan/");
                     break;
                 default:
                     echo "Role tidak dikenali.";
