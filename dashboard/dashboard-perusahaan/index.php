@@ -507,7 +507,7 @@ $id_perusahaan = $dataPerusahaan['id_perusahaan'];
                     <?php
                     if ($rowPelamar['status']  == 'Menunggu') {
                     ?>
-                      <a href="./data-pelamar/?id_mhs=<?=$rowPelamar['id_mhs']?>&&?id_lowongan=<?=$rowPelamar['id_lowongan']?>"
+                      <a href="./data-pelamar/?id_detail=<?=$rowPelamar['id_detail']?>"
                         class="px-[14px] py-[6px] text-white text-[13px] font-bold rounded-[20px] bg-red-400 inline-block">
                         Menunggu
                       </a>

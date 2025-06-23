@@ -4,8 +4,9 @@ include '../../../middleware/role.php';
 include '../../components/render-components.php';
 
 only(['perusahaan']);
-$id_lowongan = $_GET['id_lowongan'];
-$id_mhs = $_GET['id_mhs'];
+$id_detail = $_GET['id_detail'];
+$dataDetail = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM `detail_apply` WHERE id_detail='$id_detail'"));
+$id_mhs = $dataDetail['id_mhs'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,9 +54,9 @@ $id_mhs = $_GET['id_mhs'];
 
     <?php
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $updateStatus = mysqli_query($connect, "UPDATE detail_apply SET status='Disetujui' WHERE id_mhs='$id_mhs' AND $id_lowongan='$id_lowongan'");
-        if ($insertStatus) {
-            header("Location: ./#lihat-pelamar");
+        $updateStatus = mysqli_query($connect, "UPDATE detail_apply SET status='Disetujui' WHERE id_detail='$id_detail'");
+        if ($updateStatus) {
+            header("Location: ../#lihat-pelamar");
             exit;
         }
     }
