@@ -22,34 +22,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['kirim_notifikasi']))
     $nama_dosen = $_POST['nama_dosen'];
     $nip = $_POST['nip'];
     $universitas = $_POST['universitas'];
+    $fotoName = $dataDosen['foto_dosen']; // default tetap pakai yang lama
 
-    if (!empty($_FILES['profil']['name'])) {
-        $target_dir = "../../assets/img/profil-dosen/";
-        $file_name = time() . "_" . basename($_FILES["profil"]["name"]);
-        $target_file = $target_dir . $file_name;
+    if (isset($_FILES['profil']) && $_FILES['profil']['error'] === UPLOAD_ERR_OK) {
+        $upload_dir = realpath(__DIR__ . '/../../') . '/assets/img/profil-dosen/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0755, true);
+        }
 
+        $file_tmp = $_FILES['profil']['tmp_name'];
+        $original_name = basename($_FILES['profil']['name']);
+        $clean_name = str_replace(' ', '_', $original_name);
+        $file_name = uniqid() . '_' . $clean_name;
+        $file_path = $upload_dir . $file_name;
+
+        // Hapus foto lama jika ada
         if (!empty($dataDosen['foto_dosen'])) {
-            $old_file = $target_dir . $dataDosen['foto_dosen'];
+            $old_file = $upload_dir . $dataDosen['foto_dosen'];
             if (file_exists($old_file)) {
                 unlink($old_file);
             }
         }
 
-        move_uploaded_file($_FILES["profil"]["tmp_name"], $target_file);
-
-        $query = "UPDATE dosen 
-                  SET nama_dosen='$nama_dosen', nip='$nip', universitas='$universitas', foto_dosen='$file_name' 
-                  WHERE id_user='$idUser'";
-    } else {
-        $query = "UPDATE dosen 
-                  SET nama_dosen='$nama_dosen', nip='$nip', universitas='$universitas' 
-                  WHERE id_user='$idUser'";
+        if (move_uploaded_file($file_tmp, $file_path)) {
+            $fotoName = $file_name;
+        } else {
+            http_response_code(500);
+            echo json_encode(['error' => 'Gagal upload foto']);
+            exit;
+        }
     }
 
+    // Update data dosen
+    $query = "UPDATE dosen 
+              SET nama_dosen='$nama_dosen', nip='$nip', universitas='$universitas', foto_dosen='$fotoName' 
+              WHERE id_user='$idUser'";
     mysqli_query($connect, $query);
+
     header("Location: index.php#profil");
     exit;
 }
+
 
 // Proses simpan notifikasi
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['kirim_notifikasi'])) {
