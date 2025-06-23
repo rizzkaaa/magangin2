@@ -118,7 +118,6 @@ function profilMahasiswa($connect, $id_mhs)
   if ($dataMhs["provinsi"]) {
     $idProvinsi =  $dataMhs["provinsi"];
     $provinsi = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM `provinsis` WHERE id = '$idProvinsi'"));
-
     $idkabupaten =  $dataMhs["kabupaten"];
     $kabupaten = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM `kabupatens` WHERE id = '$idkabupaten'"));
 
@@ -259,9 +258,12 @@ function profilMahasiswa($connect, $id_mhs)
           $name = $provinsi["name"];
           $id = $provinsi["id"];
           if ($provinsi) {
-            echo "<option value='$id' selected>$name</option>";
+            echo "<option value='$id' selected>$name $id</option>";
+          }else {
+            echo "<option>Pilih Provinsi</option>";
           }
           ?>
+          
         </select>
       </div>
       <div class="flex flex-col px-5 py-2">
@@ -291,7 +293,7 @@ function profilMahasiswa($connect, $id_mhs)
           $id = $kecamatan["id"];
           if ($kecamatan) {
             echo "<option value='$id' selected>$name</option>";
-          }else {
+          } else {
             echo "<option>Pilih Kecamatan</option>";
           }
           ?>
@@ -434,7 +436,7 @@ function alertHapus($action, $datas = [])
       <a href="#laporan-magang" class="bg-gray-300 text-gray-800 font-semibold px-4 py-2 rounded-lg hover:bg-gray-400 transition">
         Batal
       </a>
-      <a href="<?=$action?>" class="bg-red-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition">
+      <a href="<?= $action ?>" class="bg-red-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition">
         Hapus
       </a>
 

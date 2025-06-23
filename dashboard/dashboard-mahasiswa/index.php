@@ -127,7 +127,7 @@ $id_mhs = $dataMahasiswa['id_mhs'];
 
   <script>
     // 🔽 Muat data provinsi
-    async function loadProvinsis() {
+    async function loadProvinsis(provinsiId) {
       const response = await fetch('/api/provinsi.php');
       const data = await response.json();
 
