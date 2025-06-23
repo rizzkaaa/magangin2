@@ -28,10 +28,22 @@ only(['perusahaan']);
     </header>
 
     <section class="bg-[#1d222efb] w-full flex flex-col items-center">
-        <?= profilMahasiswa() ?>
+        <?= profilMahasiswa($connect, $id_mhs) ?>
 
         <!-- Tombol -->
-        
+        <div class="mx-5 my-2 w-full flex flex-col items-center">
+            <!-- Tombol Kembali -->
+            <button onclick="window.history.back()"
+                class="w-[95%] m-[10px] px-4 py-2 bg-white/40 rounded-[20px] border border-white text-white font-bold">
+                Kembali
+            </button>
+
+            <!-- Tombol Setujui -->
+            <button class="w-[95%] m-[10px] px-4 py-2 bg-[#4aee0a] rounded-[20px] text-white font-bold">
+                Setujui
+            </button>
+
+        </div>
         </div>
     </section>
 

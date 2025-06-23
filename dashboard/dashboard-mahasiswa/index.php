@@ -76,7 +76,7 @@ $id_mhs = $dataMahasiswa['id_mhs'];
           while($rowNotif = mysqli_fetch_assoc($queryNotif)){
           ?>
           <div class="space-y-4" id="notificationsList">
-            <div class="bg-white bg-opacity-10 notification-item read text-white p-6 rounded-xl shadow-lg">
+            <div class="bg-white bg-opacity-10 m-5 notification-item read text-white p-6 rounded-xl shadow-lg">
               <div class="flex items-start justify-between">
                 <div class="flex items-start space-x-4">
                   <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
@@ -84,9 +84,9 @@ $id_mhs = $dataMahasiswa['id_mhs'];
                   </div>
                   <div class="flex-1">
                     <div class="flex items-center space-x-2 mb-2">
-                      <h3 class="font-semibold text-lg"><?= $rowNotif['judul']?></h3>
+                      <h3 class="font-semibold text-lg"><?= $rowNotif['judul_pesan']?></h3>
                     </div>
-                    <p class="text-white/90 mb-3"><?= $rowNotif['pesan']?></p>
+                    <p class="text-white/90 mb-3"><?= $rowNotif['isi_pesan']?></p>
                     <div class="flex items-center space-x-4 text-sm text-white/80">
                       <span><i class="fas fa-clock mr-1"></i><?= $rowNotif['created_at']?></span>
                       <span><i class="fas fa-user mr-1"></i><?= isset($rowNotif['nama_dosen']) ? $rowNotif['nama_dosen'] : 'Sistem'?></span>

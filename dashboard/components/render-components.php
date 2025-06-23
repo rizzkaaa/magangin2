@@ -60,7 +60,52 @@ function renderSidebar($menus = [])
   return ob_get_clean();
 }
 
-function cardLowongan()
+function cardLowongan($connect, $lowongan)
+{
+
+  $totalSemua = mysqli_fetch_assoc(mysqli_query($connect, "SELECT COUNT('id_lowongan') AS total FROM lamaran WHERE id_lowongan = '" . $lowongan['id_lowongan'] . "' AND status = 'Menunggu'"));
+  $totalTerima = mysqli_fetch_assoc(mysqli_query($connect, "SELECT COUNT('id_lowongan') AS total FROM lamaran WHERE id_lowongan = '" . $lowongan['id_lowongan'] . "' AND status = 'Disetujui'"));
+  $totalTolak = mysqli_fetch_assoc(mysqli_query($connect, "SELECT COUNT('id_lowongan') AS total FROM lamaran WHERE id_lowongan = '" . $lowongan['id_lowongan'] . "' AND status = 'Ditolak'"));
+  ob_start(); ?>
+  <div class="h-fit bg-white p-[15px] my-[30px] rounded-[20px] shadow-sm shadow-white">
+    <a class="block text-[20px] font-bold border-b  pb-[5px] mb-[10px]">
+      <?= htmlspecialchars($lowongan['judul']) ?>
+    </a>
+
+    <div class="flex flex-wrap w-[320px]">
+      <div class="w-[150px] m-[5px] bg-[#e0edff] p-[10px] rounded-[12px] flex items-center justify-between">
+        <div class="text-[18px]">📅</div>
+        <div class="text-[12px] text-[#111827] flex-1 text-center">
+          <?= date("d M Y", strtotime($lowongan['mulai_magang'])) ?> -
+          <br />
+          <?= date("d M Y", strtotime($lowongan['selesai_magang'])) ?>
+        </div>
+      </div>
+
+      <div class="w-[150px] m-[5px] bg-[#e0edff] p-[10px] rounded-[12px] flex items-center justify-between">
+        <div class="text-[18px]">👥</div>
+        <div class="text-[12px] text-[#111827] flex-1 text-center">Total Pelamar</div>
+        <div class="font-bold text-[14px] text-[#1e3a8a]"><?= $totalSemua['total'] ?></div>
+      </div>
+
+      <div class="w-[150px] m-[5px] bg-[#e0edff] p-[10px] rounded-[12px] flex items-center justify-between">
+        <div class="text-[18px]">✅</div>
+        <div class="text-[12px] text-[#111827] flex-1 text-center">Peserta Diterima</div>
+        <div class="font-bold text-[14px] text-[#1e3a8a]"><?= $totalTerima['total'] ?></div>
+      </div>
+
+      <div class="w-[150px] m-[5px] bg-[#e0edff] p-[10px] rounded-[12px] flex items-center justify-between">
+        <div class="text-[18px]">❌</div>
+        <div class="text-[12px] text-[#111827] flex-1 text-center">Peserta Tidak Diterima</div>
+        <div class="font-bold text-[14px] text-[#1e3a8a]"><?= $totalTolak['total'] ?></div>
+      </div>
+    </div>
+  </div>
+<?php
+  return ob_get_clean();
+}
+
+function cardLowongan2()
 {
   ob_start(); ?>
 

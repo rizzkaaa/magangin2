@@ -1,5 +1,5 @@
 <?php
-$folder = '../../assets/laporan-magang/kegiatan/';
+$folder = '../../assets/img/mahasiswa/';
 
 if (is_writable($folder)) {
     echo "Folder bisa ditulis (OK)";
