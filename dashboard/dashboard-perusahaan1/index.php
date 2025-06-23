@@ -228,142 +228,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         </div>
 
+
         <!-- Tombol -->
         <div class="mx-5 my-2">
-          <button type="submit"
-            class="bg-orange-500 text-white px-6 py-2 rounded-md cursor-pointer hover:bg-orange-600 transition-all duration-300">
+          <button type="submit" class="bg-orange-500 text-white px-6 py-2 rounded-md cursor-pointer hover:bg-orange-600 transition-all duration-300">
             Simpan Profil
           </button>
         </div>
-
-        <script>
-          document.getElementById('formProfil').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const form = e.target;
-            const formData = new FormData(form);
-
-            try {
-              console.log("helooo");
-
-              const response = await fetch('/api/form/handle-perusahaan-profile.php', {
-                method: 'POST',
-                body: formData,
-              });
-
-
-              if (response.redirected) {
-                window.location.href = response.url; // Handle redirect jika sukses/error
-                return;
-              }
-
-              console.log(response);
-              const result = await response.json();
-              console.log(result);
-
-              if (result.status === 'no_changes') {
-                alert(result.message);
-              } else if (result.error) {
-                alert('Error: ' + result.error);
-              } else {
-                alert('Profil berhasil diperbarui.');
-              }
-
-            } catch (error) {
-              console.error('Gagal mengirim data:', error);
-              alert('Terjadi kesalahan saat mengirim data.');
-            }
-          });
-
-          // 🔽 Muat data provinsi
-          async function loadProvinsis(provinsiId) {
-            const response = await fetch('/api/provinsi.php');
-            const data = await response.json();
-
-            const provinsiSelect = document.querySelector('select[name="provinsi"]');
-            if (provinsiSelect.innerHTML == '') {
-              provinsiSelect.innerHTML = '<option value="">Pilih Provinsi</option>';
-            }
-
-            data.forEach(provinsi => {
-              const option = document.createElement('option');
-              option.value = provinsi.id;
-              option.textContent = provinsi.name;
-              provinsiSelect.appendChild(option);
-            });
-          }
-
-          // 🔽 Muat kabupaten berdasarkan provinsi_id
-          async function loadKabupatens(provinsiId) {
-            const kabupatenSelect = document.querySelector('select[name="kabupaten"]');
-            kabupatenSelect.innerHTML = '<option value="">Memuat kabupaten...</option>';
-            document.querySelector('select[name="kecamatan"]').innerHTML = '<option value="">Pilih Kecamatan</option>';
-
-            if (!provinsiId) {
-              kabupatenSelect.innerHTML = '<option value="">Pilih Kabupaten</option>';
-              return;
-            }
-
-            const response = await fetch(`/api/kabupaten.php?provinsi_id=${provinsiId}`);
-            const data = await response.json();
-
-            kabupatenSelect.innerHTML = '<option value="">Pilih Kabupaten</option>';
-            data.forEach(kabupaten => {
-              const option = document.createElement('option');
-              option.value = kabupaten.id;
-              option.textContent = kabupaten.name;
-              kabupatenSelect.appendChild(option);
-            });
-          }
-
-          // 🔽 Muat kecamatan berdasarkan kabupaten_id
-          async function loadKecamatans(kabupatenId) {
-            const kecamatanSelect = document.querySelector('select[name="kecamatan"]');
-            kecamatanSelect.innerHTML = '<option value="">Memuat kecamatan...</option>';
-
-            if (!kabupatenId) {
-              kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
-              return;
-            }
-
-            const response = await fetch(`/api/kecamatan.php?kabupaten_id=${kabupatenId}`);
-            const data = await response.json();
-
-            kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
-            data.forEach(kecamatan => {
-              const option = document.createElement('option');
-              option.value = kecamatan.id;
-              option.textContent = kecamatan.name;
-              kecamatanSelect.appendChild(option);
-            });
-          }
-
-          document.addEventListener('DOMContentLoaded', () => {
-            loadProvinsis();
-
-            const provinsiSelect = document.querySelector('select[name="provinsi"]');
-            const kabupatenSelect = document.querySelector('select[name="kabupaten"]');
-
-            provinsiSelect.addEventListener('change', (e) => {
-              loadKabupatens(e.target.value);
-            });
-
-            kabupatenSelect.addEventListener('change', (e) => {
-              loadKecamatans(e.target.value);
-            });
-          });
-        </script>
-
       </form>
 
 
       <form action="input_lowongan.php" method="POST" enctype="multipart/form-data" id="input-lowongan" class="menu w-full max-h-[572px] overflow-y-auto flex-col items-end">
 
         <div class="flex flex-col w-full p-5">
-          <input type="hidden" name="id_perusahaan" value="<?= $dataPerusahaan['id_perusahaan'] ?>">
+          <input type="hidden" name="perusahaan_id" value="<?= $dataPerusahaan['id_perusahaan'] ?>">
+
+
 
           <div class="flex w-full">
-            <div class="flex-1 px-5 py-2">
+            <div class="flex-1 px-5 py-2" style="">
               <label class="text-white font-bold">Upload Banner</label>
               <div
                 class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none border-2 border-dashed border-gray-400 h-[200px] shadow-sm flex justify-center items-center overflow-hidden relative">
@@ -464,11 +347,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </button>
                   </td>
                   <td class="px-[15px] py-[10px]">
-                    <input type="text" id="nama-dokumen" name="dokumen0" placeholder="Contoh: CV"
-                      class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none" required />
+                    <input type="text" name="nama_dokumen[]" placeholder="Contoh: CV"
+                      class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none" />
                   </td>
                   <td class="px-[15px] py-[10px]">
-                    <select id="jenis-file" name="type0" required
+                    <select name="jenis_file[]"
                       class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none">
                       <option>PDF</option>
                       <option>PNG/JPG</option>
@@ -482,9 +365,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
         </div>
-
-        <input type="hidden" name="rows" id="rows" value="1">
-        <!-- Tombol -->
         <div class="mx-5 my-2">
           <button type="submit"
             class="bg-orange-500 text-white px-6 py-2 rounded-md cursor-pointer hover:bg-orange-600 transition-all duration-300">
@@ -548,58 +428,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
   <script src="../../assets/js/dashboard.js"></script>
   <script>
-    function updateEventListeners() {
-      const rowDocument = document.querySelectorAll('.row-document');
-      rowDocument.forEach((row, i) => {
-        if (i == rowDocument.length - 1) {
-          row.querySelector('.button-document').innerHTML = `<i class="fa-solid fa-plus"></i>`;
+    document.addEventListener('DOMContentLoaded', function() {
+      const tableBody = document.querySelector('#dokumen-table tbody');
+
+      tableBody.addEventListener('click', function(e) {
+        const btn = e.target.closest('.btn-toggle');
+        if (!btn) return;
+
+        const row = btn.closest('.dokumen-row');
+
+        if (btn.querySelector('i').classList.contains('fa-plus')) {
+          // Ubah tombol ini jadi minus
+          btn.innerHTML = '<i class="fa-solid fa-minus"></i>';
+
+          // Duplikat baris baru (dengan tombol plus)
+          const newRow = row.cloneNode(true);
+          newRow.querySelector('input').value = '';
+          newRow.querySelector('select').selectedIndex = 0;
+          newRow.querySelector('.btn-toggle').innerHTML = '<i class="fa-solid fa-plus"></i>';
+          tableBody.appendChild(newRow);
         } else {
-          row.querySelector('.button-document').innerHTML = `<i class="fa-solid fa-minus"></i>`;
+          // Hapus baris jika tombol minus ditekan
+          row.remove();
         }
-      })
-      const buttons = document.querySelectorAll('.button-document');
-
-      buttons.forEach((btn, i) => {
-        btn.onclick = () => {
-          const rows = document.querySelectorAll('.row-document');
-
-          if (i === rows.length - 1) {
-            document.querySelector('#document-container').innerHTML += `
-        <tr class="row-document">
-                  <td class="w-[35px]">
-                    <button type="button" class="button-document border w-[30px] h-[30px] rounded-full flex items-center justify-center">
-                      <i class="fa-solid fa-minus"></i>
-                    </button>
-                  </td>
-                  <td class="px-[15px] py-[10px]">
-                    <input type="text" id="nama-dokumen"  name="dokumen${i}" placeholder="Contoh: CV"
-                      class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none" required/>
-                  </td>
-                  <td class="px-[15px] py-[10px]">
-                    <select id="jenis-file" name="type${i}" required
-                      class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none">
-                      <option>PDF</option>
-                      <option>PNG/JPG</option>
-                      <option>DOCX</option>
-                    </select>
-                  </td>
-                </tr>`;
-
-            updateEventListeners();
-          } else {
-            const row = btn.closest('.row-document');
-            row.remove();
-            updateEventListeners();
-          }
-        };
       });
-
-    }
-
-    updateEventListeners();
-
-    document.querySelector('form').addEventListener('submit', function(e) {
-      document.getElementById('rows').value = document.querySelectorAll('.row-document').length;
     });
   </script>
 
