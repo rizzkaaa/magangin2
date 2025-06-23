@@ -451,11 +451,11 @@ if ($dataPerusahaan["provinsi"]) {
                     </button>
                   </td>
                   <td class="px-[15px] py-[10px]">
-                    <input type="text" id="nama-dokumen" placeholder="Contoh: CV" required
+                    <input type="text" id="nama-dokumen0" name="dokumen0" placeholder="Contoh: CV" required
                       class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none" />
                   </td>
                   <td class="px-[15px] py-[10px]">
-                    <select id="jenis-file" required
+                    <select id="jenis-file0" required name="type0"
                       class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none">
                       <option>PDF</option>
                       <option>PNG/JPG</option>
@@ -564,11 +564,11 @@ if ($dataPerusahaan["provinsi"]) {
                     </button>
                   </td>
                   <td class="px-[15px] py-[10px]">
-                    <input type="text" id="nama-dokumen"  name="dokumen${i}" placeholder="Contoh: CV"
+                    <input type="text" id="nama-dokumen${i+1}"  name="dokumen${i+1}" placeholder="Contoh: CV"
                       class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none" required/>
                   </td>
                   <td class="px-[15px] py-[10px]">
-                    <select id="jenis-file" name="type${i}" required
+                    <select id="jenis-file${i+1}" name="type${i+1}" required
                       class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none">
                       <option>PDF</option>
                       <option>PNG/JPG</option>
