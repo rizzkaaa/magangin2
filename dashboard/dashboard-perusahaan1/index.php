@@ -55,18 +55,18 @@ $dataPerusahaan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM perus
         </div> -->
 
         <div class="flex flex-wrap w-full h-full" style="justify-content: space-evenly;">
-          <?= cardLowongan() ?>
-          <?= cardLowongan() ?>
-          <?= cardLowongan() ?>
-          <?= cardLowongan() ?>
-          <?= cardLowongan() ?>
-          <?= cardLowongan() ?>
-          <?= cardLowongan() ?>
-          <?= cardLowongan() ?>
-          <?= cardLowongan() ?>
-          <?= cardLowongan() ?>
-          <?= cardLowongan() ?>
-          <?= cardLowongan() ?>
+          <?= cardLowongan2() ?>
+          <?= cardLowongan2() ?>
+          <?= cardLowongan2() ?>
+          <?= cardLowongan2() ?>
+          <?= cardLowongan2() ?>
+          <?= cardLowongan2() ?>
+          <?= cardLowongan2() ?>
+          <?= cardLowongan2() ?>
+          <?= cardLowongan2() ?>
+          <?= cardLowongan2() ?>
+          <?= cardLowongan2() ?>
+          <?= cardLowongan2() ?>
         </div>
       </div>
 
