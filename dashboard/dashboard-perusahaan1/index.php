@@ -12,6 +12,16 @@ $idUser = $_SESSION['id_user'];
 $email = $_SESSION['email'];
 
 $dataPerusahaan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM perusahaan WHERE id_user = '$idUser'"));
+
+if ($dataPerusahaan["provinsi"]) {
+  $idProvinsi =  $dataPerusahaan["provinsi"];
+  $provinsi = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM `provinsis` WHERE id = '$idProvinsi'"));
+  $idkabupaten =  $dataPerusahaan["kabupaten"];
+  $kabupaten = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM `kabupatens` WHERE id = '$idkabupaten'"));
+
+  $idkecamatan =  $dataPerusahaan["kecamatan"];
+  $kecamatan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM `kecamatans` WHERE id = '$idkecamatan'"));
+}
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +46,7 @@ $dataPerusahaan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM perus
   <div class="flex flex-1 relative">
     <?= renderSidebar([
       ['icon' => 'home', 'label' => 'Dashboard', 'url' => '#dashboard'],
-      ['icon' => 'user', 'label' => 'Profil', 'url' => '#profil'],
+      ['icon' => 'user', 'label' => 'Profil', 'url' => '#formProfil'],
       ['icon' => 'file-contract', 'label' => 'Input Lowongan', 'url' => '#input-lowongan'],
       ['icon' => 'envelope', 'label' => 'Lihat Pelamar', 'url' => '#lihat-pelamar'],
 
@@ -70,23 +80,32 @@ $dataPerusahaan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM perus
         </div>
       </div>
 
-      <form class="menu w-full flex-col items-end max-h-[572px] overflow-y-auto" id="profil">
+      <form action="/api/form/handle-perusahaan-profile.php" method="POST" class="menu w-full flex-col items-end max-h-[572px] overflow-y-auto" id="formProfil" enctype="multipart/form-data">
         <div class="flex w-full p-5">
           <!-- Form kiri -->
           <div class="flex-2 w-2/3">
             <div class="flex flex-col px-5 py-2">
               <label class="text-white font-bold">Nama Perusahaan</label>
-              <input type="text" name="nama_perusahaan" class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
+              <input type="text" name="nama_perusahaan"
+                value="<?= isset($dataPerusahaan['nama_perusahaan']) ? $dataPerusahaan['nama_perusahaan'] : '' ?>"
+                class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
             </div>
 
             <div class="flex flex-col px-5 py-2">
               <label class="text-white font-bold">Email</label>
-              <input type="email" name="email_perusahaan" class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
+              <input
+                value="<?= $email ?>"
+                disabled
+                type="email"
+                name="email_perusahaan"
+                class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
             </div>
 
             <div class="flex flex-col px-5 py-2">
               <label class="text-white font-bold">Alamat</label>
-              <textarea name="alamat" class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none"></textarea>
+              <textarea name="alamat"
+                class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none"><?= isset($dataPerusahaan['alamat']) ? $dataPerusahaan['alamat'] : '' ?>
+              </textarea>
             </div>
 
             <div class="flex">
@@ -94,13 +113,30 @@ $dataPerusahaan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM perus
                 <div class="flex flex-col px-5 py-2">
                   <label class="text-white font-bold">Provinsi</label>
                   <select name="provinsi" class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none">
-                    <option>Pilih Provinsi</option>
+                    <?php
+                    $name = $provinsi["name"];
+                    $id = $provinsi["id"];
+                    if ($provinsi) {
+                      echo "<option value='$id' selected>$name $id</option>";
+                    } else {
+                      echo "<option>Pilih Provinsi</option>";
+                    }
+                    ?>
                   </select>
                 </div>
                 <div class="flex flex-col px-5 py-2">
                   <label class="text-white font-bold">Kabupaten</label>
                   <select name="kabupaten" class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none">
                     <option>Pilih Kabupaten</option>
+                    <?php
+                    $name = $kabupaten["name"];
+                    $id = $kabupaten["id"];
+                    if ($kabupaten) {
+                      echo "<option value='$id' selected>$name</option>";
+                    } else {
+                      echo "<option>Pilih Kabupaten</option>";
+                    }
+                    ?>
                   </select>
                 </div>
               </div>
@@ -109,12 +145,22 @@ $dataPerusahaan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM perus
                 <div class="flex flex-col px-5 py-2">
                   <label class="text-white font-bold">Kecamatan</label>
                   <select name="kecamatan" class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none">
-                    <option>Pilih Kecamatan</option>
+                    <?php
+                    $name = $kecamatan["name"];
+                    $id = $kecamatan["id"];
+                    if ($kecamatan) {
+                      echo "<option value='$id' selected>$name</option>";
+                    } else {
+                      echo "<option>Pilih Kecamatan</option>";
+                    }
+                    ?>
                   </select>
                 </div>
                 <div class="flex flex-col px-5 py-2">
                   <label class="text-white font-bold">Desa</label>
-                  <input type="text" name="desa" class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
+                  <input type="text" name="desa"
+                    value="<?= isset($dataPerusahaan['desa']) ? $dataPerusahaan['desa'] : '' ?>"
+                    class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none" />
                 </div>
               </div>
             </div>
@@ -123,12 +169,51 @@ $dataPerusahaan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM perus
           <!-- Form kanan -->
           <div class="flex-1 mx-5 my-2">
             <label class="text-white font-bold">Logo Perusahaan</label>
-            <div
+            <div id="preview-box"
               class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none border-2 border-dashed border-gray-400 h-[400px] shadow-sm flex justify-center items-center overflow-hidden relative">
-              <input type="file" name="logo" class="absolute scale-[13] translate-x-[100px] opacity-0 cursor-pointer" />
-              <i class="fa-solid fa-image text-[36px] text-gray-600"></i>
+              <input
+                type="file"
+                id="upload-profil"
+                name="logo"
+                class="absolute scale-[13] translate-x-[100px] opacity-0 cursor-pointer" />
+              <i class="fa-solid fa-image text-[36px] text-gray-600" id="icon-preview"></i>
             </div>
           </div>
+
+          <script>
+            const input = document.getElementById('upload-profil');
+            const previewBox = document.getElementById('preview-box');
+            const icon = document.getElementById('icon-preview');
+
+            function loadImage(logo) {
+              previewBox.style.backgroundImage = `url('/assets/img/perusahaan/${logo}')`;
+              icon.style.display = 'none'; // sembunyikan ikon jika ada gambar
+            }
+            <?php
+            if (isset($dataPerusahaan['logo'])) {
+              $logo = $dataPerusahaan["logo"];
+
+              echo "loadImage('$logo')";
+            }
+            ?>
+
+            input.addEventListener('change', function(event) {
+              const file = event.target.files[0];
+
+              if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                  previewBox.style.backgroundImage = `url('${e.target.result}')`;
+                  icon.style.display = 'none'; // sembunyikan ikon jika ada gambar
+                };
+                reader.readAsDataURL(file);
+              } else {
+                previewBox.style.backgroundImage = '';
+                icon.style.display = 'block';
+              }
+            });
+          </script>
+
         </div>
 
         <!-- Tombol -->
@@ -138,6 +223,125 @@ $dataPerusahaan = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM perus
             Simpan Profil
           </button>
         </div>
+
+        <script>
+          // document.getElementById('formProfil').addEventListener('submit', async function(e) {
+          //   e.preventDefault();
+
+          //   const form = e.target;
+          //   const formData = new FormData(form);
+
+          //   try {
+          //     console.log("helooo");
+
+          //     const response = await fetch('/api/form/handle-perusahaan-profile.php', {
+          //       method: 'POST',
+          //       body: formData,
+          //     });
+
+
+          //     if (response.redirected) {
+          //       window.location.href = response.url; // Handle redirect jika sukses/error
+          //       return;
+          //     }
+
+          //     console.log(response);
+          //     const result = await response.json();
+          //     console.log(result);
+
+          //     if (result.status === 'no_changes') {
+          //       alert(result.message);
+          //     } else if (result.error) {
+          //       alert('Error: ' + result.error);
+          //     } else {
+          //       alert('Profil berhasil diperbarui.');
+          //     }
+
+          //   } catch (error) {
+          //     console.error('Gagal mengirim data:', error);
+          //     alert('Terjadi kesalahan saat mengirim data.');
+          //   }
+          // });
+
+          // 🔽 Muat data provinsi
+          async function loadProvinsis(provinsiId) {
+            const response = await fetch('/api/provinsi.php');
+            const data = await response.json();
+
+            const provinsiSelect = document.querySelector('select[name="provinsi"]');
+            if (provinsiSelect.innerHTML == '') {
+              provinsiSelect.innerHTML = '<option value="">Pilih Provinsi</option>';
+            }
+
+            data.forEach(provinsi => {
+              const option = document.createElement('option');
+              option.value = provinsi.id;
+              option.textContent = provinsi.name;
+              provinsiSelect.appendChild(option);
+            });
+          }
+
+          // 🔽 Muat kabupaten berdasarkan provinsi_id
+          async function loadKabupatens(provinsiId) {
+            const kabupatenSelect = document.querySelector('select[name="kabupaten"]');
+            kabupatenSelect.innerHTML = '<option value="">Memuat kabupaten...</option>';
+            document.querySelector('select[name="kecamatan"]').innerHTML = '<option value="">Pilih Kecamatan</option>';
+
+            if (!provinsiId) {
+              kabupatenSelect.innerHTML = '<option value="">Pilih Kabupaten</option>';
+              return;
+            }
+
+            const response = await fetch(`/api/kabupaten.php?provinsi_id=${provinsiId}`);
+            const data = await response.json();
+
+            kabupatenSelect.innerHTML = '<option value="">Pilih Kabupaten</option>';
+            data.forEach(kabupaten => {
+              const option = document.createElement('option');
+              option.value = kabupaten.id;
+              option.textContent = kabupaten.name;
+              kabupatenSelect.appendChild(option);
+            });
+          }
+
+          // 🔽 Muat kecamatan berdasarkan kabupaten_id
+          async function loadKecamatans(kabupatenId) {
+            const kecamatanSelect = document.querySelector('select[name="kecamatan"]');
+            kecamatanSelect.innerHTML = '<option value="">Memuat kecamatan...</option>';
+
+            if (!kabupatenId) {
+              kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+              return;
+            }
+
+            const response = await fetch(`/api/kecamatan.php?kabupaten_id=${kabupatenId}`);
+            const data = await response.json();
+
+            kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+            data.forEach(kecamatan => {
+              const option = document.createElement('option');
+              option.value = kecamatan.id;
+              option.textContent = kecamatan.name;
+              kecamatanSelect.appendChild(option);
+            });
+          }
+
+          document.addEventListener('DOMContentLoaded', () => {
+            loadProvinsis();
+
+            const provinsiSelect = document.querySelector('select[name="provinsi"]');
+            const kabupatenSelect = document.querySelector('select[name="kabupaten"]');
+
+            provinsiSelect.addEventListener('change', (e) => {
+              loadKabupatens(e.target.value);
+            });
+
+            kabupatenSelect.addEventListener('change', (e) => {
+              loadKecamatans(e.target.value);
+            });
+          });
+        </script>
+
       </form>
 
       <form action="tambah-lowongan.php" method="POST" id="input-lowongan" enctype="multipart/form-data" class="menu w-full max-h-[572px] overflow-y-auto flex-col items-end">
