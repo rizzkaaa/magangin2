@@ -104,8 +104,7 @@ if ($dataPerusahaan["provinsi"]) {
             <div class="flex flex-col px-5 py-2">
               <label class="text-white font-bold">Alamat</label>
               <textarea name="alamat"
-                class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none"><?= isset($dataPerusahaan['alamat']) ? $dataPerusahaan['alamat'] : '' ?>
-              </textarea>
+                class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none p-[5px] rounded-[10px] shadow-sm focus:outline-none"><?= isset($dataPerusahaan['alamat']) ? $dataPerusahaan['alamat'] : '' ?></textarea>
             </div>
 
             <div class="flex">
@@ -180,39 +179,7 @@ if ($dataPerusahaan["provinsi"]) {
             </div>
           </div>
 
-          <script>
-            const input = document.getElementById('upload-profil');
-            const previewBox = document.getElementById('preview-box');
-            const icon = document.getElementById('icon-preview');
 
-            function loadImage(logo) {
-              previewBox.style.backgroundImage = `url('/assets/img/perusahaan/${logo}')`;
-              icon.style.display = 'none'; // sembunyikan ikon jika ada gambar
-            }
-            <?php
-            if (isset($dataPerusahaan['logo'])) {
-              $logo = $dataPerusahaan["logo"];
-
-              echo "loadImage('$logo')";
-            }
-            ?>
-
-            input.addEventListener('change', function(event) {
-              const file = event.target.files[0];
-
-              if (file && file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                  previewBox.style.backgroundImage = `url('${e.target.result}')`;
-                  icon.style.display = 'none'; // sembunyikan ikon jika ada gambar
-                };
-                reader.readAsDataURL(file);
-              } else {
-                previewBox.style.backgroundImage = '';
-                icon.style.display = 'block';
-              }
-            });
-          </script>
 
         </div>
 
@@ -225,43 +192,76 @@ if ($dataPerusahaan["provinsi"]) {
         </div>
 
         <script>
-          // document.getElementById('formProfil').addEventListener('submit', async function(e) {
-          //   e.preventDefault();
+          const input = document.getElementById('upload-profil');
+          const previewBox = document.getElementById('preview-box');
+          const icon = document.getElementById('icon-preview');
 
-          //   const form = e.target;
-          //   const formData = new FormData(form);
+          function loadImage(logo) {
+            previewBox.style.backgroundImage = `url('/assets/img/perusahaan/${logo}')`;
+            icon.style.display = 'none'; // sembunyikan ikon jika ada gambar
+          }
+          <?php
+          if (isset($dataPerusahaan['logo'])) {
+            $logo = $dataPerusahaan["logo"];
 
-          //   try {
-          //     console.log("helooo");
+            echo "loadImage('$logo')";
+          }
+          ?>
 
-          //     const response = await fetch('/api/form/handle-perusahaan-profile.php', {
-          //       method: 'POST',
-          //       body: formData,
-          //     });
+          input.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+
+            if (file && file.type.startsWith('image/')) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                previewBox.style.backgroundImage = `url('${e.target.result}')`;
+                icon.style.display = 'none'; // sembunyikan ikon jika ada gambar
+              };
+              reader.readAsDataURL(file);
+            } else {
+              previewBox.style.backgroundImage = '';
+              icon.style.display = 'block';
+            }
+          });
 
 
-          //     if (response.redirected) {
-          //       window.location.href = response.url; // Handle redirect jika sukses/error
-          //       return;
-          //     }
+          document.getElementById('formProfil').addEventListener('submit', async function(e) {
+            e.preventDefault();
 
-          //     console.log(response);
-          //     const result = await response.json();
-          //     console.log(result);
+            const form = e.target;
+            const formData = new FormData(form);
 
-          //     if (result.status === 'no_changes') {
-          //       alert(result.message);
-          //     } else if (result.error) {
-          //       alert('Error: ' + result.error);
-          //     } else {
-          //       alert('Profil berhasil diperbarui.');
-          //     }
+            try {
+              console.log("helooo");
 
-          //   } catch (error) {
-          //     console.error('Gagal mengirim data:', error);
-          //     alert('Terjadi kesalahan saat mengirim data.');
-          //   }
-          // });
+              const response = await fetch('/api/form/handle-perusahaan-profile.php', {
+                method: 'POST',
+                body: formData,
+              });
+
+
+              if (response.redirected) {
+                window.location.href = response.url; // Handle redirect jika sukses/error
+                return;
+              }
+
+              console.log(response);
+              const result = await response.json();
+              console.log(result);
+
+              if (result.status === 'no_changes') {
+                alert(result.message);
+              } else if (result.error) {
+                alert('Error: ' + result.error);
+              } else {
+                alert('Profil berhasil diperbarui.');
+              }
+
+            } catch (error) {
+              console.error('Gagal mengirim data:', error);
+              alert('Terjadi kesalahan saat mengirim data.');
+            }
+          });
 
           // 🔽 Muat data provinsi
           async function loadProvinsis(provinsiId) {
@@ -346,10 +346,10 @@ if ($dataPerusahaan["provinsi"]) {
 
       <form action="tambah-lowongan.php" method="POST" id="input-lowongan" enctype="multipart/form-data" class="menu w-full max-h-[572px] overflow-y-auto flex-col items-end">
         <div class="flex flex-col w-full p-5">
-          <input type="hidden" name="id_perusahaan" value="<?= $dataPerusahaan['id_perusahaan']?>">
+          <input type="hidden" name="id_perusahaan" value="<?= $dataPerusahaan['id_perusahaan'] ?>">
 
           <div class="flex w-full">
-            <div class="flex-1 px-5 py-2" >
+            <div class="flex-1 px-5 py-2">
               <label class="text-white font-bold">Upload Banner</label>
               <div
                 class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none border-2 border-dashed border-gray-400 h-[200px] shadow-sm flex justify-center items-center overflow-hidden relative">
@@ -561,17 +561,17 @@ if ($dataPerusahaan["provinsi"]) {
   <script>
     const rowDocument = document.querySelectorAll('.row-document');
     rowDocument.forEach((row, i) => {
-      if(i == rowDocument.length-1){
+      if (i == rowDocument.length - 1) {
         row.querySelector('.button-document').innerHTML = `<i class="fa-solid fa-plus"></i>`;
       }
     })
 
     const button = document.querySelectorAll('.button-document');
     button.forEach((btn, i) => {
-      if(i == button.length-1){
-        
+      if (i == button.length - 1) {
+
       }
-    })    
+    })
   </script>
   <script src="../../assets/js/dashboard.js"></script>
 </body>

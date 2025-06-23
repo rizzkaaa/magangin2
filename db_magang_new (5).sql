@@ -8019,6 +8019,7 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `role` enum('mahasiswa','dosen','perusahaan') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `profil` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -8027,12 +8028,12 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id_user`, `email`, `password`, `role`, `created_at`, `updated_at`) VALUES
-('9KvCiiTv', '122@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'dosen', '2025-06-23 11:24:56', '2025-06-23 11:24:56'),
-('CS9FBvg1', 'mingvltn144@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'mahasiswa', '2025-06-21 05:24:40', '2025-06-21 05:24:40'),
-('NfYTGOGW', 'ming@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'dosen', '2025-06-21 06:19:59', '2025-06-21 06:19:59'),
-('YCCabcwa', 'abc@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'perusahaan', '2025-06-23 11:28:51', '2025-06-23 11:28:51'),
-('YgVUeIHi', 'sella@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'perusahaan', '2025-06-21 06:34:27', '2025-06-21 06:34:27');
+INSERT INTO `users` (`id_user`, `email`, `password`, `role`, `profil`, `created_at`, `updated_at`) VALUES
+('9KvCiiTv', '122@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'dosen', NULL, '2025-06-23 11:24:56', '2025-06-23 11:24:56'),
+('CS9FBvg1', 'mingvltn144@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'mahasiswa', NULL, '2025-06-21 05:24:40', '2025-06-21 05:24:40'),
+('NfYTGOGW', 'ming@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'dosen', NULL, '2025-06-21 06:19:59', '2025-06-21 06:19:59'),
+('YCCabcwa', 'abc@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'perusahaan', NULL, '2025-06-23 11:28:51', '2025-06-23 11:28:51'),
+('YgVUeIHi', 'sella@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'perusahaan', NULL, '2025-06-21 06:34:27', '2025-06-21 06:34:27');
 
 --
 -- Indexes for dumped tables
