@@ -259,11 +259,11 @@ function profilMahasiswa($connect, $id_mhs)
           $id = $provinsi["id"];
           if ($provinsi) {
             echo "<option value='$id' selected>$name $id</option>";
-          }else {
+          } else {
             echo "<option>Pilih Provinsi</option>";
           }
           ?>
-          
+
         </select>
       </div>
       <div class="flex flex-col px-5 py-2">
@@ -418,7 +418,8 @@ function formJadwalBimbingan($action)
   return ob_get_clean();
 }
 
-function alertHapus($action, $datas = [])
+// function alertHapus($action, $datas = [])
+function alertHapus($datas = [], $id = "")
 {
   ob_start(); ?>
   <div class="z-[1] bg-white max-w-md mx-auto p-6 rounded-2xl shadow-lg mt-10 text-center">
@@ -433,12 +434,46 @@ function alertHapus($action, $datas = [])
     </div>
 
     <div class="flex justify-center gap-4">
-      <a href="#laporan-magang" class="bg-gray-300 text-gray-800 font-semibold px-4 py-2 rounded-lg hover:bg-gray-400 transition">
+      <!-- <a href="#laporan-magang" class="bg-gray-300 text-gray-800 font-semibold px-4 py-2 rounded-lg hover:bg-gray-400 transition">
         Batal
       </a>
-      <a href="<?= $action ?>" class="bg-red-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition">
+      <a href="<// $action >" class="bg-red-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition">
         Hapus
-      </a>
+      </a> -->
+
+      <button onclick="batalHapus()" class="bg-gray-300 text-gray-800 font-semibold px-4 py-2 rounded-lg hover:bg-gray-400 transition">
+        Batal
+      </button>
+      <button onclick="konfirmasiHapus()" class="bg-red-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition">
+        Hapus
+      </button>
+      <script>
+        function batalHapus() {
+          window.location.href = "#laporan-magang"; // kembalikan ke halaman laporan biasa jika batal
+        }
+
+        function konfirmasiHapus() { // fungsi yang akan mengapus laporan berdasarkan id
+          const path = "/api/form/delete-kegiatan-magang.php?id_kegiatan=<?= $id ?>"
+          console.log(path);
+
+          fetch(path, { // akan mengkases ...../delete-kegiatan-magang.php?id_kegiatan=.. dengan method elete
+              method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.status === 'success') {
+                alert("Data berhasil dihapus!");
+                window.location.href = "#laporan-magang";
+              } else {
+                alert("Gagal menghapus: " + (data.message || data.error));
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert("Terjadi kesalahan saat menghapus data.");
+            });
+        }
+      </script>
 
     </div>
   </div>
