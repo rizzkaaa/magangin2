@@ -346,10 +346,10 @@ if ($dataPerusahaan["provinsi"]) {
 
       <form action="tambah-lowongan.php" method="POST" id="input-lowongan" enctype="multipart/form-data" class="menu w-full max-h-[572px] overflow-y-auto flex-col items-end">
         <div class="flex flex-col w-full p-5">
-          <input type="hidden" name="id_perusahaan" value="<?= $dataPerusahaan['id_perusahaan']?>">
+          <input type="hidden" name="id_perusahaan" value="<?= $dataPerusahaan['id_perusahaan'] ?>">
 
           <div class="flex w-full">
-            <div class="flex-1 px-5 py-2" >
+            <div class="flex-1 px-5 py-2">
               <label class="text-white font-bold">Upload Banner</label>
               <div
                 class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none border-2 border-dashed border-gray-400 h-[200px] shadow-sm flex justify-center items-center overflow-hidden relative">
@@ -451,32 +451,12 @@ if ($dataPerusahaan["provinsi"]) {
                     </button>
                   </td>
                   <td class="px-[15px] py-[10px]">
-                    <input type="text" id="nama-dokumen" placeholder="Contoh: CV"
-                      class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none" />
+                    <input type="text" id="nama-dokumen" name="dokumen0" placeholder="Contoh: CV"
+                      class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none" required />
                   </td>
                   <td class="px-[15px] py-[10px]">
-                    <select id="jenis-file"
+                    <select id="jenis-file" name="type0" required
                       class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none">
-                      <option>PDF</option>
-                      <option>PNG/JPG</option>
-                      <option>DOCX</option>
-                    </select>
-                  </td>
-                </tr>
-
-                <tr class="row-document">
-                  <td class="w-[35px]">
-                    <button type="button" class="button-document border w-[30px] h-[30px] rounded-full flex items-center justify-center">
-                      <i class="fa-solid fa-minus"></i>
-                    </button>
-                  </td>
-                  <td class="px-[15px] py-[10px]">
-                    <input type="text" id="nama-dokumen" placeholder="Contoh: CV"
-                      class="w-full p-[10px] mb-4 border border-[#ccc] rounded-[10px] text-sm focus:outline-none" />
-                  </td>
-                  <td class="px-[15px] py-[10px]">
-                    <select id="jenis-file"
-                      class="w-full p-[10px] mb-4 border border-[#ccc] rounded-[10px] text-sm focus:outline-none">
                       <option>PDF</option>
                       <option>PNG/JPG</option>
                       <option>DOCX</option>
@@ -490,6 +470,7 @@ if ($dataPerusahaan["provinsi"]) {
 
         </div>
 
+        <input type="hidden" name="rows" id="rows" value="1">
         <!-- Tombol -->
         <div class="mx-5 my-2">
           <button type="submit"
@@ -559,19 +540,59 @@ if ($dataPerusahaan["provinsi"]) {
   </div>
 
   <script>
-    const rowDocument = document.querySelectorAll('.row-document');
-    rowDocument.forEach((row, i) => {
-      if(i == rowDocument.length-1){
-        row.querySelector('.button-document').innerHTML = `<i class="fa-solid fa-plus"></i>`;
-      }
-    })
+    function updateEventListeners() {
+      const rowDocument = document.querySelectorAll('.row-document');
+      rowDocument.forEach((row, i) => {
+        if (i == rowDocument.length - 1) {
+          row.querySelector('.button-document').innerHTML = `<i class="fa-solid fa-plus"></i>`;
+        } else {
+          row.querySelector('.button-document').innerHTML = `<i class="fa-solid fa-minus"></i>`;
+        }
+      })
+      const buttons = document.querySelectorAll('.button-document');
 
-    const button = document.querySelectorAll('.button-document');
-    button.forEach((btn, i) => {
-      if(i == button.length-1){
-        
-      }
-    })    
+      buttons.forEach((btn, i) => {
+        btn.onclick = () => {
+          const rows = document.querySelectorAll('.row-document');
+
+          if (i === rows.length - 1) {
+            document.querySelector('#document-container').innerHTML += `
+        <tr class="row-document">
+                  <td class="w-[35px]">
+                    <button type="button" class="button-document border w-[30px] h-[30px] rounded-full flex items-center justify-center">
+                      <i class="fa-solid fa-minus"></i>
+                    </button>
+                  </td>
+                  <td class="px-[15px] py-[10px]">
+                    <input type="text" id="nama-dokumen"  name="dokumen${i}" placeholder="Contoh: CV"
+                      class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none" required/>
+                  </td>
+                  <td class="px-[15px] py-[10px]">
+                    <select id="jenis-file" name="type${i}" required
+                      class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none">
+                      <option>PDF</option>
+                      <option>PNG/JPG</option>
+                      <option>DOCX</option>
+                    </select>
+                  </td>
+                </tr>`;
+
+            updateEventListeners();
+          } else {
+            const row = btn.closest('.row-document');
+            row.remove();
+            updateEventListeners();
+          }
+        };
+      });
+
+    }
+
+    updateEventListeners();
+
+    document.querySelector('form').addEventListener('submit', function(e) {
+      document.getElementById('rows').value = document.querySelectorAll('.row-document').length;
+    });
   </script>
   <script src="../../assets/js/dashboard.js"></script>
 </body>
