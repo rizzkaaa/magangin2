@@ -353,12 +353,46 @@ $id_perusahaan = $dataPerusahaan['id_perusahaan'];
           <div class="flex w-full">
             <div class="flex-1 px-5 py-2">
               <label class="text-white font-bold">Upload Banner</label>
-              <div
+              <div id="preview-banner" style="background-size: cover;"
                 class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none border-2 border-dashed border-gray-400 h-[200px] shadow-sm flex justify-center items-center overflow-hidden relative">
                 <input type="file" name="banner"
-                  class="absolute scale-[13] translate-x-[100px] opacity-0 cursor-pointer" />
-                <i class="fa-solid fa-image text-[36px] text-gray-600"></i>
+                  class="absolute scale-[13] translate-x-[100px] opacity-0 cursor-pointer" id="upload-banner"/>
+                <i class="fa-solid fa-image text-[36px] text-gray-600" id="icon-banner"></i>
               </div>
+
+              <script>
+                const inputBanner = document.getElementById('upload-banner');
+                const previewBoxBanner = document.getElementById('preview-banner');
+                const iconBanner = document.getElementById('icon-bannner');
+
+                function loadImage(logo) {
+                  previewBoxBanner.style.backgroundImage = `url('/assets/img/perusahaan/${logo}')`;
+                  iconBanner.style.display = 'none'; // sembunyikan ikon jika ada gambar
+                }
+                <?php
+                if (isset($dataPerusahaan['logo'])) {
+                  $logo = $dataPerusahaan["logo"];
+
+                  echo "loadImage('$logo')";
+                }
+                ?>
+
+                inputBanner.addEventListener('change', function(event) {
+                  const file = event.target.files[0];
+
+                  if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                      previewBoxBanner.style.backgroundImage = `url('${e.target.result}')`;
+                      iconBanner.style.display = 'none'; // sembunyikan ikon jika ada gambar
+                    };
+                    reader.readAsDataURL(file);
+                  } else {
+                    previewBoxBanner.style.backgroundImage = '';
+                    iconBanner.style.display = 'block';
+                  }
+                });
+              </script>
             </div>
             <div class="flex-1">
               <div class="flex flex-col px-5 py-2">
@@ -507,7 +541,7 @@ $id_perusahaan = $dataPerusahaan['id_perusahaan'];
                     <?php
                     if ($rowPelamar['status']  == 'Menunggu') {
                     ?>
-                      <a href="./data-pelamar/?id_detail=<?=$rowPelamar['id_detail']?>"
+                      <a href="./data-pelamar/?id_mhs=<?= $rowPelamar['id_mhs'] ?>&&?id_lowongan=<?= $rowPelamar['id_lowongan'] ?>"
                         class="px-[14px] py-[6px] text-white text-[13px] font-bold rounded-[20px] bg-red-400 inline-block">
                         Menunggu
                       </a>
