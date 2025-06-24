@@ -354,17 +354,17 @@ $id_perusahaan = $dataPerusahaan['id_perusahaan'];
               <label class="text-white font-bold">Upload Banner</label>
               <div id="preview-banner" style="background-size: cover;"
                 class="bg-[#e8f0fe] rounded-tl-[20px] rounded-tr-[20px] rounded-bl-[20px] rounded-br-none border-2 border-dashed border-gray-400 h-[200px] shadow-sm flex justify-center items-center overflow-hidden relative">
-                <input type="file" name="banner"
-                  class="absolute scale-[13] translate-x-[100px] opacity-0 cursor-pointer" id="upload-banner"/>
+                <input type="file" name="banner" id="upload-banners"
+                  class="absolute scale-[13] translate-x-[100px] opacity-0 cursor-pointer"/>
                 <i class="fa-solid fa-image text-[36px] text-gray-600" id="icon-banner"></i>
               </div>
 
               <script>
-                const inputBanner = document.getElementById('upload-banner');
+                const inputBanners = document.getElementById('upload-banners');
                 const previewBoxBanner = document.getElementById('preview-banner');
-                const iconBanner = document.getElementById('icon-bannner');
+                const iconBanner = document.getElementById('icon-banner');
 
-                function loadImage(logo) {
+                function loadImage2(logo) {
                   previewBoxBanner.style.backgroundImage = `url('/assets/img/perusahaan/${logo}')`;
                   iconBanner.style.display = 'none'; // sembunyikan ikon jika ada gambar
                 }
@@ -372,12 +372,14 @@ $id_perusahaan = $dataPerusahaan['id_perusahaan'];
                 if (isset($dataPerusahaan['logo'])) {
                   $logo = $dataPerusahaan["logo"];
 
-                  echo "loadImage('$logo')";
+                  echo "loadImage2('$logo')";
                 }
                 ?>
 
-                inputBanner.addEventListener('change', function(event) {
+                inputBanners.addEventListener('change', function(event) {
                   const file = event.target.files[0];
+                  console.log(file);
+                  
 
                   if (file && file.type.startsWith('image/')) {
                     const reader = new FileReader();
