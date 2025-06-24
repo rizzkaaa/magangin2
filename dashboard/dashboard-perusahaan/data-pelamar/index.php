@@ -7,6 +7,20 @@ only(['perusahaan']);
 $id_detail = $_GET['id_detail'];
 $dataDetail = mysqli_fetch_assoc(mysqli_query($connect, "SELECT * FROM `detail_apply` WHERE id_detail='$id_detail'"));
 $id_mhs = $dataDetail['id_mhs'];
+$id_lowongan = $dataDetail['id_lowongan'];
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $updateStatus = mysqli_query($connect, "UPDATE detail_apply SET status='Disetujui' WHERE id_detail='$id_detail'");
+    $id_magang = generateID();
+    $insertMagang = mysqli_query($connect, "INSERT INTO magang (`id_magang`, `id_mhs`, `id_lowongan`) VALUES ( '$id_magang', '$id_mhs', '$id_lowongan')");
+    $deleteApply = mysqli_query($connect, "DELETE FROM detail_apply WHERE id_mhs='$id_mhs' AND id_detail!='$id_detail'");
+    if ($updateStatus && $insertMagang && $deleteApply) {
+        header("Location: ../#lihat-pelamar");
+        exit;
+    } else {
+        echo "gagal";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,22 +63,21 @@ $id_mhs = $dataDetail['id_mhs'];
                 </thead>
 
                 <tbody id="document-container">
-                    <tr class="row-document">
-                        <td class="w-[35px]">
-                            <button type="button" class="button-document border w-[30px] h-[30px] rounded-full flex items-center justify-center">
-                                <i class="fa-solid fa-minus"></i>
-                            </button>
-                        </td>
-                        <td class="px-[15px] py-[10px]">
-                            <input type="text" id="nama-dokumen0" name="dokumen0" placeholder="Contoh: CV" required
-                                class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none" />
-                        </td>
-                        <td class="px-[15px] py-[10px]H">
-                            <a href="" class="bg-[#00b894] text-white font-bold py-2 px-4 rounded-lg">Download</a>
+                    <?php
+                    $dataDokumen = mysqli_query($connect, "SELECT * FROM dokumen_upload WHERE id_detail= '$id_detail'");
+                    while ($rowDokumen = mysqli_fetch_assoc($dataDokumen)) {
+                    ?>
+                        <tr class="row-document">
+                            <td class="px-[15px] py-[10px]">
+                                <input type="text" id="nama-dokumen0" name="dokumen0" placeholder="Contoh: CV" required
+                                    class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none" />
+                            </td>
+                            <td class="px-[15px] py-[10px]H">
+                                <a href="" class="bg-[#00b894] text-white font-bold py-2 px-4 rounded-lg">Download</a>
 
-                        </td>
-                    </tr>
-
+                            </td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -87,15 +100,6 @@ $id_mhs = $dataDetail['id_mhs'];
         </div>
     </section>
 
-    <?php
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $updateStatus = mysqli_query($connect, "UPDATE detail_apply SET status='Disetujui' WHERE id_detail='$id_detail'");
-        if ($updateStatus) {
-            header("Location: ../#lihat-pelamar");
-            exit;
-        }
-    }
-    ?>
 
 </body>
 
