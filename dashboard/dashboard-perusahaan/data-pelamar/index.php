@@ -34,6 +34,41 @@ $id_mhs = $dataDetail['id_mhs'];
     <section class="bg-[#1d222efb] w-full flex flex-col items-center">
         <?= profilMahasiswa($connect, $id_mhs) ?>
 
+        <div class="w-[95%] bg-white m-5 rounded-[20px] p-5">
+            <h2 class="mb-5 text-[20px] text-[#1e3a8a] font-bold">
+                Dokumen Persyaratan
+            </h2>
+
+            <table class="w-full">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="text-start px-[15px] py-[10px]">Nama Dokumen</th>
+                        <th class="text-start px-[15px] py-[10px]">File</th>
+                    </tr>
+                </thead>
+
+                <tbody id="document-container">
+                    <tr class="row-document">
+                        <td class="w-[35px]">
+                            <button type="button" class="button-document border w-[30px] h-[30px] rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-minus"></i>
+                            </button>
+                        </td>
+                        <td class="px-[15px] py-[10px]">
+                            <input type="text" id="nama-dokumen0" name="dokumen0" placeholder="Contoh: CV" required
+                                class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none" />
+                        </td>
+                        <td class="px-[15px] py-[10px]H">
+                            <a href="" class="bg-[#00b894] text-white font-bold py-2 px-4 rounded-lg">Download</a>
+
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
         <!-- Tombol -->
         <div class="mx-5 my-2 w-full flex flex-col items-center">
             <!-- Tombol Kembali -->

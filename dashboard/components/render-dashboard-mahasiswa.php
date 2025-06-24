@@ -152,10 +152,10 @@ function laporanMagang($connect, $id_mhs)
                             <td class="p-4"><?= $rowLaporan['hari'] ?></td>
 
                             <td class="p-4">
-                                <a href="../../assets/laporan-magang/kegiatan/<?= $rowLaporan['kegiatan'] ?>" class="bg-[#00b894] text-white font-bold py-2 px-4 rounded-lg">Download</a href="../../assets/laporan-magang/bukti-kegiatan/<?= $rowLaporan['bukti_kegiatan'] ?>">
+                                <a href="../../assets/laporan-magang/kegiatan/<?= $rowLaporan['kegiatan'] ?>" class="bg-[#00b894] text-white font-bold py-2 px-4 rounded-lg">Download</a>
                             </td>
                             <td class="p-4">
-                                <a href="../../assets/laporan-magang/bukti-kegiatan/<?= $rowLaporan['bukti_kegiatan'] ?>" class="bg-[#00b894] text-white font-bold py-2 px-4 rounded-lg">Download</a href="../../assets/laporan-magang/bukti-kegiatan/<?= $rowLaporan['bukti_kegiatan'] ?>">
+                                <a href="../../assets/laporan-magang/bukti-kegiatan/<?= $rowLaporan['bukti_kegiatan'] ?>" class="bg-[#00b894] text-white font-bold py-2 px-4 rounded-lg">Download</a>
                             </td>
                             <td class="py-4 px-3 flex justify-center items-center gap-3">
                                 <a href="#edit-laporan<?= $no ?>" class="text-[#3498db] hover:opacity-70 text-[18px]">

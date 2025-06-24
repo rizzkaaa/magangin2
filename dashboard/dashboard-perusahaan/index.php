@@ -57,29 +57,28 @@ $id_perusahaan = $dataPerusahaan['id_perusahaan'];
 
     <section class="bg-[#1d222efb] w-full flex flex-col items-center">
       <div id="dashboard" class="menu w-full  h-[572px] overflow-y-auto flex-col items-center justify-center">
-        <!-- Jika lowongan kosong -->
-        <!-- <div class="flex flex-col items-center justify-center text-white w-full h-full">
-          <p>Anda belum mengupload lowongan apapun. </p>
-          <p>Upload lowongan anda disini..</p>
-          <a href="#input-lowongan"
-            class="px-5 py-2 rounded-md bg-[rgb(61,99,221)] text-white font-semibold  hover:bg-[rgb(27,61,173)] cursor-pointer">Input
-            Lowongan</a>
-        </div> -->
 
-        <div class="flex flex-wrap w-full h-full" style="justify-content: space-evenly;">
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-          <?= cardLowongan2() ?>
-        </div>
+        <?php
+        $dataLowongan = mysqli_query($connect, "SELECT * FROM `lowongan` a LEFT JOIN detail_apply b ON a.id_lowongan=b.id_lowongan WHERE id_perusahaan='$id_perusahaan';");
+
+        if (mysqli_num_rows($dataLowongan) <= 0) {
+        ?>
+          <div class="flex flex-col items-center justify-center text-white w-full h-full">
+            <p>Anda belum mengupload lowongan apapun. </p>
+            <p>Upload lowongan anda disini..</p>
+            <a href="#input-lowongan"
+              class="px-5 py-2 rounded-md bg-[rgb(61,99,221)] text-white font-semibold  hover:bg-[rgb(27,61,173)] cursor-pointer">Input
+              Lowongan</a>
+          </div>
+        <?php } else { ?>
+          <div class="flex flex-wrap w-full h-full" style="justify-content: space-evenly;">
+          <?php
+          while ($rowLowongan = mysqli_fetch_assoc($dataLowongan)) {
+
+            echo cardLowongan($connect, $rowLowongan);
+          }
+        } ?>
+          </div>
       </div>
 
       <form action="/api/form/handle-perusahaan-profile.php" method="POST" class="menu w-full flex-col items-end max-h-[572px] overflow-y-auto" id="formProfil" enctype="multipart/form-data">
@@ -507,7 +506,7 @@ $id_perusahaan = $dataPerusahaan['id_perusahaan'];
                     <?php
                     if ($rowPelamar['status']  == 'Menunggu') {
                     ?>
-                      <a href="./data-pelamar/?id_detail=<?=$rowPelamar['id_detail']?>"
+                      <a href="./data-pelamar/?id_detail=<?= $rowPelamar['id_detail'] ?>"
                         class="px-[14px] py-[6px] text-white text-[13px] font-bold rounded-[20px] bg-red-400 inline-block">
                         Menunggu
                       </a>

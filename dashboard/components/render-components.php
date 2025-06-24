@@ -62,58 +62,18 @@ function renderSidebar($menus = [])
   return ob_get_clean();
 }
 
-function cardLowongan($connect, $lowongan)
+function cardLowongan($connect, $rowLowongan)
 {
 
-  $totalSemua = mysqli_fetch_assoc(mysqli_query($connect, "SELECT COUNT('id_lowongan') AS total FROM lamaran WHERE id_lowongan = '" . $lowongan['id_lowongan'] . "' AND status = 'Menunggu'"));
-  $totalTerima = mysqli_fetch_assoc(mysqli_query($connect, "SELECT COUNT('id_lowongan') AS total FROM lamaran WHERE id_lowongan = '" . $lowongan['id_lowongan'] . "' AND status = 'Disetujui'"));
-  $totalTolak = mysqli_fetch_assoc(mysqli_query($connect, "SELECT COUNT('id_lowongan') AS total FROM lamaran WHERE id_lowongan = '" . $lowongan['id_lowongan'] . "' AND status = 'Ditolak'"));
-  ob_start(); ?>
-  <div class="h-fit bg-white p-[15px] my-[30px] rounded-[20px] shadow-sm shadow-white">
-    <a class="block text-[20px] font-bold border-b  pb-[5px] mb-[10px]">
-      <?= htmlspecialchars($lowongan['judul']) ?>
-    </a>
-
-    <div class="flex flex-wrap w-[320px]">
-      <div class="w-[150px] m-[5px] bg-[#e0edff] p-[10px] rounded-[12px] flex items-center justify-between">
-        <div class="text-[18px]">📅</div>
-        <div class="text-[12px] text-[#111827] flex-1 text-center">
-          <?= date("d M Y", strtotime($lowongan['mulai_magang'])) ?> -
-          <br />
-          <?= date("d M Y", strtotime($lowongan['selesai_magang'])) ?>
-        </div>
-      </div>
-
-      <div class="w-[150px] m-[5px] bg-[#e0edff] p-[10px] rounded-[12px] flex items-center justify-between">
-        <div class="text-[18px]">👥</div>
-        <div class="text-[12px] text-[#111827] flex-1 text-center">Total Pelamar</div>
-        <div class="font-bold text-[14px] text-[#1e3a8a]"><?= $totalSemua['total'] ?></div>
-      </div>
-
-      <div class="w-[150px] m-[5px] bg-[#e0edff] p-[10px] rounded-[12px] flex items-center justify-between">
-        <div class="text-[18px]">✅</div>
-        <div class="text-[12px] text-[#111827] flex-1 text-center">Peserta Diterima</div>
-        <div class="font-bold text-[14px] text-[#1e3a8a]"><?= $totalTerima['total'] ?></div>
-      </div>
-
-      <div class="w-[150px] m-[5px] bg-[#e0edff] p-[10px] rounded-[12px] flex items-center justify-between">
-        <div class="text-[18px]">❌</div>
-        <div class="text-[12px] text-[#111827] flex-1 text-center">Peserta Tidak Diterima</div>
-        <div class="font-bold text-[14px] text-[#1e3a8a]"><?= $totalTolak['total'] ?></div>
-      </div>
-    </div>
-  </div>
-<?php
-  return ob_get_clean();
-}
-
-function cardLowongan2()
-{
+  $id_lowongan = $rowLowongan['id_lowongan'];
+  $total = mysqli_fetch_assoc(mysqli_query($connect, "SELECT COUNT(id_lowongan) as total FROM `detail_apply` WHERE id_lowongan='$id_lowongan';"))['total'];
+  $diterima = mysqli_fetch_assoc(mysqli_query($connect, "SELECT COUNT(id_lowongan) as diterima FROM `detail_apply` WHERE id_lowongan='$id_lowongan' AND status='Disetujui';"))['diterima'];
+  $ditolak = mysqli_fetch_assoc(mysqli_query($connect, "SELECT COUNT(id_lowongan) as ditolak FROM `detail_apply` WHERE id_lowongan='$id_lowongan' AND status='Gagal';"))['ditolak'];
   ob_start(); ?>
 
   <div class="h-fit bg-white p-[15px] my-[30px] rounded-[20px] shadow-sm shadow-white">
     <a class="block text-[20px] font-bold border-b  pb-[5px] mb-[10px]">
-      Judul lowongan
+      <?=$rowLowongan['judul']?>
     </a>
 
     <div class="flex flex-wrap w-[320px]">
@@ -121,7 +81,7 @@ function cardLowongan2()
       <div class="w-[150px] m-[5px] bg-[#e0edff] p-[10px] rounded-[12px] flex items-center justify-between">
         <div class="text-[18px]">📅</div>
         <div class="text-[12px] text-[#111827] flex-1 text-center">
-          12 Juni 2025 -<br />20 Juli 2025
+          <?=$rowLowongan['mulai_magang']?> -<br /><?=$rowLowongan['selesai_magang']?>
         </div>
       </div>
 
@@ -131,7 +91,7 @@ function cardLowongan2()
         <div class="text-[12px] text-[#111827] flex-1 text-center">
           Total Pelamar
         </div>
-        <div class="font-bold text-[14px] text-[#1e3a8a]">123</div>
+        <div class="font-bold text-[14px] text-[#1e3a8a]"><?=$total?></div>
       </a>
 
       <!-- Peserta Diterima -->
@@ -140,7 +100,7 @@ function cardLowongan2()
         <div class="text-[12px] text-[#111827] flex-1 text-center">
           Peserta Diterima
         </div>
-        <div class="font-bold text-[14px] text-[#1e3a8a]">123</div>
+        <div class="font-bold text-[14px] text-[#1e3a8a]"><?=$diterima?></div>
       </a>
 
       <!-- Peserta Tidak Diterima -->
@@ -149,7 +109,7 @@ function cardLowongan2()
         <div class="text-[12px] text-[#111827] flex-1 text-center">
           Peserta Tidak diterima
         </div>
-        <div class="font-bold text-[14px] text-[#1e3a8a]">123</div>
+        <div class="font-bold text-[14px] text-[#1e3a8a]"><?=$ditolak?></div>
       </a>
     </div>
   </div>
