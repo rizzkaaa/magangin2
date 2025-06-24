@@ -15,7 +15,7 @@ if (!$id) {
 $id = mysqli_real_escape_string($connect, $id);
 
 // Query utama: data lowongan + perusahaan
-$sql = "SELECT l.*, p.nama_perusahaan
+$sql = "SELECT l.*, p.nama_perusahaan, p.logo
         FROM lowongan l
         JOIN perusahaan p ON l.id_perusahaan = p.id_perusahaan
         WHERE l.id_lowongan = '$id'
@@ -27,7 +27,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
 
     // Query dokumen berdasarkan id_lowongan
-    $dokumenQuery = "SELECT id_dokumen, id_lowongan, nama_dokumen, type, created_at, updated_at
+    $dokumenQuery = "SELECT *
                      FROM dokumen
                      WHERE id_lowongan = '$id'";
     $dokumenResult = mysqli_query($connect, $dokumenQuery);

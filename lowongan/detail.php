@@ -21,7 +21,15 @@
 
         <div class="mt-8 bg-white rounded-lg shadow-md p-6">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Apply for this Position</h2>
-            <form id="apply-form" method="POST">
+            <form
+                id="apply-form"
+                method="POST"
+                action="/api/form/handle-apply-lowongan.php"
+                enctype="multipart/form-data">
+                <div id="id-lowongan-container">
+
+                </div>
+
                 <div class="mb-4">
                     <label class="block text-gray-700">Unggah Dokumen:</label>
                     <div id="dokumen-upload-container" class="mt-2 space-y-3"></div>
@@ -56,6 +64,7 @@
                     applications = data
                     renderApplicationDetail(data);
                     Dokumen(data.dokumen)
+                    document.getElementById('id-lowongan-container').innerHTML = `<input type="text" name="id_lowongan"  value="${data.id_lowongan}"  style="display: none;" />`
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -90,7 +99,7 @@
              name="documents[${index}][file]"
              data-nama="${doc.nama_dokumen}"
              class="mt-1 block w-full border border-gray-300 rounded-md p-2"
-             accept=".pdf,.doc,.docx, png, jpeg, jpg" required>
+              required>
       <input type="hidden" name="documents[${index}][nama_dokumen]" value="${doc.nama_dokumen}">
     `;
 
@@ -120,25 +129,40 @@
         function renderApplicationDetail(app) {
             const detailContainer = document.getElementById('application-detail');
             detailContainer.innerHTML = `
-                <div class="flex items-start mb-4">
-                    <img src="/assets/img/banner_lowongan/${app.banner}" alt="${app.nama_perusahaan}" class="w-10 h-10 rounded-full mr-3 object-cover">
-                    <div>
-                        <h3 class="font-semibold text-lg text-gray-800">${app.judul} ${app.posisi}</h3>
-                        <p class="text-gray-600">${app.nama_perusahaan}</p>
-                        <p class="text-sm text-gray-500">Kouta: ${app.kuota}</p>
-                        <p class="text-sm text-gray-500">Lokasi: ${app.lokasi}</p>
-                        <p class="text-sm text-gray-500">Gender: ${app.jenis_kelamin}</p>
-                        <p class="text-sm text-gray-500">Rentan usia: ${app.rentang_usia}</p>
-                        <p class="text-sm text-gray-500">Dikirim: ${app.created_at}</p>
-                        <p class="text-sm text-gray-500">Mulai Magang: ${app.mulai_magang}</p>
-                        <p class="text-sm text-gray-500">Selesai Magang: ${app.selesai_magang}</p>
-                        <p class="text-sm text-gray-500">Terakhir Daftar: ${app.deadline_apply}</p>
-                        <p class="text-sm text-gray-500">Uang Saku: ${app.uang_saku}</p>
-                    </div>
-                </div>
-                <div class="bg-gray-50 border border-gray-100 rounded px-3 py-2 text-sm text-gray-700">
-                    <i class="far fa-comment-dots mr-2"></i>${app.deskripsi}
-                </div>
+               <!-- Banner utama -->
+<div class="mb-4">
+  <img src="/assets/img/banner_lowongan/${app.banner}" alt="Banner ${app.judul}" 
+       class="w-full max-h-[250px] object-cover rounded-lg shadow mb-4" />
+</div>
+
+<!-- Detail Lowongan -->
+<div class="flex ">
+  <img src="/assets/img/perusahaan/${app.logo}" alt="${app.nama_perusahaan}" 
+       class="w-10 h-10 rounded-full mr-3 object-cover">
+  <div>
+  <p class="font-semibold text-lg text-gray-800">${app.posisi} On ${app.nama_perusahaan}</p>
+  </div>
+</div>
+
+  <div>
+    <h3 class="font-semibold text-lg text-gray-800">${app.judul} ${app.posisi}</h3>
+    <p class="text-gray-600">${app.nama_perusahaan}</p>
+    <p class="text-sm text-gray-500">Kuota: ${app.kuota}</p>
+    <p class="text-sm text-gray-500">Lokasi: ${app.lokasi}</p>
+    <p class="text-sm text-gray-500">Gender: ${app.jenis_kelamin}</p>
+    <p class="text-sm text-gray-500">Rentang usia: ${app.rentang_usia}</p>
+    <p class="text-sm text-gray-500">Dikirim: ${app.created_at}</p>
+    <p class="text-sm text-gray-500">Mulai Magang: ${app.mulai_magang}</p>
+    <p class="text-sm text-gray-500">Selesai Magang: ${app.selesai_magang}</p>
+    <p class="text-sm text-gray-500">Terakhir Daftar: ${app.deadline_apply}</p>
+    <p class="text-sm text-gray-500">Uang Saku: ${app.uang_saku}</p>
+  </div>
+
+<!-- Deskripsi -->
+<div class="bg-gray-50 border border-gray-100 rounded px-3 py-2 text-sm text-gray-700">
+  <i class="far fa-comment-dots mr-2"></i>${app.deskripsi}
+</div>
+
             `;
         }
 
@@ -147,27 +171,6 @@
         // Back button functionality
         document.getElementById('back-btn').addEventListener('click', () => {
             window.history.back();
-        });
-
-        // Handle form submission
-        document.getElementById('apply-form').addEventListener('submit', (event) => {
-            event.preventDefault();
-            const resumes = document.querySelectorAll('input[type="file"][name="documents"]');
-            const uploadedFiles = [];
-
-            resumes.forEach((resume) => {
-                if (resume.files.length > 0) {
-                    uploadedFiles.push(resume.files[0].name);
-                }
-            });
-
-            if (uploadedFiles.length > 0) {
-                // Here you can handle the form submission, e.g., send data to a server
-                alert(`Lamaran Anda telah dikirim!\nNama: ${name}\nEmail: ${email}\nPesan: ${message}\nDokumen: ${uploadedFiles.join(', ')}`);
-            } else {
-                alert('Silakan unggah dokumen sebelum mengirim lamaran.');
-            }
-            document.getElementById('apply-form').reset(); // Reset the form
         });
     </script>
 </body>

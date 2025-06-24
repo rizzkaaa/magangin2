@@ -13,7 +13,7 @@ function dashboardMahasiswa($connect, $id_mhs)
         <div class="flex flex-col items-center justify-center text-white w-full h-full">
             <p>Anda belum mengdaftar ke lowongan manapun. </p>
             <p>Daftar lowongan disini..</p>
-            <a href=""
+            <a href="/lowongan"
                 class="px-5 py-2 rounded-md bg-[rgb(61,99,221)] text-white font-semibold  hover:bg-[rgb(27,61,173)] cursor-pointer">Daftar
                 Lowongan</a>
         </div>
@@ -79,7 +79,7 @@ function laporanMagang($connect, $id_mhs)
         <div class="flex flex-col items-center justify-center text-white w-full h-full">
             <p>Anda belum mengdaftar ke lowongan manapun. </p>
             <p>Daftar lowongan disini..</p>
-            <a href=""
+            <a href="/lowongan"
                 class="px-5 py-2 rounded-md bg-[rgb(61,99,221)] text-white font-semibold  hover:bg-[rgb(27,61,173)] cursor-pointer">Daftar
                 Lowongan</a>
         </div>
@@ -209,7 +209,7 @@ function jadwalBimbingan($connect, $id_mhs)
         <div class="flex flex-col items-center justify-center text-white w-full h-full">
             <p>Anda belum mengdaftar ke lowongan manapun. </p>
             <p>Daftar lowongan disini..</p>
-            <a href=""
+            <a href="/lowongan"
                 class="px-5 py-2 rounded-md bg-[rgb(61,99,221)] text-white font-semibold  hover:bg-[rgb(27,61,173)] cursor-pointer">Daftar
                 Lowongan</a>
         </div>
