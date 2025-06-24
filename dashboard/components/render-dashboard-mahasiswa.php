@@ -27,7 +27,7 @@ function dashboardMahasiswa($connect, $id_mhs)
                         style="background-color: white; margin: 20px; padding: 20px; border-radius: 20px; position: relative;">
                         <label
                             style="position: absolute; background-color: red; font-size: 15px; padding: 2px 8px; border-radius: 5px; right: 10px; top: 10px;">Menunggu</label>
-                        <img src="<?= $rowDetail['judul'] ?>" style="border-radius: 12px; width: 300px; height: 200px" alt="">
+                        <img src="/assets/img/banner_lowongan/<?= $rowDetail['banner'] ?>" style="border-radius: 12px; width: 300px; height: 200px" alt="">
                         <p style="text-align: center; margin: 5px; font-weight: bold;"><?= $rowDetail['judul'] ?></p>
                     </a>
                 <?php } ?>
