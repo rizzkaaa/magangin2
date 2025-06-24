@@ -176,7 +176,7 @@
                         <i class="far fa-comment-dots mr-2"></i>${app.notes}
                     </div>
                     <div class="mt-4 pt-4 border-t border-gray-100 flex justify-between">
-                        <button class="text-indigo-600 hover:text-indigo-700 text-sm font-medium" onclick="window.location.href='detail.html?id=${app.id}'">
+                        <button class="text-indigo-600 hover:text-indigo-700 text-sm font-medium" onclick="window.location.href='detail.php?id=${app.id}'">
                             <i class="far fa-eye mr-1"></i>Detail
                         </button>
                         <button class="text-gray-500 hover:text-gray-700 text-sm">
