@@ -21,20 +21,7 @@
 
         <div class="mt-8 bg-white rounded-lg shadow-md p-6">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Apply for this Position</h2>
-            <form id="apply-form">
-                <div class="mb-4">
-                    <label for="name" class="block text-gray-700">Nama:</label>
-                    <input type="text" id="name" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required>
-                </div>
-                <div class="mb-4">
-                    <label for="email" class="block text-gray-700">Email:</label>
-                    <input type="email" id="email" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required>
-                </div>
-                <div class="mb-4">
-                    <label for="message" class="block text-gray-700">Pesan:</label>
-                    <textarea id="message" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required></textarea>
-                </div>
-
+            <form id="apply-form" method="POST">
                 <div class="mb-4">
                     <label class="block text-gray-700">Unggah Dokumen:</label>
                     <div id="dokumen-upload-container" class="mt-2 space-y-3"></div>
@@ -103,7 +90,7 @@
              name="documents[${index}][file]"
              data-nama="${doc.nama_dokumen}"
              class="mt-1 block w-full border border-gray-300 rounded-md p-2"
-             accept=".pdf,.doc,.docx">
+             accept=".pdf,.doc,.docx, png, jpeg, jpg" required>
       <input type="hidden" name="documents[${index}][nama_dokumen]" value="${doc.nama_dokumen}">
     `;
 
@@ -138,7 +125,7 @@
                     <div>
                         <h3 class="font-semibold text-lg text-gray-800">${app.judul} ${app.posisi}</h3>
                         <p class="text-gray-600">${app.nama_perusahaan}</p>
-                        <p class="text-sm text-gray-500">Kouta: ${app.kouta}</p>
+                        <p class="text-sm text-gray-500">Kouta: ${app.kuota}</p>
                         <p class="text-sm text-gray-500">Lokasi: ${app.lokasi}</p>
                         <p class="text-sm text-gray-500">Gender: ${app.jenis_kelamin}</p>
                         <p class="text-sm text-gray-500">Rentan usia: ${app.rentang_usia}</p>
@@ -165,9 +152,6 @@
         // Handle form submission
         document.getElementById('apply-form').addEventListener('submit', (event) => {
             event.preventDefault();
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
             const resumes = document.querySelectorAll('input[type="file"][name="documents"]');
             const uploadedFiles = [];
 

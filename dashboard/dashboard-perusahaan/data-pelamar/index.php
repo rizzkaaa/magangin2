@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     ?>
                         <tr class="row-document">
                             <td class="px-[15px] py-[10px]">
-                                <input type="text" id="nama-dokumen0" name="dokumen0" placeholder="Contoh: CV" required
+                                <input type="text" id="nama-dokumen0" name="dokumen0" readonly
                                     class="w-full p-[10px] border border-[#ccc] rounded-[10px] text-sm focus:outline-none" />
                             </td>
                             <td class="px-[15px] py-[10px]H">
